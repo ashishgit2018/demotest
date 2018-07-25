@@ -7,7 +7,6 @@ public class uiAutomation {
 	public void getWebDriver(String broswer) throws Exception {
 		AutoWebDriver autoDriver=new AutoWebDriver(broswer);
         driver=autoDriver.getDriver();
-        driver.get("https://google.com");
 	}
 	
 	public void launchURL(String url) throws Exception {

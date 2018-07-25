@@ -9,3 +9,4 @@ Examples:
 |Browser|URL|
 |chrome|https://www.amazon.in/|
 |firefox|https://www.flipkart.com/|
+|mobile_chrome|https://www.flipkart.com/|
