@@ -17,5 +17,11 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+  <dependency>
+	    <groupId>com.test.autothon</groupId>
+	    <artifactId>test-core</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+	    
+	</dependency>
   </dependencies>
 </project>

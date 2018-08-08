@@ -1,12 +1,10 @@
 package com.test.autothon.db.steps;
 
-import java.sql.ResultSet;
-
 import com.test.autothon.db.core.DBConnection;
 
 import cucumber.api.java.en.Given;
 
-public class DBSteps {
+public class DBSteps extends StepDefinition{
 
 	private DBConnection dbc = new DBConnection();
 	
@@ -16,6 +14,7 @@ public class DBSteps {
 	
 	@Given ("^Execute query \"(.*?)\" $")
 	public void runQuery(String sqlQuery){
-		ResultSet rs = dbc.executeQuery(sqlQuery);
+		sqlQuery = getOverlay(sqlQuery);
+		//ResultSet rs = dbc.executeQuery(sqlQuery);
 	}
 }

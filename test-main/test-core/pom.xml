@@ -7,21 +7,9 @@
   <artifactId>test-main</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>test-db</artifactId>
+  <artifactId>test-core</artifactId>
   <packaging>jar</packaging>
 
-  <name>test-db</name>
+  <name>test-core</name>
   <url>http://maven.apache.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-  <dependencies>
-  <dependency>
-	    <groupId>com.test.autothon</groupId>
-	    <artifactId>test-core</artifactId>
-	      <version>0.0.1-SNAPSHOT</version>
-	    
-	</dependency>
-	</dependencies>
 </project>

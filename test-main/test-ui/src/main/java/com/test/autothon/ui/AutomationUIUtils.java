@@ -1,13 +1,9 @@
 package com.test.autothon.ui;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import cucumber.api.java.After;
 
 public class AutomationUIUtils {
 	static String tagName;

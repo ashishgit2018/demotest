@@ -10,16 +10,18 @@
   <name>test-main</name>
   <url>http://maven.apache.org</url>
 	<modules>
-	<module>test-db</module>
-	<module>test-ui</module>
-	<module>test-api</module>
-	<module>test-mobile</module>
-	<module>test-auto</module>
+		<module>test-core</module>	
+		<module>test-db</module>
+		<module>test-ui</module>
+		<module>test-api</module>
+		<module>test-mobile</module>
+		<module>test-auto</module>
 	</modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
+  
     <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

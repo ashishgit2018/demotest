@@ -20,6 +20,11 @@
   </properties>
 
   <dependencies>
+  <dependency>
+	    <groupId>com.test.autothon</groupId>
+	    <artifactId>test-core</artifactId>
+	    <version>0.0.1-SNAPSHOT</version>
+ </dependency>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
 	<dependency>
 	    <groupId>org.seleniumhq.selenium</groupId>
