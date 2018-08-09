@@ -1,6 +1,5 @@
 package com.test.autothon.ui.core;
 
-import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;

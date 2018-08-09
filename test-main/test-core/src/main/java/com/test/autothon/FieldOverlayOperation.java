@@ -6,8 +6,8 @@ public class FieldOverlayOperation {
 	private String ordinalValue;
 
 	public FieldOverlayOperation(String fieldName, String ordinalValue) {
-		fieldName = this.fieldName;
-		ordinalValue = this.ordinalValue;
+		this.fieldName = fieldName;
+		this.ordinalValue = ordinalValue;
 	}
 
 	public String overlayField() {

@@ -1,11 +1,9 @@
-package com.test.autothon;
+package com.test.autothon.ui;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
-
-import com.test.autothon.ui.AutomationUIUtils;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;

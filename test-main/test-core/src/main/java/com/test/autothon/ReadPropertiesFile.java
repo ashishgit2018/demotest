@@ -10,10 +10,6 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.test.autothon.ui.core.AutoWebDriver;
-
-import gherkin.deps.net.iharder.Base64.InputStream;
-
 public class ReadPropertiesFile {
 
 	private final static Logger logger = Logger.getLogger(ReadPropertiesFile.class);

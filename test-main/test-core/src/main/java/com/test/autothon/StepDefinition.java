@@ -1,7 +1,6 @@
 package com.test.autothon;
 
 import org.apache.log4j.Logger;
-import org.hamcrest.core.IsNot;
 
 public class StepDefinition {
 	
