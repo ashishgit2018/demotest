@@ -1,2 +1,11 @@
+*.log
 .settings/
-target/
+**/target/
+*.orig
+*.exe.stackdump
+*.iml
+.idea
+.project
+.classpath
+.checkstyle
+.DB_Store

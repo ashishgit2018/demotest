@@ -1,23 +1,27 @@
 package com.test.autothon;
 
+import org.apache.log4j.Logger;
+
 public class FieldOverlayOperation {
-	
-	private String fieldName;
-	private String ordinalValue;
 
-	public FieldOverlayOperation(String fieldName, String ordinalValue) {
-		this.fieldName = fieldName;
-		this.ordinalValue = ordinalValue;
-	}
+    private final static Logger logger = Logger.getLogger(FieldOverlayOperation.class);
 
-	public String overlayField() {
-		String value = null;
-		
-		switch (fieldName.toUpperCase()){
-		case "PROPVALUE":
-			value = ReadPropertiesFile.getPropertyValue(ordinalValue);
-		}
-		return value;
-	}
+    private String fieldName;
+    private String ordinalValue;
+
+    public FieldOverlayOperation(String fieldName, String ordinalValue) {
+        this.fieldName = fieldName;
+        this.ordinalValue = ordinalValue;
+    }
+
+    public String overlayField() {
+        String value = null;
+
+        switch (fieldName.toUpperCase()) {
+            case "PROPVALUE":
+                value = ReadPropertiesFile.getPropertyValue(ordinalValue);
+        }
+        return value;
+    }
 
 }

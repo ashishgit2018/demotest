@@ -7,7 +7,7 @@ Feature: Test UI
     Given I use "<Browser>"
     And I launch "<URL>"
 
-    Examples: 
+    Examples:
       | TestCase | Browser       | URL                       |
       | TC1      | chrome        | https://www.amazon.in/    |
       | TC2      | firefox       | https://www.flipkart.com/ |
@@ -21,7 +21,7 @@ Feature: Test UI
     When I search "<Item>"
     And I select "<ItemName>"
 
-    Examples: 
+    Examples:
       | TestCase | Browser | URL                    | Item     | ItemName                    |
       | TC1      | chrome  | https://www.amazon.in/ | iPhone 7 | Apple iPhone 7 (Gold, 32GB) |
       | TC2      | firefox | https://www.amazon.in/ | iPhone 7 | Apple iPhone 7 (Gold, 32GB) |
