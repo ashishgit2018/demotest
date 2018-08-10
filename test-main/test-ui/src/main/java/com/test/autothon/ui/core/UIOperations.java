@@ -1,6 +1,7 @@
 package com.test.autothon.ui.core;
 
-import com.test.autothon.ui.AutomationUIUtils;
+import com.test.autothon.common.StepDefinition;
+import org.apache.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -8,7 +9,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-public class UIOperations {
+public class UIOperations extends StepDefinition {
+
+    private final static Logger logger = Logger.getLogger(UIOperations.class);
+
     WebDriver driver;
 
     public void setDriver(WebDriver driver) {
@@ -68,33 +72,34 @@ public class UIOperations {
     public List<WebElement> getElement(String elemLocator) {
         String element[] = elemLocator.split("_", 2);
         List<WebElement> elem = null;
-        switch (element[0]) {
+        logger.info("Locator Type: " + element[0] + " \tLocator:" + element[1]);
+        switch (element[0].toLowerCase().trim()) {
             case "xpath":
                 elem = driver.findElements(By.xpath(element[1]));
                 break;
             case "id":
                 elem = driver.findElements(By.id(element[1]));
                 break;
-            case "cssSelector":
+            case "css":
                 elem = driver.findElements(By.cssSelector(element[1]));
                 break;
             case "name":
                 elem = driver.findElements(By.name(element[1]));
                 break;
-            case "className":
+            case "class":
                 elem = driver.findElements(By.className(element[1]));
                 break;
-            case "linkText":
+            case "linktext":
                 elem = driver.findElements(By.linkText(element[1]));
                 break;
-            case "tagName":
+            case "tagname":
                 elem = driver.findElements(By.tagName(element[1]));
                 break;
-            case "partialLinkText":
+            case "partiallinktext":
                 elem = driver.findElements(By.partialLinkText(element[1]));
                 break;
             default:
-                System.out.println("Please enter valid locator method; This should be like LOCATORNAME_EXPRESSION; for eg. xpath_//name['login']");
+                logger.error("Please enter valid locator method; This should be like LOCATORNAME_EXPRESSION; for eg. xpath_//name['login']");
         }
         return elem;
     }

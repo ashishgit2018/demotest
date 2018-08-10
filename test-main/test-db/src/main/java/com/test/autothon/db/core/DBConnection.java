@@ -1,6 +1,6 @@
 package com.test.autothon.db.core;
 
-import com.test.autothon.ReadPropertiesFile;
+import com.test.autothon.common.ReadPropertiesFile;
 import org.apache.log4j.Logger;
 
 import java.sql.*;

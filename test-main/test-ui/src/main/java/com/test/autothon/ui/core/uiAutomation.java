@@ -1,6 +1,5 @@
 package com.test.autothon.ui.core;
 
-import com.test.autothon.ui.AutomationUIUtils;
 import org.openqa.selenium.WebDriver;
 
 public class uiAutomation extends UIOperations {

@@ -1,6 +1,6 @@
 package com.test.autothon.db.steps;
 
-import com.test.autothon.StepDefinition;
+import com.test.autothon.common.StepDefinition;
 import com.test.autothon.db.core.DBConnection;
 import cucumber.api.java.en.Given;
 

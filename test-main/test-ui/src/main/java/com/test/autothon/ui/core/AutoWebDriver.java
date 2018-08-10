@@ -55,7 +55,7 @@ public class AutoWebDriver {
         });
     }
 
-    protected void tearBrowser() {
+    public void tearBrowser() {
         if (driver != null) {
             logger.info("closing webdriver...");
             driver.close();

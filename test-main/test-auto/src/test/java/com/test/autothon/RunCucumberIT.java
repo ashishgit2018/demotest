@@ -5,7 +5,7 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(format = "html:target/htmlReports.html", tags = {"@SN1"}, features = "src/test/resources")
+@CucumberOptions(format = "html:target/htmlReports.html", tags = {"@test"}, features = "src/test/resources")
 public class RunCucumberIT {
     //clean install verify -Dcucumber.options="--plugin json:target/results.json --tags @ui --tags @s1 src/test/resources"
 }

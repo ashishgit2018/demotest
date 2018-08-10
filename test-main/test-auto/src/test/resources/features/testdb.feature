@@ -1,6 +1,5 @@
-@ui
-Feature: Test UI
+Feature: Test DB
 
   @test
-  Scenario: Launch URL based on browser
+  Scenario: DB test scenario
     Given Execute query "<PROPVALUE(myname)>"
