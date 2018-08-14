@@ -17,11 +17,15 @@ import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class AutoWebDriver {
+
     private final static Logger logger = Logger.getLogger(AutoWebDriver.class);
     private static WebDriver driver;
 
     AutoWebDriver(String browser) throws Exception {
-        logger.info("Initializing webdriver");
+        //just closing any existing driver instance, if any
+        tearBrowser();
+
+        logger.info("Initializing webdriver...");
         browser = browser.trim().toLowerCase();
         if (browser == null)
             browser = "chrome";
@@ -57,7 +61,7 @@ public class AutoWebDriver {
 
     public void tearBrowser() {
         if (driver != null) {
-            logger.info("closing webdriver...");
+            logger.info("closing existing running instance of webdriver...");
             driver.close();
             driver.quit();
             driver = null;

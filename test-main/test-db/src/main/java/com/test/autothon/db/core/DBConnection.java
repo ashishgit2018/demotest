@@ -21,9 +21,10 @@ public class DBConnection {
 
     public DBConnection() {
         this.dbClassName = ReadPropertiesFile.getPropertyValue("db.classname");
+        this.dbUrl = ReadPropertiesFile.getPropertyValue("db.url");
         this.dbUserName = ReadPropertiesFile.getPropertyValue("db.username");
-        this.dbPassword = ReadPropertiesFile.getPropertyValue("db.classname");
-        this.dbUrl = ReadPropertiesFile.getPropertyValue("db.password");
+        this.dbPassword = ReadPropertiesFile.getPropertyValue("db.password");
+        createDBConnection();
     }
 
     public Connection createDBConnection() {
@@ -110,25 +111,33 @@ public class DBConnection {
 
 
     //Returns a List of Map
-    public List<Map<String, String>> getResultSetAsList(ResultSet rs) throws SQLException {
+    public List<Map<String, String>> getResultSetAsList(ResultSet rs) {
         List<String> rsHeaders = new ArrayList<String>();
         List<Map<String, String>> rsdata = new ArrayList<Map<String, String>>();
-        ResultSetMetaData rsmd = rs.getMetaData();
-        int noOfColumns = rsmd.getColumnCount();
+        ResultSetMetaData rsmd = null;
+        int noOfColumns = 0;
+        try {
+            rsmd = rs.getMetaData();
+            noOfColumns = rsmd.getColumnCount();
 
-        for (int i = 1; i <= noOfColumns; i++) {
-            rsHeaders.add(rsmd.getCatalogName(i));
-        }
-
-        while (rs.next()) {
-            Map<String, String> rowData = new HashMap<String, String>();
-            for (String header : rsHeaders) {
-                String data = rs.getString(header);
-                rowData.put(header, data);
+            for (int i = 1; i <= noOfColumns; i++) {
+                rsHeaders.add(rsmd.getColumnName(i));
             }
-            rsdata.add(rowData);
+
+            while (rs.next()) {
+                Map<String, String> rowData = new HashMap<String, String>();
+                for (String header : rsHeaders) {
+                    String data = rs.getString(header);
+                    rowData.put(header, data);
+                }
+                rsdata.add(rowData);
+            }
+            logger.info("Result set data : \n" + rsdata.toString());
+            return rsdata;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return rsdata;
+        return null;
     }
 
 }

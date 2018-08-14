@@ -7,11 +7,13 @@ import org.apache.log4j.Logger;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 
-public class GlobalHooks {
+public class UIHooks {
 
-    private final static Logger logger = Logger.getLogger(GlobalHooks.class);
+    private final static Logger logger = Logger.getLogger(UIHooks.class);
 
     @After
     public void getScenarioName(Scenario scenario) throws IOException {
@@ -22,19 +24,19 @@ public class GlobalHooks {
                 tagName = tag;
             }
         }
-
         if (AutomationUIUtils.getBase64Images().size() == 0)
             return;
 
-        String scrFilePath = System.getProperty("user.dir") + "/output";
+        String folderFormat = new SimpleDateFormat("ddMMMyy").format(new Date());
+        String scrFilePath = System.getProperty("user.dir") + "/output/" + folderFormat;
         File file = new File(scrFilePath);
         if (!file.exists()) {
             file.mkdirs();
         }
-        scrFilePath = System.getProperty("user.dir") + "/output/" + tagName + "_" + AutomationUIUtils.getTestCaseName() + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
+        scrFilePath = scrFilePath + "/" + tagName + "_" + AutomationUIUtils.getTestCaseName() + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
 
-        File file2 = new File(scrFilePath);
-        FileOutputStream io = new FileOutputStream(file2);
+        file = new File(scrFilePath);
+        FileOutputStream io = new FileOutputStream(file);
         io.write("<!DOCTYPE html><html><head></head><body width=\"600px\">".getBytes());
         for (String base64Image : AutomationUIUtils.getBase64Images()) {
             io.write("<img src=\"data:image/png;base64,".getBytes());
