@@ -17,13 +17,19 @@ public class CommonRestService {
     private Map<String, String> inputPathParams = new HashMap<String, String>();
     private HttpClientService httpClientService;
 
-    public void setRestUrl(String url) {
-        logger.info("Setting Rest URL to : " + url);
+    public CommonRestService() {
+        httpClientService = new HttpClientService();
+    }
+
+    public void setRestBaseUrl(String url) {
+        logger.info("Setting Rest Base URL to : " + url);
         this.restURL = url;
     }
 
-    public String getResturl() {
-        return restURL;
+    public String getFullUrl(String uri) {
+        if (uri.startsWith("https://") || uri.startsWith("http://"))
+            return uri;
+        return restURL + uri;
     }
 
     public void clearInputHeader() {
@@ -73,7 +79,6 @@ public class CommonRestService {
     }
 
     public void updateInputJsonPayloadKeyValue(String key, String value) {
-        logger.info("Updating input json key : [ " + key + " ] with value : [ " + value + " ]");
         JsonMapConvertor jsmc = new JsonMapConvertor();
         inputJsonPayload = jsmc.setPayloadkeyByDotNotation(inputJsonPayload, key, value);
         inputStringJsonpayload = JsonUtils.parseJsonMapToString(inputJsonPayload);
@@ -81,27 +86,26 @@ public class CommonRestService {
     }
 
     public void removeInputJsonPayloadKey(String key) {
-        logger.info("Removing input json key : [ " + key + " ]");
         JsonMapConvertor jsmc = new JsonMapConvertor();
         inputJsonPayload = jsmc.removePayloadKeyByDotNotation(inputJsonPayload, key);
         inputStringJsonpayload = JsonUtils.parseJsonMapToString(inputJsonPayload);
         logger.info("Updated json input payload set to\n" + JsonUtils.parsetoPrettyJson(inputStringJsonpayload));
     }
 
-    public void get(String uri) {
-        httpClientService.get(uri, inputHeaders, inputPathParams);
+    public void httpGet(String uri) {
+        httpClientService.httpGetRequest(getFullUrl(uri), inputHeaders, inputPathParams);
     }
 
-    public void postjJson(String uri) {
-        httpClientService.postJson(uri, inputHeaders, inputPathParams, inputJsonPayload);
+    public void httpPost(String uri) {
+        httpClientService.httpPostRequest(getFullUrl(uri), inputHeaders, inputPathParams, inputJsonPayload);
     }
 
-    public void putJson(String uri) {
-        httpClientService.putJson(uri, inputHeaders, inputPathParams, inputJsonPayload);
+    public void httpPut(String uri) {
+        httpClientService.httpPutRequest(getFullUrl(uri), inputHeaders, inputPathParams, inputJsonPayload);
     }
 
-    public void delete(String uri) {
-        httpClientService.delete(uri, inputHeaders, inputPathParams);
+    public void httpDelete(String uri) {
+        httpClientService.httpDeleteRequest(getFullUrl(uri), inputHeaders, inputPathParams);
     }
 
     public int getResponseCode() {
@@ -110,6 +114,10 @@ public class CommonRestService {
 
     public String getResponseString() {
         return httpClientService.getHttpResponseEntityString();
+    }
+
+    public String getReadableResponseString() {
+        return JsonUtils.parsetoPrettyJson(getResponseString());
     }
 
     public Map<String, Object> getResponseJson() {
@@ -125,6 +133,20 @@ public class CommonRestService {
         JsonMapConvertor jmc = new JsonMapConvertor();
         return jmc.getPayloadKeyByDotNotation(inputJsonPayload, key);
     }
+
+    public void clearResponse() {
+        httpClientService.clearResponseData();
+    }
+
+    public void clearCookies() {
+        httpClientService.clearCookies();
+    }
+
+    public int getResponseSize() {
+        return httpClientService.sizeOfResponse();
+    }
+
+
 
 
 }

@@ -2,10 +2,7 @@ package com.test.autothon.common;
 
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -17,9 +14,10 @@ public class ReadPropertiesFile {
 
     private static Properties loadPropertiesfile(final String propFileName) {
         FileInputStream input = null;
+        Properties prop = new Properties();
         try {
             input = new FileInputStream(propFileName);
-            searchAllProps.load(input);
+            prop.load(input);
             input.close();
         } catch (FileNotFoundException e) {
             logger.error("Cannot open properties file " + propFileName + "\nException:\n " + e);
@@ -33,7 +31,7 @@ public class ReadPropertiesFile {
                     logger.error("Error closing input stream \nException:\n" + e);
                 }
         }
-        return searchAllProps;
+        return prop;
 
     }
 
@@ -49,7 +47,7 @@ public class ReadPropertiesFile {
 
         int count = 0;
         while (count < results.size()) {
-            loadPropertiesfile(results.get(count));
+            searchAllProps.putAll(loadPropertiesfile(results.get(count)));
             count++;
         }
     }
@@ -63,5 +61,30 @@ public class ReadPropertiesFile {
             if (value == null) logger.warn("Value for key <" + key + "> not found in properties file");
         }
         return value;
+    }
+
+    public static void writeToProperties(String key, String value, String filePath) {
+        FileOutputStream out = null;
+        File file = new File(filePath);
+        try {
+            file.createNewFile();
+            Properties prop = loadPropertiesfile(filePath);
+            out = new FileOutputStream(filePath);
+            prop.setProperty(key, value);
+            searchAllProps.setProperty(key, value);
+            prop.store(out, null);
+            out.close();
+        } catch (FileNotFoundException e) {
+            logger.error(filePath + " not found\n" + e);
+        } catch (IOException e) {
+            logger.error("Error closing file\n" + e);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                logger.error("Error closing file\n" + e);
+            }
+        }
+        logger.info("Setting key <" + key + "> \t value <" + value + ">");
     }
 }

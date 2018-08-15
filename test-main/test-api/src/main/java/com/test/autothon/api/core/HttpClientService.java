@@ -1,5 +1,6 @@
 package com.test.autothon.api.core;
 
+import com.test.autothon.common.FileUtils;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.apache.http.Consts;
 import org.apache.http.Header;
@@ -12,6 +13,7 @@ import org.apache.http.client.methods.RequestBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -35,35 +37,44 @@ public class HttpClientService {
     private HttpEntity httpResponseEntity;
     private String httpResponseEntityString;
 
-    public CloseableHttpResponse get(String url, Map<String, String> headers, Map<String, String> pathParams) {
+    public String getFullUrl(String restURL, String uri) {
+        if (uri.startsWith("https://") || uri.startsWith("http://"))
+            return uri;
+        return restURL + uri;
+    }
+
+    public CloseableHttpResponse httpGetRequest(String url, Map<String, String> headers, Map<String, String> pathParams) {
         HttpUriRequest httpUriRequest = buildRequest("GET", url, headers, pathParams, null);
-        return execueHttprequest(httpUriRequest);
+        return execueHttpRequest(httpUriRequest);
     }
 
-    public CloseableHttpResponse postJson(String url, Map<String, String> headers, Map<String, String> pathParams, Map<String, Object> jsonMap) {
+    public CloseableHttpResponse httpPostRequest(String url, Map<String, String> headers, Map<String, String> pathParams, Map<String, Object> jsonMap) {
         HttpUriRequest httpUriRequest = buildRequest("POST", url, headers, pathParams, jsonMap);
-        return execueHttprequest(httpUriRequest);
+        return execueHttpRequest(httpUriRequest);
     }
 
-    public CloseableHttpResponse putJson(String url, Map<String, String> headers, Map<String, String> pathParams, Map<String, Object> jsonMap) {
+    public CloseableHttpResponse httpPutRequest(String url, Map<String, String> headers, Map<String, String> pathParams, Map<String, Object> jsonMap) {
         HttpUriRequest httpUriRequest = buildRequest("PUT", url, headers, pathParams, jsonMap);
-        return execueHttprequest(httpUriRequest);
+        return execueHttpRequest(httpUriRequest);
     }
 
-    public CloseableHttpResponse delete(String url, Map<String, String> headers, Map<String, String> pathParams) {
+    public CloseableHttpResponse httpDeleteRequest(String url, Map<String, String> headers, Map<String, String> pathParams) {
         HttpUriRequest httpUriRequest = buildRequest("DELETE", url, headers, pathParams, null);
-        return execueHttprequest(httpUriRequest);
+        return execueHttpRequest(httpUriRequest);
     }
 
-    private CloseableHttpResponse execueHttprequest(HttpUriRequest httpUriRequest) {
+    private CloseableHttpResponse execueHttpRequest(HttpUriRequest httpUriRequest) {
         CloseableHttpClient httpClient = null;
         clearResponseData();
         try {
+            httpClient = HttpClients.custom()
+                    .disableRedirectHandling()
+                    .build();
             httpResponse = httpClient.execute(httpUriRequest);
             if (httpResponse != null)
                 parseHttpResponse();
         } catch (IOException e) {
-            logger.error("Error executing the GET request \n" + e);
+            logger.error("Error executing the request \n" + e);
         } finally {
             try {
                 logger.info("Closing the Http connection");
@@ -105,6 +116,7 @@ public class HttpClientService {
         StringBuffer strbf = new StringBuffer();
         for (int i = 0; i < hdrs.length; i++) {
             strbf.append("Header key: " + hdrs[i].getName() + "\t Value : " + hdrs[i].getValue() + "\n");
+            FileUtils.writeToTempFile(hdrs[i].getName(), hdrs[i].getValue());
         }
         return strbf.toString();
     }
@@ -116,12 +128,13 @@ public class HttpClientService {
         String jsonString = "";
         String headerKey = "";
         String headerValue = "";
-        logger.debug("HTTP_REQUEST_BEGIN");
-        logger.debug("HTTP Method : " + method);
+        logger.info("HTTP_REQUEST_BEGIN");
+        logger.info("HTTP Method : " + method);
+        logger.info("HTTP URI " + url);
 
         if (jsonObject != null) {
             jsonString = JsonUtils.parseJsonMapToString(jsonObject);
-            logger.info("Json payload : \n" + JsonUtils.parsetoPrettyJson(jsonString));
+            logger.info("HTTP Json Payload : \n" + JsonUtils.parsetoPrettyJson(jsonString));
         }
 
         try {
@@ -137,7 +150,7 @@ public class HttpClientService {
             }
 
             builder = builder.setUri(new URI(buildUrl(url, uriPathParams))).setEntity(new StringEntity(jsonString, Consts.UTF_8));
-            logger.debug("Request url: " + builder.getUri().toString());
+            logger.info("Request url: " + builder.getUri().toString());
             setRequestUri(builder.getUri().toString());
             setRequestMethod(method);
             setRequestPayload(jsonString);
@@ -149,7 +162,7 @@ public class HttpClientService {
                     headerKey = header.getKey();
                     headerValue = header.getValue();
                     builder.addHeader(headerKey, headerValue);
-                    logger.debug("Request header key=" + headerKey + "    headerValue =" + headerValue);
+                    logger.info("Request Header Key=" + headerKey + "\tValue =" + headerValue);
                 }
             }
             httpUriRequest = builder.build();
@@ -162,28 +175,29 @@ public class HttpClientService {
     }
 
     private void clearRequestData() {
+        logger.info("Clearing Request Headers, Cookies & Payload");
         clearRequestHeaders();
         clearRequestMethod();
         clearRequestPayload();
         clearRequestUri();
+        clearCookies();
     }
 
     public void clearResponseData() {
-        jsonResponse.clear();
+        if (jsonResponse != null)
+            jsonResponse.clear();
         httpResponseEntityString = "";
     }
-
 
     public int getResponseCode() {
         StatusLine status = httpResponse.getStatusLine();
         return status.getStatusCode();
     }
 
-
     public void clearCookies() {
-        cookieStore.clear();
+        if (cookieStore != null)
+            cookieStore.clear();
     }
-
 
     public int sizeOfResponse() {
         return jsonResponse.size();
@@ -202,7 +216,7 @@ public class HttpClientService {
     }
 
     private void clearRequestHeaders() {
-        this.requestHeaders.clear();
+        if (this.requestHeaders != null) this.requestHeaders.clear();
     }
 
     public String getRequestMethod() {
@@ -234,7 +248,6 @@ public class HttpClientService {
     }
 
     private void setRequestHeaders(Map<String, String> requestHeaders) {
-        clearRequestHeaders();
         this.requestHeaders.putAll(requestHeaders);
     }
 

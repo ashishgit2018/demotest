@@ -41,4 +41,8 @@ public class FileUtils {
         return "";
     }
 
+    public static void writeToTempFile(String key, String value) {
+        ReadPropertiesFile.writeToProperties(key, value, Thread.currentThread().getContextClassLoader().getResource("config").getPath() + "/temp.properties");
+    }
+
 }
