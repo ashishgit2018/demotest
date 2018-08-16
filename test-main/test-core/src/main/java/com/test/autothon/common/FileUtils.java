@@ -42,7 +42,14 @@ public class FileUtils {
     }
 
     public static void writeToTempFile(String key, String value) {
-        ReadPropertiesFile.writeToProperties(key, value, Thread.currentThread().getContextClassLoader().getResource("config").getPath() + "/temp.properties");
+        ReadPropertiesFile.writeToProperties(key, value, Constants.tempFileLocation);
+    }
+
+    public static void deleteFile(String fileName) {
+        logger.info("Deleting file : " + fileName);
+        File file = new File(fileName);
+        if (file.exists())
+            file.delete();
     }
 
 }

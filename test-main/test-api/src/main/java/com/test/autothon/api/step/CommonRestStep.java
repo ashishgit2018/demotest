@@ -1,6 +1,7 @@
 package com.test.autothon.api.step;
 
 import com.test.autothon.api.core.CommonRestService;
+import com.test.autothon.common.Constants;
 import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.common.StepDefinition;
@@ -11,7 +12,6 @@ import org.junit.Assert;
 public class CommonRestStep extends StepDefinition {
 
     private final static Logger logger = Logger.getLogger(CommonRestStep.class);
-    private final static String jsonFileLocation = "src/main/resources/json/";
     public CommonRestService commonRestService;
 
     public CommonRestStep() {
@@ -53,15 +53,21 @@ public class CommonRestStep extends StepDefinition {
     @Given("^Set Json payload located in file \"(.*?)\"$")
     public void setJsonDataLocatedInFile(String fileName) {
         fileName = getOverlay(fileName);
-        String jsonData = FileUtils.readFileAsString(jsonFileLocation, fileName);
+        String jsonData = FileUtils.readFileAsString(Constants.jsonResourcePath, fileName);
         jsonData = getOverlay(jsonData);
         commonRestService.setInputJsonPayload(jsonData);
     }
 
-    @Given("^Set Json payload located in properties file with key \"(.*?)\"$")
-    public void setJsonDataLocatedInPropertiesFile(String key) {
+    @Given("^Set Json payload located in temp file with key \"(.*?)\"$")
+    public void setJsonDataFromTempFileWithKey(String key) {
         key = getOverlay(key);
         String jsonData = ReadPropertiesFile.getPropertyValue(key);
+        jsonData = getOverlay(jsonData);
+        commonRestService.setInputJsonPayload(jsonData);
+    }
+
+    @Given("^Set Json payload as \"(.*?)\"$")
+    public void setJsonDataAs(String jsonData) {
         jsonData = getOverlay(jsonData);
         commonRestService.setInputJsonPayload(jsonData);
     }
@@ -69,7 +75,7 @@ public class CommonRestStep extends StepDefinition {
     @Given("^Set Json payload located in file \"(.*?)\" by updating payload json key \"(.*?)\" with value \"(.*)\"$")
     public void setJsonDataLocatedInFileByUpdatingKey(String fileName, String key, String value) {
         fileName = getOverlay(fileName);
-        String jsonData = FileUtils.readFileAsString(jsonFileLocation, fileName);
+        String jsonData = FileUtils.readFileAsString(Constants.jsonResourcePath, fileName);
         jsonData = getOverlay(jsonData);
         commonRestService.setInputJsonPayload(jsonData);
         commonRestService.updateInputJsonPayloadKeyValue(key, value);
@@ -88,7 +94,7 @@ public class CommonRestStep extends StepDefinition {
     @Given("^Set Json payload located in file \"(.*?)\" by removing payload json key \"(.*?)\"$")
     public void setJsonDataLocatedInFileByRemovingKey(String fileName, String key) {
         fileName = getOverlay(fileName);
-        String jsonData = FileUtils.readFileAsString(jsonFileLocation, fileName);
+        String jsonData = FileUtils.readFileAsString(Constants.jsonResourcePath, fileName);
         jsonData = getOverlay(jsonData);
         commonRestService.setInputJsonPayload(jsonData);
         commonRestService.removeInputHeaderKey(key);
@@ -172,6 +178,20 @@ public class CommonRestStep extends StepDefinition {
         Assert.assertTrue("Json Response Key : " + responseKey + " does not have expected value \tExpected : " + value + " \tActual : " + actualValue, actualValue.equalsIgnoreCase(value));
     }
 
+    @Given("^Validate Json Response Key \"(.*?)\" is Not blank$")
+    public void assertResponseKeyHaveValue(String responseKey) {
+        responseKey = getOverlay(responseKey);
+        String actualValue = commonRestService.getResponseJsonKeyValue(responseKey);
+        Assert.assertTrue("Json Response Key : " + responseKey + " does have blank value \tActual : " + actualValue, !(actualValue.isEmpty() || actualValue == null || actualValue == ""));
+    }
+
+    @Given("^Validate Json Response Key \"(.*?)\" is blank$")
+    public void assertResponseKeyHaveNoValue(String responseKey) {
+        responseKey = getOverlay(responseKey);
+        String actualValue = commonRestService.getResponseJsonKeyValue(responseKey);
+        Assert.assertTrue("Json Response Key : " + responseKey + " does Not have blank value \tActual : " + actualValue, (actualValue.isEmpty() || actualValue == null || actualValue == ""));
+    }
+
     @Given("^Validate Json Response Key \"(.*?)\" does not have value \"(.*?)\"$")
     public void assertResponseKeyDoesNotHaveValue(String responseKey, String value) {
         responseKey = getOverlay(responseKey);
@@ -196,7 +216,6 @@ public class CommonRestStep extends StepDefinition {
         int size = commonRestService.getResponseSize();
         Assert.assertTrue("Response size mismatch \tExpected : " + intResponseSize + " \tActual : " + size, size == intResponseSize);
     }
-
 
 
 }

@@ -272,7 +272,7 @@ public class JsonMapConvertor {
 
         if (explodedKey.length == 1) {
             //last level
-            logger.info("last level");
+            logger.info("Parser is at the last level");
 
             if (((Map) inputMap).containsKey(explodedKey[0])) {
                 return ((Map) inputMap).get(explodedKey[0]);
@@ -322,11 +322,11 @@ public class JsonMapConvertor {
     private Object recurseGet(String currentLevelKey, String partialKey, Object inputMap, int listIndex, String delimiter) {
         if (listIndex == -1) {
             //standard key
-            logger.info("recursing based on standard key");
+            logger.info("Parser recursing based on standard key");
             return getValueByNotation(((Map) inputMap).get(currentLevelKey), partialKey, delimiter);
         } else {
             //list key
-            logger.info("recursing on a list key");
+            logger.info("Parser recursing on a list key");
             Object tempValue = ((Map) inputMap).get(currentLevelKey);
             ArrayList<Object> tempValueList = (ArrayList<Object>) tempValue;
 

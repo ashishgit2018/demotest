@@ -10,3 +10,4 @@
 **/.checkstyle
 **/.DB_Store
 **/.metadata
+**/temp.properties

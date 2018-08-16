@@ -37,7 +37,7 @@ public class ReadPropertiesFile {
 
     public static void loadAllPropertiesValue() {
         List<String> results = new ArrayList<String>();
-        File[] files = new File(Thread.currentThread().getContextClassLoader().getResource("config").getPath() + "/").listFiles();
+        File[] files = new File(Constants.configResourcePath + "/").listFiles();
 
         for (File file : files != null ? files : new File[0]) {
             if (file.isFile()) {
@@ -67,7 +67,8 @@ public class ReadPropertiesFile {
         FileOutputStream out = null;
         File file = new File(filePath);
         try {
-            file.createNewFile();
+            if (!file.exists())
+                file.createNewFile();
             Properties prop = loadPropertiesfile(filePath);
             out = new FileOutputStream(filePath);
             prop.setProperty(key, value);

@@ -1,4 +1,4 @@
-package com.test.autothon.hook;
+package com.test.autothon.common;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -12,6 +12,8 @@ public class Hooks {
     @Before
     public void beforeExecution(Scenario scenario) {
         logger.info("Start Executing Scenario : [ " + scenario.getName() + " ]");
+        logger.info("Deleting temp properties file");
+        FileUtils.deleteFile(Constants.tempFileLocation);
     }
 
     @After

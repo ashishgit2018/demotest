@@ -126,7 +126,9 @@ public class CommonRestService {
 
     public String getResponseJsonKeyValue(String key) {
         JsonMapConvertor jmc = new JsonMapConvertor();
-        return jmc.getPayloadKeyByDotNotation(httpClientService.getJsonResponse(), key);
+        String value = jmc.getPayloadKeyByDotNotation(httpClientService.getJsonResponse(), key);
+        logger.info(" Retrieved Key [ " + key + " ]   with Value [ " + value + " ]");
+        return value;
     }
 
     public String getInputJsonKeyValue(String key) {
@@ -145,8 +147,6 @@ public class CommonRestService {
     public int getResponseSize() {
         return httpClientService.sizeOfResponse();
     }
-
-
 
 
 }

@@ -9,6 +9,7 @@ public class StepDefinition {
 
     public String getOverlay(String inputString) {
         if (inputString.isEmpty()) return "";
+        inputString = inputString.replaceAll("(\\r|\\n)", "");
         if (inputString.matches(".*\\<.*\\(.*\\)\\>.*")) {
             return expandString(inputString);
         } else return inputString;
