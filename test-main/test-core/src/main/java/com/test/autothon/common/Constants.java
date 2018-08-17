@@ -1,5 +1,8 @@
 package com.test.autothon.common;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class Constants {
 
     public final static String configResourcePath = Thread.currentThread().getContextClassLoader().getResource("config").getPath();

@@ -44,10 +44,21 @@ Feature: Test Rest Feature
     And Validate Json Response Key "name" have value "testNewName"
     And Validate Json Response Key "job" have value "testNewLeader"
     And Validate Json Response Key "updatedAt" is Not blank
+    Given Set Json payload as "{"name": "<RANDOMSTRING(10)>", "job": "<RANDOMALPHNUMER(10)>"}"
+    And Save Json Request Key-Value pair for "name" as "requestName"
+    And Save Json Request Key-Value pair for "job" as "requestJob"
+    And Perform PUT request where uri is "api/users/2"
+    Then Validate the Response code is "200"
+    And Validate Json Response Key "name" have value "<PROPVALUE(requestName)>"
+    And Validate Json Response Key "job" have value "<PROPVALUE(requestJob)>"
+    And Validate Json Response Key "updatedAt" is Not blank
 
   Scenario: Test Rest Delete
     Given Set the base uri as "https://reqres.in/"
     And Perform DELETE request where uri is "api/users/2"
+    Then Validate the Response code is "204"
+    And Validate Json Response is blank
+    When Perform DELETE request where uri is "api/users/<RANDOMINTEGER(1)>"
     Then Validate the Response code is "204"
     And Validate Json Response is blank
 

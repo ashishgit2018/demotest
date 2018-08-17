@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class ReadPropertiesFile {
 
     private final static Logger logger = Logger.getLogger(ReadPropertiesFile.class);

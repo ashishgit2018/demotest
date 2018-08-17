@@ -4,7 +4,7 @@ Feature: Test DB
   Scenario: DB test scenario
     Given Execute the update query "UPDATE employee SET EmpAge = '22' WHERE (EmpId = '3')"
     And Execute the update query "commit"
-    Then Validate the select query "select empage,empid from employee where empid = '3'"
+    Then Validate the select query "select empage,empid from <PROPVALUE(emp.tablename)> where empid = '3'"
       | empid | empage |
       | 3     | 22     |
     Given Validate the select query "select * from employee where empid in ('1','3')"

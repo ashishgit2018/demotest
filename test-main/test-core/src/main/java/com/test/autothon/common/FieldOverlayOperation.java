@@ -2,6 +2,9 @@ package com.test.autothon.common;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class FieldOverlayOperation {
 
     private final static Logger logger = Logger.getLogger(FieldOverlayOperation.class);
@@ -20,6 +23,16 @@ public class FieldOverlayOperation {
         switch (fieldName.toUpperCase()) {
             case "PROPVALUE":
                 value = ReadPropertiesFile.getPropertyValue(ordinalValue);
+                break;
+            case "RANDOMINTEGER":
+                value = RandomGenerator.generateRandonIntegerValue(Integer.valueOf(ordinalValue));
+                break;
+            case "RANDOMSTRING":
+                value = RandomGenerator.generateRandomStringValue(Integer.valueOf(ordinalValue));
+                break;
+            case "RANDOMALPHNUMER":
+                value = RandomGenerator.generateRandomAlphaNumericValue(Integer.valueOf(ordinalValue));
+                break;
         }
         return value;
     }

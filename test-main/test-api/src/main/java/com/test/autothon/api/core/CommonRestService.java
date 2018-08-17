@@ -5,6 +5,9 @@ import org.apache.log4j.Logger;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class CommonRestService {
 
     private final static Logger logger = Logger.getLogger(CommonRestService.class);
@@ -127,6 +130,13 @@ public class CommonRestService {
     public String getResponseJsonKeyValue(String key) {
         JsonMapConvertor jmc = new JsonMapConvertor();
         String value = jmc.getPayloadKeyByDotNotation(httpClientService.getJsonResponse(), key);
+        logger.info(" Retrieved Key [ " + key + " ]   with Value [ " + value + " ]");
+        return value;
+    }
+
+    public String getRequestJsonKeyValue(String key) {
+        JsonMapConvertor jmc = new JsonMapConvertor();
+        String value = jmc.getPayloadKeyByDotNotation(inputJsonPayload, key);
         logger.info(" Retrieved Key [ " + key + " ]   with Value [ " + value + " ]");
         return value;
     }

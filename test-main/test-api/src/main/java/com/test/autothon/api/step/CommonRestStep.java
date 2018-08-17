@@ -9,6 +9,9 @@ import cucumber.api.java.en.Given;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class CommonRestStep extends StepDefinition {
 
     private final static Logger logger = Logger.getLogger(CommonRestStep.class);
@@ -142,10 +145,18 @@ public class CommonRestStep extends StepDefinition {
     }
 
     @Given("^Save Json Response Key-Value pair for \"(.*?)\" as \"(.*?)\"$")
-    public void saveKeyValueInTempProperties(String responseKey, String tempKey) {
+    public void saveResponseKeyValueInTempProperties(String responseKey, String tempKey) {
         responseKey = getOverlay(responseKey);
         tempKey = getOverlay(tempKey);
         String value = commonRestService.getResponseJsonKeyValue(responseKey);
+        FileUtils.writeToTempFile(tempKey, value);
+    }
+
+    @Given("^Save Json Request Key-Value pair for \"(.*?)\" as \"(.*?)\"$")
+    public void saveRequestKeyValueInTempProperties(String requestKey, String tempKey) {
+        requestKey = getOverlay(requestKey);
+        tempKey = getOverlay(tempKey);
+        String value = commonRestService.getRequestJsonKeyValue(requestKey);
         FileUtils.writeToTempFile(tempKey, value);
     }
 

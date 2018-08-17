@@ -2,6 +2,9 @@ package com.test.autothon.common;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class StepDefinition {
 
     private final static Logger logger = Logger.getLogger(StepDefinition.class);

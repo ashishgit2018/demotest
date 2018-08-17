@@ -23,6 +23,9 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Rahul_Goyal
+ */
 public class HttpClientService {
 
     private final static Logger logger = Logger.getLogger(HttpClientService.class);
