@@ -6,7 +6,8 @@ import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.common.StepDefinition;
 import cucumber.api.java.en.Given;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
 /**
@@ -14,7 +15,7 @@ import org.junit.Assert;
  */
 public class CommonRestStep extends StepDefinition {
 
-    private final static Logger logger = Logger.getLogger(CommonRestStep.class);
+    private final static Logger logger = LogManager.getLogger(CommonRestStep.class);
     public CommonRestService commonRestService;
 
     public CommonRestStep() {

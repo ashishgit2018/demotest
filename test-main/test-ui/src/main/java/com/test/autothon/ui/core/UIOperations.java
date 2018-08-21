@@ -1,7 +1,8 @@
 package com.test.autothon.ui.core;
 
 import com.test.autothon.common.StepDefinition;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class UIOperations extends StepDefinition {
 
-    private final static Logger logger = Logger.getLogger(UIOperations.class);
+    private final static Logger logger = LogManager.getLogger(UIOperations.class);
 
     WebDriver driver;
 

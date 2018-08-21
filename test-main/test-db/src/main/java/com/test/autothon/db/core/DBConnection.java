@@ -1,7 +1,8 @@
 package com.test.autothon.db.core;
 
 import com.test.autothon.common.ReadPropertiesFile;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  */
 public class DBConnection {
 
-    private final static Logger logger = Logger.getLogger(DBConnection.class);
+    private final static Logger logger = LogManager.getLogger(DBConnection.class);
     private static Connection connection;
     private String dbUserName;
     private String dbPassword;

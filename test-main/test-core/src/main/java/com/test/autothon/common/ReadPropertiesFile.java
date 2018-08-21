@@ -1,6 +1,7 @@
 package com.test.autothon.common;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.Properties;
  */
 public class ReadPropertiesFile {
 
-    private final static Logger logger = Logger.getLogger(ReadPropertiesFile.class);
+    private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
     private static Properties searchAllProps = new Properties();
 
     private static Properties loadPropertiesfile(final String propFileName) {

@@ -2,7 +2,8 @@ package com.test.autothon.ui.core;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,7 +14,7 @@ import java.util.Date;
 
 public class UIHooks {
 
-    private final static Logger logger = Logger.getLogger(UIHooks.class);
+    private final static Logger logger = LogManager.getLogger(UIHooks.class);
 
     @After
     public void getScenarioName(Scenario scenario) throws IOException {

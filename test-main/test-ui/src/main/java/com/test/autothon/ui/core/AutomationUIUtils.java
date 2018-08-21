@@ -1,6 +1,7 @@
 package com.test.autothon.ui.core;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class AutomationUIUtils {
 
-    private final static Logger logger = Logger.getLogger(AutomationUIUtils.class);
+    private final static Logger logger = LogManager.getLogger(AutomationUIUtils.class);
 
     static String tagName;
     static String scrFilePath;

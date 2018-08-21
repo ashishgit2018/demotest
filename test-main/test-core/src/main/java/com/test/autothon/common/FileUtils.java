@@ -1,6 +1,7 @@
 package com.test.autothon.common;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 
@@ -9,7 +10,7 @@ import java.io.*;
  */
 public class FileUtils {
 
-    private final static Logger logger = Logger.getLogger(FileUtils.class);
+    private final static Logger logger = LogManager.getLogger(FileUtils.class);
 
     private FileUtils() {
 

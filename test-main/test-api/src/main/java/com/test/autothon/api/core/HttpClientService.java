@@ -15,7 +15,8 @@ import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +29,7 @@ import java.util.Map;
  */
 public class HttpClientService {
 
-    private final static Logger logger = Logger.getLogger(HttpClientService.class);
+    private final static Logger logger = LogManager.getLogger(HttpClientService.class);
 
     private String requestMethod;
     private String requestPayload;
@@ -81,11 +82,14 @@ public class HttpClientService {
         } finally {
             try {
                 logger.info("Closing the Http connection");
-                httpClient.close();
+                if (httpClient != null)
+                    httpClient.close();
             } catch (IOException e) {
                 logger.error("Error closing the Http connection \n" + e);
             }
         }
+        logger.info("HTTP_REQUEST_END");
+
         return httpResponse;
     }
 
@@ -173,7 +177,6 @@ public class HttpClientService {
             logger.error("buildRequest(): Error in building the json request", e);
         }
 
-        logger.debug("HTTP_REQUEST_END");
         return httpUriRequest;
     }
 

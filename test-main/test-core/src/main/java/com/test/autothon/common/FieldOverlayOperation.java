@@ -1,13 +1,14 @@
 package com.test.autothon.common;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Rahul_Goyal
  */
 public class FieldOverlayOperation {
 
-    private final static Logger logger = Logger.getLogger(FieldOverlayOperation.class);
+    private final static Logger logger = LogManager.getLogger(FieldOverlayOperation.class);
 
     private String fieldName;
     private String ordinalValue;

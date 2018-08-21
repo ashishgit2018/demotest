@@ -1,6 +1,7 @@
 package com.test.autothon.api.core;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
  */
 public class JsonUtils {
 
-    private final static Logger logger = Logger.getLogger(JsonUtils.class);
+    private final static Logger logger = LogManager.getLogger(JsonUtils.class);
 
     public static Map<String, Object> parseJsonStringToMap(String json) {
         return new JsonMapConvertor().convertJsonStringToMap(json);

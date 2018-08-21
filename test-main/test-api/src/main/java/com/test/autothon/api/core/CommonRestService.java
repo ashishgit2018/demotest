@@ -1,6 +1,7 @@
 package com.test.autothon.api.core;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +11,7 @@ import java.util.Map;
  */
 public class CommonRestService {
 
-    private final static Logger logger = Logger.getLogger(CommonRestService.class);
+    private final static Logger logger = LogManager.getLogger(CommonRestService.class);
 
 
     private String restURL;

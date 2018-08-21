@@ -2,7 +2,8 @@ package com.test.autothon.ui.core;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -18,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 public class AutoWebDriver {
 
-    private final static Logger logger = Logger.getLogger(AutoWebDriver.class);
+    private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
     private static WebDriver driver;
 
     AutoWebDriver(String browser) throws Exception {

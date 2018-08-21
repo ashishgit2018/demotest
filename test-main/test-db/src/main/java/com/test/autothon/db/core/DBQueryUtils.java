@@ -2,7 +2,8 @@ package com.test.autothon.db.core;
 
 import com.test.autothon.common.StepDefinition;
 import cucumber.api.DataTable;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
 import java.sql.*;
@@ -16,7 +17,7 @@ import java.util.TreeMap;
  */
 public class DBQueryUtils extends StepDefinition {
 
-    private final static Logger logger = Logger.getLogger(DBQueryUtils.class);
+    private final static Logger logger = LogManager.getLogger(DBQueryUtils.class);
     private Connection connection;
 
     public DBQueryUtils() {
