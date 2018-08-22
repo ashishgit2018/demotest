@@ -1,7 +1,9 @@
 package com.test.autothon.jmeter;
 
 import com.test.autothon.common.Constants;
+import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.ReadPropertiesFile;
+import com.test.autothon.common.StepDefinition;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
 import org.apache.jmeter.control.LoopController;
@@ -29,10 +31,13 @@ import java.io.IOException;
 /**
  * @author Rahul_Goyal
  */
-public class JMeterManager {
+public class JMeterManager extends StepDefinition {
 
-    private final static File jmeterHome = new File(ReadPropertiesFile.getPropertyValue("jmeter.home"));
-    private final static String slash = "\\";
+    private final static String jmeterHomePath = ReadPropertiesFile.getPropertyValue("jmeter.home");
+    private final static File jmeterHome = new File(jmeterHomePath);
+    private final static String jmeterlogFilePath = "/target/jmeter_automation.jtl";
+    private final static String jmeterHTMLFilePath = "/target/jmeter/";
+    private final static String jmeterJMXFilePath = jmeterHomePath + "/jmeter_automation.jmx";
     private final static Logger logger = LogManager.getLogger(JMeterManager.class);
     private StandardJMeterEngine jmeter;
     private String domain;
@@ -52,7 +57,7 @@ public class JMeterManager {
             logger.error("jmeter.home property is not set..Exiting !!!");
             return;
         }
-        String jmeterpropPath = jmeterHome.getPath() + slash + "bin" + slash + "jmeter.properties";
+        String jmeterpropPath = jmeterHome.getPath() + "/bin/jmeter.properties";
         File jmeterProps = new File(jmeterpropPath);
         if (!jmeterProps.exists()) {
             logger.error(jmeterpropPath + " file not found...Exiting !!! ");
@@ -90,7 +95,7 @@ public class JMeterManager {
         this.noOfLoops = noOfLoops;
     }
 
-    public ThreadGroup getThreadGroup() {
+    private ThreadGroup getThreadGroup() {
         logger.info("Creating ThreadGroup object with - " +
                 "No Of Threads :" + noOfThreads + " \t Ramp Up :" + rampUp);
         ThreadGroup threadGroup = new ThreadGroup();
@@ -102,7 +107,7 @@ public class JMeterManager {
         return threadGroup;
     }
 
-    public HTTPSamplerProxy getHttpSampler() {
+    private HTTPSamplerProxy getHttpSampler() {
         logger.info("Creating HTTPSampler Object with - " +
                 "Domain :" + domain + " \t Port :" + port + " \t HTTP method :" + httpMethod);
         HTTPSamplerProxy httpSampler = new HTTPSamplerProxy();
@@ -125,7 +130,7 @@ public class JMeterManager {
         return httpSampler;
     }
 
-    public LoopController getLoopController() {
+    private LoopController getLoopController() {
         logger.info("Creating LoopController Object with - " +
                 "No Of Loops :" + noOfLoops);
         LoopController loopController = new LoopController();
@@ -138,7 +143,7 @@ public class JMeterManager {
         return loopController;
     }
 
-    public HashTree generateTestPlan() {
+    private HashTree generateTestPlan() {
 
         logger.info("Creating Jmeter Test Plan");
         testPlanTree = new HashTree();
@@ -158,28 +163,33 @@ public class JMeterManager {
         return testPlanTree;
     }
 
-    public void saveTestPlan() {
+    private void saveTestPlan() {
         logger.info("Saving the Jmeter test plan");
         try {
-            SaveService.saveTree(testPlanTree, new FileOutputStream(jmeterHome + slash + "jmeter_automation.jmx"));
-            logger.info("Jmeter JMX file location :" + jmeterHome + slash + "jmeter_automation.jmx");
+            SaveService.saveTree(testPlanTree, new FileOutputStream(jmeterJMXFilePath));
+            logger.info("Jmeter JMX file location :" + jmeterJMXFilePath);
             Summariser summariser = null;
             String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
             if (summariserName.length() > 0) {
                 summariser = new Summariser(summariserName);
             }
-            logger.info("Saving the Jmeter output log file");
-            //String logFile = jmeterHome + slash + "jmeter_automation.jtl";
-            String logFile = "./target/jmeter_automation.jtl";
-
-            logger.info("Jmeter log file location :" + logFile);
+            logger.info("Saving the JMeter output log file");
+            logger.info("JMeter log file location :" + jmeterlogFilePath);
             ResultCollector rlogger = new ResultCollector(summariser);
-            rlogger.setFilename(logFile);
+            rlogger.clearData();
+            rlogger.setFilename("." + jmeterlogFilePath);
             testPlanTree.add(testPlanTree.getArray()[0], rlogger);
 
         } catch (IOException e) {
             logger.error("Error saving the Jmeter test plan \n" + e);
         }
+    }
+
+    private void generateHTMLReports() {
+        //delete existing report folder
+        FileUtils.deleteFolder("." + jmeterHTMLFilePath);
+        String cmd = "jmeter -g " + System.getProperty("user.dir") + jmeterlogFilePath + " -o " + System.getProperty("user.dir") + jmeterHTMLFilePath;
+        executeCMDCommand(cmd);
     }
 
     public void runJmeterTests() {
@@ -204,6 +214,7 @@ public class JMeterManager {
         saveTestPlan();
         jmeter.configure(testPlanTree);
         jmeter.run();
+        generateHTMLReports();
         logger.info("JMeter Test Execution Completed !!!");
     }
 

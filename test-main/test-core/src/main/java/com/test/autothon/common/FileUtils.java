@@ -56,4 +56,40 @@ public class FileUtils {
             file.delete();
     }
 
+    public static void deleteFolder(String folder) {
+        logger.info("Deleting Folder : " + folder);
+        File file = new File(folder);
+        deleteAllFiles(file);
+        file.delete();
+    }
+
+    public static void deleteAllFiles(File dir) {
+
+        File[] toBeDeleted;
+
+        try {
+            // returns pathnames for files and directory
+            toBeDeleted = dir.listFiles();
+            // for each pathname in pathname array
+            if (toBeDeleted != null) {
+                for (File f : toBeDeleted) {
+                    if (f.exists() && !f.isDirectory()) {
+                        if (!f.delete()) {
+                            logger.info("Can't remove " + f.getAbsolutePath());
+                        }
+                    } else if (f.exists() && f.isDirectory()) {
+                        deleteAllFiles(f);
+                        f.delete();
+                    }
+                }
+
+            }
+        } catch (Exception e) {
+            // if any error occurs
+            logger.error("Failed to delete file." + e);
+        }
+
+    }
+
+
 }

@@ -3,6 +3,11 @@ package com.test.autothon.common;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 /**
  * @author Rahul_Goyal
  */
@@ -87,6 +92,37 @@ public class StepDefinition {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public String executeCMDCommand(String cmd) {
+        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", cmd);
+        builder.redirectErrorStream(true);
+        String result = null;
+        logger.info("Running JMeter command" + cmd);
+
+        try {
+            Process p = builder.start();
+            InputStream commandOutput = p.getInputStream();
+            InputStream commandErr = p.getErrorStream();
+            result = inputStreamToString(commandOutput) + inputStreamToString((commandErr));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        logger.info(result);
+        return result;
+    }
+
+    private String inputStreamToString(InputStream stream) {
+        BufferedReader r = new BufferedReader(new InputStreamReader(stream));
+        String line = "";
+        try {
+            line = r.readLine();
+            waitForSecond(2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return line;
     }
 
 
