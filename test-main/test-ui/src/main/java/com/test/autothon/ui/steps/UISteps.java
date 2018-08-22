@@ -6,6 +6,10 @@ import cucumber.api.java.en.Given;
 
 public class UISteps extends UIAutomation {
 
+    public UISteps() {
+
+    }
+
     @Given("^Execute \"(.*?)\"$")
     public void executeTC(String testCaseName) throws Exception {
         testCaseName = getOverlay(testCaseName);
@@ -35,4 +39,32 @@ public class UISteps extends UIAutomation {
         item = getOverlay(item);
         searchItem(item);
     }
+
+    @And("^I Click on element \"(.*?)\"$")
+    public void clickOn(String element) {
+        element = getOverlay(element);
+        click(element);
+    }
+
+    @And("^I clear text for element \"(.*?)\"$")
+    public void clearText(String element) {
+        element = getOverlay(element);
+        clearData(element);
+    }
+
+    @And("^I enter text as \"(.*?)\" in element \"(.*?)\" $")
+    public void setText(String value, String element) {
+        value = getOverlay(value);
+        element = getOverlay(element);
+        enterText(element, value);
+    }
+
+    @And("^I select \"(.*)\" from drop down with element as \"(.*)\" and selection method is \"(.*?)\"$")
+    public void selectFromDropDown(String value, String element, String selectionMethod) {
+        value = getOverlay(value);
+        element = getOverlay(element);
+        selectionMethod = getOverlay(selectionMethod);
+        selectValue(element, selectionMethod, value);
+    }
+
 }

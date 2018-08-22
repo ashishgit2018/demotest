@@ -12,6 +12,7 @@ Feature: Test Rest Feature
     And Validate Json Response Key "headers.Host" have value "httpbin.org"
     And Save Json Response as "IPRequestHeaders"
 
+  @rest
   Scenario: Test a Rest Get - 2
     Given Set the base uri as "https://reqres.in/"
     When Perform GET request where uri is "api/users"

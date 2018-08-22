@@ -1,6 +1,6 @@
 Feature: Test DB
 
-  @test
+  @db
   Scenario: DB test scenario
     Given Execute the update query "UPDATE employee SET EmpAge = '22' WHERE (EmpId = '3')"
     And Execute the update query "commit"

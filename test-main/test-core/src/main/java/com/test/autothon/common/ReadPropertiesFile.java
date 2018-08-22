@@ -56,6 +56,14 @@ public class ReadPropertiesFile {
         }
     }
 
+    public static String getEnvironment() {
+        return System.getProperty("env", "dev");
+    }
+
+    public static String getBrowserType() {
+        return System.getProperty("browser", "chrome");
+    }
+
     public static String getPropertyValue(String key) {
         String value = null;
         value = searchAllProps.getProperty(key);

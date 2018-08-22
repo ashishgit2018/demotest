@@ -2,7 +2,6 @@ package com.test.autothon.jmeter;
 
 import com.test.autothon.common.Constants;
 import com.test.autothon.common.FileUtils;
-import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.common.StepDefinition;
 import org.apache.jmeter.config.Arguments;
 import org.apache.jmeter.config.gui.ArgumentsPanel;
@@ -33,11 +32,7 @@ import java.io.IOException;
  */
 public class JMeterManager extends StepDefinition {
 
-    private final static String jmeterHomePath = ReadPropertiesFile.getPropertyValue("jmeter.home");
-    private final static File jmeterHome = new File(jmeterHomePath);
-    private final static String jmeterlogFilePath = "/target/jmeter_automation.jtl";
-    private final static String jmeterHTMLFilePath = "/target/jmeter/";
-    private final static String jmeterJMXFilePath = jmeterHomePath + "/jmeter_automation.jmx";
+
     private final static Logger logger = LogManager.getLogger(JMeterManager.class);
     private StandardJMeterEngine jmeter;
     private String domain;
@@ -53,22 +48,22 @@ public class JMeterManager extends StepDefinition {
 
     public JMeterManager() {
         logger.info("Initializing the JMeter properties ...");
-        if (!jmeterHome.exists()) {
+        if (!Constants.jmeterHome.exists()) {
             logger.error("jmeter.home property is not set..Exiting !!!");
             return;
         }
-        String jmeterpropPath = jmeterHome.getPath() + "/bin/jmeter.properties";
+        String jmeterpropPath = Constants.jmeterHome.getPath() + "/bin/jmeter.properties";
         File jmeterProps = new File(jmeterpropPath);
         if (!jmeterProps.exists()) {
             logger.error(jmeterpropPath + " file not found...Exiting !!! ");
             return;
         }
-        logger.info("JMeter Home :" + jmeterHome.getPath());
+        logger.info("JMeter Home :" + Constants.jmeterHome.getPath());
         logger.info("JMeter Properties :" + jmeterpropPath);
 
         jmeter = new StandardJMeterEngine();
 
-        JMeterUtils.setJMeterHome(jmeterHome.getPath());
+        JMeterUtils.setJMeterHome(Constants.jmeterHome.getPath());
         JMeterUtils.loadJMeterProperties(jmeterProps.getPath());
         //JMeterUtils.initLogging(); // comment this line out to see extra log messages of i.e. DEBUG level
         JMeterUtils.initLocale();
@@ -166,18 +161,18 @@ public class JMeterManager extends StepDefinition {
     private void saveTestPlan() {
         logger.info("Saving the Jmeter test plan");
         try {
-            SaveService.saveTree(testPlanTree, new FileOutputStream(jmeterJMXFilePath));
-            logger.info("Jmeter JMX file location :" + jmeterJMXFilePath);
+            SaveService.saveTree(testPlanTree, new FileOutputStream(Constants.jmeterJMXFilePath));
+            logger.info("Jmeter JMX file location :" + Constants.jmeterJMXFilePath);
             Summariser summariser = null;
             String summariserName = JMeterUtils.getPropDefault("summariser.name", "summary");
             if (summariserName.length() > 0) {
                 summariser = new Summariser(summariserName);
             }
             logger.info("Saving the JMeter output log file");
-            logger.info("JMeter log file location :" + jmeterlogFilePath);
+            logger.info("JMeter log file location :" + Constants.jmeterlogFilePath);
             ResultCollector rlogger = new ResultCollector(summariser);
             rlogger.clearData();
-            rlogger.setFilename("." + jmeterlogFilePath);
+            rlogger.setFilename("." + Constants.jmeterlogFilePath);
             testPlanTree.add(testPlanTree.getArray()[0], rlogger);
 
         } catch (IOException e) {
@@ -187,8 +182,8 @@ public class JMeterManager extends StepDefinition {
 
     private void generateHTMLReports() {
         //delete existing report folder
-        FileUtils.deleteFolder("." + jmeterHTMLFilePath);
-        String cmd = "jmeter -g " + System.getProperty("user.dir") + jmeterlogFilePath + " -o " + System.getProperty("user.dir") + jmeterHTMLFilePath;
+        FileUtils.deleteFolder("." + Constants.jmeterHTMLFilePath);
+        String cmd = "jmeter -g " + System.getProperty("user.dir") + Constants.jmeterlogFilePath + " -o " + System.getProperty("user.dir") + Constants.jmeterHTMLFilePath;
         executeCMDCommand(cmd);
     }
 

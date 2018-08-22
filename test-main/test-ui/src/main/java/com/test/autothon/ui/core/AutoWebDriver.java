@@ -22,7 +22,7 @@ public class AutoWebDriver {
     private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
     private static WebDriver driver;
 
-    AutoWebDriver(String browser) throws Exception {
+    AutoWebDriver(String browser) {
         //just closing any existing driver instance, if any
         tearBrowser();
 
@@ -42,11 +42,19 @@ public class AutoWebDriver {
                 fireFoxDriver();
                 break;
             case "mobile_chrome":
-                mobileChromeDriver();
+                try {
+                    mobileChromeDriver();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
                 break;
             default:
                 logger.info("invalid browser name");
-                throw new Exception("Invalid browser name");
+                try {
+                    throw new Exception("Invalid browser name");
+                } catch (Exception e) {
+                    logger.error("Invalid Browser...Please provide correct browser name" + e);
+                }
         }
 
         driver.manage().deleteAllCookies();
