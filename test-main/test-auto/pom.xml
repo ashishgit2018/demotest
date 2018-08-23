@@ -46,7 +46,7 @@
                                 <env>${env}</env>
                                 <browser>${browser}</browser>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
-                                <browserVersion>${browserVersion}}</browserVersion>
+                                <browserVersion>${browserVersion}</browserVersion>
                                 <browserOS>${browserOS}</browserOS>
                             </systemProperties>
                         </configuration>
