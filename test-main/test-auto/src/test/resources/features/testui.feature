@@ -11,7 +11,6 @@ Feature: Test UI
       | TestCase | Browser       | URL                       |
       | TC1      | chrome        | <PROPVALUE(amazon.url)>   |
       | TC2      | firefox       | <PROPVALUE(flipkart.url)> |
-      | TC3      | mobile_chrome | <PROPVALUE(flipkart.url)> |
 
   @SN2
   Scenario Outline: Launch URL based on browser and search the product

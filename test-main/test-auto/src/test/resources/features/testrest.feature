@@ -54,7 +54,6 @@ Feature: Test Rest Feature
     And Validate Json Response Key "job" have value "<PROPVALUE(requestJob)>"
     And Validate Json Response Key "updatedAt" is Not blank
 
-  @rest
   Scenario: Test Rest Delete
     Given Set the base uri as "https://reqres.in/"
     And Perform DELETE request where uri is "api/users/2"

@@ -64,6 +64,18 @@ public class ReadPropertiesFile {
         return System.getProperty("browser", "chrome");
     }
 
+    public static String getBrowserVersion() {
+        return System.getProperty("browserVersion", "latest");
+    }
+
+    public static String getBrowserOS() {
+        return System.getProperty("browserOS", "Windows 10");
+    }
+
+    public static String runOnSauceBrowser() {
+        return System.getProperty("runOnSauce", "false");
+    }
+
     public static String getPropertyValue(String key) {
         String value = null;
         value = searchAllProps.getProperty(key);

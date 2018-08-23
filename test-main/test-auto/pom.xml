@@ -17,8 +17,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>qa</env>
         <browser>chrome</browser>
-        <cucumber.runner>RunCucumberIT</cucumber.runner>
-        <cucumber.tags>@jmeter</cucumber.tags>
+        <browserVersion>latest</browserVersion>
+        <browserOS>Windows 10</browserOS>
+        <runOnSauce>false</runOnSauce>
+        <cucumberRunner>RunCucumberIT</cucumberRunner>
+        <cucumberTags>@SN1</cucumberTags>
     </properties>
 
     <profiles>
@@ -33,13 +36,18 @@
                         <configuration>
                             <testFailureIgnore>true</testFailureIgnore>
                             <includes>
-                                <include>com/test/autothon/${cucumber.runner}.java</include>
+                                <include>com/test/autothon/${cucumberRunner}.java</include>
                             </includes>
                             <systemProperties>
-                                <name>cucumer.options</name>
-                                <value>--tags ${cucumber.tags}</value>
+                                <property>
+                                    <name>cucumber.options</name>
+                                    <value>--tags ${cucumberTags}</value>
+                                </property>
                                 <env>${env}</env>
                                 <browser>${browser}</browser>
+                                <runOnSauce>${runOnSauce}</runOnSauce>
+                                <browserVersion>${browserVersion}}</browserVersion>
+                                <browserOS>${browserOS}</browserOS>
                             </systemProperties>
                         </configuration>
                     </plugin>
@@ -101,16 +109,6 @@
             <groupId>com.test.autothon</groupId>
             <artifactId>test-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>net.masterthought</groupId>
-            <artifactId>maven-cucumber-reporting</artifactId>
-            <version>3.9.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.coderplus.maven.plugins</groupId>
-            <artifactId>copy-rename-maven-plugin</artifactId>
-            <version>1.0.1</version>
         </dependency>
     </dependencies>
 </project>
