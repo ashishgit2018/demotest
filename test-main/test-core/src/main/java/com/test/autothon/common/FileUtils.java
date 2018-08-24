@@ -91,5 +91,32 @@ public class FileUtils {
 
     }
 
+    public static File getResourceAsFile(Object obj, String resourcePath) {
+        try {
+            InputStream in = obj.getClass().getClassLoader().getResourceAsStream(resourcePath);
+            if (in == null) {
+                logger.error("Could not read or find the " + resourcePath + " file");
+                return null;
+            }
+            File tempfile = null;
+            tempfile = File.createTempFile(String.valueOf(in.hashCode()), ".exe");
+            tempfile.deleteOnExit();
+            try (FileOutputStream out = new FileOutputStream(tempfile)) {
+                byte[] buffer = new byte[1024];
+                int bytesRead = 0;
+                while ((bytesRead = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, bytesRead);
+                }
+                out.close();
+                in.close();
+                return tempfile;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
 }

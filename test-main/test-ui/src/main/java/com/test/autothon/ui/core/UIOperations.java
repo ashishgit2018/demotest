@@ -294,6 +294,7 @@ public class UIOperations extends StepDefinition {
         Assert.assertNotNull("Unable to find a window with property "
                 + findWindowByCriteria + " = " + value, newWindowHandle);
         driver.switchTo().window(newWindowHandle);
+        takeScreenShot(driver);
     }
 
     public void closeWindow(String findWindowByCriteria, String value) {

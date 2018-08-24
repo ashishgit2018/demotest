@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.FileUtils;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +14,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -21,6 +21,10 @@ public class AutoWebDriver {
 
     private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
     private static WebDriver driver;
+
+    public AutoWebDriver() {
+
+    }
 
     AutoWebDriver(String browser) {
         //just closing any existing driver instance, if any
@@ -71,7 +75,6 @@ public class AutoWebDriver {
     public void tearBrowser() {
         if (driver != null) {
             logger.info("closing existing running instance of webdriver...");
-            driver.close();
             driver.quit();
             driver = null;
         }
@@ -81,45 +84,34 @@ public class AutoWebDriver {
         DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
         capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
+        capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
 
         File file;
-        try {
-            file = new File(AutoWebDriver.class.getResource("/drivers/IEDriverServer.exe").toURI());
-            System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
-            if (null == driver) {
-                logger.info("Intializing IE browser");
-                driver = new InternetExplorerDriver(capabilities);
-            }
-        } catch (URISyntaxException e) {
-            logger.error("IE driver Resource not found \n" + e);
+        file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe");
+        System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
+        if (null == driver) {
+            logger.info("Intializing IE browser");
+            driver = new InternetExplorerDriver(capabilities);
         }
     }
 
     protected void chromeDriver() {
-        try {
-            File file = new File(AutoWebDriver.class.getResource("/drivers/chromedriver.exe").toURI());
-            System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-            if (null == driver) {
-                logger.info("Intializing chrome browser");
-                driver = new ChromeDriver();
-            }
-        } catch (URISyntaxException e) {
-            logger.error("Chrome driver Resource not found \n" + e);
+        File file;
+        file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+        if (null == driver) {
+            logger.info("Intializing chrome browser");
+            driver = new ChromeDriver();
         }
     }
 
     protected void fireFoxDriver() {
         File file;
-        try {
-            file = new File(AutoWebDriver.class.getResource("/drivers/geckodriver.exe").toURI());
-            System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
-            if (null == driver) {
-                logger.info("Intializing firefox browser");
-                driver = new FirefoxDriver();
-            }
-        } catch (URISyntaxException e) {
-            logger.error("Firefox driver Resource not found \n" + e);
-
+        file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+        if (null == driver) {
+            logger.info("Intializing firefox browser");
+            driver = new FirefoxDriver();
         }
     }
 

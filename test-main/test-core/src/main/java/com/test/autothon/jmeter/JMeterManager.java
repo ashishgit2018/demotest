@@ -34,12 +34,12 @@ import java.io.IOException;
 public class JMeterManager extends StepDefinition {
 
 
-    private final static Logger logger = LogManager.getLogger(JMeterManager.class);
     public final static String jmeterHomePath = ReadPropertiesFile.getPropertyValue("jmeter.home");
     public final static File jmeterHome = new File(jmeterHomePath);
     public final static String jmeterlogFilePath = "/target/jmeter_automation.jtl";
     public final static String jmeterHTMLFilePath = "/target/jmeter-reports/";
     public final static String jmeterJMXFilePath = jmeterHomePath + "/jmeter_automation.jmx";
+    private final static Logger logger = LogManager.getLogger(JMeterManager.class);
     private StandardJMeterEngine jmeter;
     private String domain;
     private int port;

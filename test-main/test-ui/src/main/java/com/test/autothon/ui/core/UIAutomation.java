@@ -27,5 +27,6 @@ public class UIAutomation extends UIOperations {
         String itemLocator = "linkText_" + ItemName;
         click(itemLocator);
         waitForSecond(5);
+        switchToWindow("FIND_WINDOW_BY_TITLE_SUBSTRING", ItemName);
     }
 }
