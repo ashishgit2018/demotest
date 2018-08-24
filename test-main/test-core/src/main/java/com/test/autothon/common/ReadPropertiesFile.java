@@ -11,7 +11,7 @@ import java.util.Properties;
 /**
  * @author Rahul_Goyal
  */
-public class ReadPropertiesFile {
+public final class ReadPropertiesFile {
 
     private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
     private static Properties searchAllProps = new Properties();
@@ -54,26 +54,6 @@ public class ReadPropertiesFile {
             searchAllProps.putAll(loadPropertiesfile(results.get(count)));
             count++;
         }
-    }
-
-    public static String getEnvironment() {
-        return System.getProperty("env", "dev");
-    }
-
-    public static String getBrowserType() {
-        return System.getProperty("browser", "chrome");
-    }
-
-    public static String getBrowserVersion() {
-        return System.getProperty("browserVersion", "latest");
-    }
-
-    public static String getBrowserOS() {
-        return System.getProperty("browserOS", "Windows 10");
-    }
-
-    public static String runOnSauceBrowser() {
-        return System.getProperty("runOnSauce", "false");
     }
 
     public static String getPropertyValue(String key) {

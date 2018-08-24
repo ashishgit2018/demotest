@@ -13,13 +13,19 @@
     <name>test-auto</name>
     <url>http://maven.apache.org</url>
 
+    <!--use mobile_Chrome or mobile_Safari for Android/iOS browser -->
+    <!-- https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/ -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>qa</env>
-        <browser>chrome</browser>
+        <browserName>Chrome</browserName>
         <browserVersion>latest</browserVersion>
-        <browserOS>Windows 10</browserOS>
+        <OSPlatform>Windows 10</OSPlatform>
         <runOnSauce>false</runOnSauce>
+        <devicePlatformName>Android</devicePlatformName>
+        <devidePlatformVersion>7.1</devidePlatformVersion>
+        <deviceAppiumVersion>1.8.1</deviceAppiumVersion>
+        <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
         <cucumberTags>@SN1</cucumberTags>
     </properties>
@@ -44,10 +50,14 @@
                                     <value>--tags ${cucumberTags}</value>
                                 </property>
                                 <env>${env}</env>
-                                <browser>${browser}</browser>
-                                <runOnSauce>${runOnSauce}</runOnSauce>
+                                <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
-                                <browserOS>${browserOS}</browserOS>
+                                <OSPlatform>${OSPlatform}</OSPlatform>
+                                <runOnSauce>${runOnSauce}</runOnSauce>
+                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
+                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
+                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
+                                <deviceName>${deviceName}</deviceName>
                             </systemProperties>
                         </configuration>
                     </plugin>

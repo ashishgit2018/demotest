@@ -1,6 +1,7 @@
 package com.test.autothon.ui.core;
 
 import com.test.autothon.common.FileUtils;
+import com.test.autothon.common.ReadEnvironmentVariables;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.LogManager;
@@ -23,42 +24,54 @@ public class AutoWebDriver {
     private static WebDriver driver;
 
     public AutoWebDriver() {
-
+        createWebDriver(null);
     }
 
     AutoWebDriver(String browser) {
+        createWebDriver(browser);
+    }
+
+    private void createWebDriver(String browser) {
         //just closing any existing driver instance, if any
         tearBrowser();
 
+        if (browser == null || browser == "")
+            browser = ReadEnvironmentVariables.getBrowserName();
+
         logger.info("Initializing webdriver...");
         browser = browser.trim().toLowerCase();
-        if (browser == null)
-            browser = "chrome";
 
-        switch (browser) {
-            case "chrome":
-                chromeDriver();
-                break;
-            case "ie":
-                ieDriver();
-                break;
-            case "firefox":
-                fireFoxDriver();
-                break;
-            case "mobile_chrome":
-                try {
-                    mobileChromeDriver();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-                break;
-            default:
-                logger.info("invalid browser name");
-                try {
-                    throw new Exception("Invalid browser name");
-                } catch (Exception e) {
-                    logger.error("Invalid Browser...Please provide correct browser name" + e);
-                }
+        if (ReadEnvironmentVariables.runOnSauceBrowser().equalsIgnoreCase("true")) {
+            logger.info("Tests will be executed on Sauce labs ....");
+            SauceLabsManager sauceLabsManager = new SauceLabsManager(browser);
+            sauceLabsManager.setUpSauceLabsDriver();
+            driver = sauceLabsManager.getSauceLabDriver();
+        } else {
+            switch (browser) {
+                case "chrome":
+                    chromeDriver();
+                    break;
+                case "ie":
+                    ieDriver();
+                    break;
+                case "firefox":
+                    fireFoxDriver();
+                    break;
+                case "mobile_chrome":
+                    try {
+                        mobileChromeDriver();
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                default:
+                    logger.info("invalid browser name");
+                    try {
+                        throw new Exception("Invalid browser name");
+                    } catch (Exception e) {
+                        logger.error("Invalid Browser...Please provide correct browser name" + e);
+                    }
+            }
         }
 
         driver.manage().deleteAllCookies();
@@ -80,7 +93,7 @@ public class AutoWebDriver {
         }
     }
 
-    protected void ieDriver() {
+    private void ieDriver() {
         DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
         capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
@@ -95,7 +108,7 @@ public class AutoWebDriver {
         }
     }
 
-    protected void chromeDriver() {
+    private void chromeDriver() {
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
@@ -105,7 +118,7 @@ public class AutoWebDriver {
         }
     }
 
-    protected void fireFoxDriver() {
+    private void fireFoxDriver() {
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe");
         System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
@@ -115,7 +128,7 @@ public class AutoWebDriver {
         }
     }
 
-    protected void mobileChromeDriver() throws MalformedURLException {
+    private void mobileChromeDriver() throws MalformedURLException {
         DesiredCapabilities cap = DesiredCapabilities.android();
         cap.setCapability(MobileCapabilityType.BROWSER_NAME, BrowserType.CHROME);
         //cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
