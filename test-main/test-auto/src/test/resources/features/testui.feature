@@ -8,10 +8,12 @@ Feature: Test UI
     And I launch "<URL>"
 
     Examples:
-      | TestCase | Browser       | URL                       |
-      | TC1      | firefox       | <PROPVALUE(flipkart.url)> |
-      | TC2      | chrome        | <PROPVALUE(amazon.url)>   |
-      | TC3      | mobile_chrome | <PROPVALUE(flipkart.url)> |
+      | TestCase | Browser       | URL                  |
+      | TC1      | firefox       | https://linkedin.com |
+      | TC2      | chrome        | https://facebook.com |
+      | TC3      | ie            | https://google.com   |
+      | TC4      | mobile_chrome | https://google.com   |
+
 
   @SN2
   Scenario Outline: Launch URL based on browser and search the product

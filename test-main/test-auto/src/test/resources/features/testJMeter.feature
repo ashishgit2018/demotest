@@ -1,6 +1,6 @@
+@jmeter
 Feature: Test JMeter
 
-  @jmeter
   Scenario: Test a GET Request
     Given Set JMeter No of threads as "10", No of loops as "10" and Ramp up as "1"
     And Set JMeter test domain as "https://amazon.com", port as "443" and Http method as "GET"
