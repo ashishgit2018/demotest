@@ -27,7 +27,7 @@
         <deviceAppiumVersion>1.8.1</deviceAppiumVersion>
         <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
-        <!-- for multiple tags it will show an error, ignore it-->
+        <!-- for multiple tags like @SN1 @SN2 it will show an error, ignore it-->
         <cucumberTags>@ui</cucumberTags>
         <forkCount>5</forkCount>
     </properties>
@@ -77,7 +77,7 @@
                                 <configuration>
                                     <projectName>${project.name}</projectName>
                                     <outputDirectory>target/cucumber-reports</outputDirectory>
-                                    <cucumberOutput>target/cucumber.json</cucumberOutput>
+                                    <cucumberOutput>target/cucumber-reports/</cucumberOutput>
                                 </configuration>
                             </execution>
                         </executions>

@@ -23,12 +23,28 @@ public class AutoWebDriver {
     private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
     private static WebDriver driver;
 
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            public void run() {
+                tearBrowser();
+            }
+        });
+    }
+
     public AutoWebDriver() {
         createWebDriver(null);
     }
 
     AutoWebDriver(String browser) {
         createWebDriver(browser);
+    }
+
+    public static void tearBrowser() {
+        if (driver != null) {
+            logger.info("closing existing running instance of webdriver...");
+            driver.quit();
+            driver = null;
+        }
     }
 
     private void createWebDriver(String browser) {
@@ -74,23 +90,15 @@ public class AutoWebDriver {
             }
         }
 
-        driver.manage().deleteAllCookies();
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 tearBrowser();
             }
         });
-    }
 
-    public void tearBrowser() {
-        if (driver != null) {
-            logger.info("closing existing running instance of webdriver...");
-            driver.quit();
-            driver = null;
-        }
+        driver.manage().deleteAllCookies();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
     private void ieDriver() {
