@@ -21,6 +21,7 @@
         <browserName>Chrome</browserName>
         <browserVersion>latest</browserVersion>
         <OSPlatform>Windows 10</OSPlatform>
+        <runHeadless>false</runHeadless>
         <runOnSauce>false</runOnSauce>
         <devicePlatformName>Android</devicePlatformName>
         <devidePlatformVersion>7.1</devidePlatformVersion>
@@ -55,6 +56,7 @@
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
                                 <OSPlatform>${OSPlatform}</OSPlatform>
+                                <runHeadless>${runHeadless}</runHeadless>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
                                 <devicePlatformName>${devicePlatformName}</devicePlatformName>
                                 <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
@@ -162,6 +164,7 @@
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
                                 <OSPlatform>${OSPlatform}</OSPlatform>
+                                <runHeadless>${runHeadless}</runHeadless>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
                                 <devicePlatformName>${devicePlatformName}</devicePlatformName>
                                 <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>

@@ -91,15 +91,17 @@ public class FileUtils {
 
     }
 
-    public static File getResourceAsFile(Object obj, String resourcePath) {
+    public static File getResourceAsFile(Object obj, String resourcePath, String fileExtension) {
         try {
             InputStream in = obj.getClass().getClassLoader().getResourceAsStream(resourcePath);
             if (in == null) {
                 logger.error("Could not read or find the " + resourcePath + " file");
                 return null;
             }
+            if (!fileExtension.startsWith("."))
+                fileExtension = "." + fileExtension;
             File tempfile = null;
-            tempfile = File.createTempFile(String.valueOf(in.hashCode()), ".exe");
+            tempfile = File.createTempFile(String.valueOf(in.hashCode()), fileExtension);
             tempfile.deleteOnExit();
             try (FileOutputStream out = new FileOutputStream(tempfile)) {
                 byte[] buffer = new byte[1024];

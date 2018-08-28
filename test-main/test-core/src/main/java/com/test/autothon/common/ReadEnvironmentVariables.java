@@ -11,8 +11,12 @@ public final class ReadEnvironmentVariables {
 
     // https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/
 
-    public static String runOnSauceBrowser() {
+    public static String getRunOnSauceBrowser() {
         return System.getProperty("runOnSauce", "false");
+    }
+
+    public static String getRunOnHeadlessBrowser() {
+        return System.getProperty("runHeadless", "false");
     }
 
     public static String getBrowserName() {
