@@ -1,4 +1,5 @@
-# demotest
+# demotest - This Project is to Automate the Rest, DB and UI tests.
+
 The project comprises of 5 modules
 1. test-rest - contains the java steps to perform rest operations
 2. test-db - contains the java steps to perform DB operations
