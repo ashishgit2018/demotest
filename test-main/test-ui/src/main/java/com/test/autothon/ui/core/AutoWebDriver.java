@@ -6,9 +6,13 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -97,7 +101,9 @@ public class AutoWebDriver {
         });
 
         driver.manage().deleteAllCookies();
-        driver.manage().window().maximize();
+        if(!browser.contains("mobile_")) {
+        	driver.manage().window().maximize();
+        }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
     }
 
@@ -106,7 +112,7 @@ public class AutoWebDriver {
         capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
         capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
         capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
-
+        
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe");
         System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
@@ -120,9 +126,12 @@ public class AutoWebDriver {
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe");
         System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--headless");
+         
         if (null == driver) {
             logger.info("Intializing chrome browser");
-            driver = new ChromeDriver();
+            driver = new ChromeDriver(chromeOptions);
         }
     }
 
@@ -130,13 +139,18 @@ public class AutoWebDriver {
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe");
         System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+        FirefoxBinary firefoxBinary = new FirefoxBinary();
+        firefoxBinary.addCommandLineOptions("--headless");
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
+        firefoxOptions.setBinary(firefoxBinary);
         if (null == driver) {
             logger.info("Intializing firefox browser");
-            driver = new FirefoxDriver();
+            driver = new FirefoxDriver(firefoxOptions);
         }
     }
 
-    private void mobileChromeDriver() throws MalformedURLException {
+    @SuppressWarnings("rawtypes")
+	private void mobileChromeDriver() throws MalformedURLException {
         DesiredCapabilities cap = DesiredCapabilities.android();
         cap.setCapability(MobileCapabilityType.BROWSER_NAME, BrowserType.CHROME);
         //cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
