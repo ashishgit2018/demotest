@@ -1,6 +1,7 @@
 package com.test.autothon.ui.core;
 
 import com.test.autothon.common.ReadEnvironmentVariables;
+import com.test.autothon.common.ReadPropertiesFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -16,8 +17,8 @@ import java.net.URL;
 public class SauceLabsManager {
 
     private final static Logger logger = LogManager.getLogger(SauceLabsManager.class);
-    private static final String USERNAME = "ashishgit2018";
-    private static final String ACCESS_KEY = "4fd284cd-aa85-4686-be10-ae14b5f14624";
+    private static final String USERNAME = ReadPropertiesFile.getPropertyValue("sauce.username");
+    private static final String ACCESS_KEY = ReadPropertiesFile.getPropertyValue("sauce.accessKey");
     public WebDriver driver;
     public String sessionId;
     private String browser;

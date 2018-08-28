@@ -219,4 +219,15 @@ public class JMeterManager extends StepDefinition {
         logger.info("JMeter Test Execution Completed !!!");
     }
 
+    public void integrateJMeterWithSelenium(String url) {
+        int noOfThread = Integer.valueOf(ReadPropertiesFile.getPropertyValue("jmeter.default.thread"));
+        int ramp = Integer.valueOf(ReadPropertiesFile.getPropertyValue("jmeter.default.ramp"));
+        int loop = Integer.valueOf(ReadPropertiesFile.getPropertyValue("jmeter.default.loop"));
+
+        setThreadProperties(noOfThread, ramp);
+        setLoopControler(loop);
+        setHttpSampler(url, -1, "GET");
+        runJmeterTests();
+    }
+
 }
