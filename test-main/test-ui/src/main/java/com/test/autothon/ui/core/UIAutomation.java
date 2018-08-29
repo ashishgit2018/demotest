@@ -22,7 +22,7 @@ public class UIAutomation extends UIOperations {
     String movieNo = "";
     String movieName = "";
     String wikiLink = "";
-    ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
+    public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
 
     public void getWebDriver(String broswer) throws Exception {
         AutoWebDriver autoDriver = new AutoWebDriver(broswer);
@@ -133,8 +133,8 @@ public class UIAutomation extends UIOperations {
         details.add(actDirName);
         details.add(result);
         details.add(AutomationUIUtils.getSrcFilePath());
-        CustomHtmlReport.customReport.append("\n movies['"+movieNo+"']={name:'"+movieName+"',wikiurl:'"+wikiLink+
-        		"',expDirName:'"+expDirName+"'}");
+       /* CustomHtmlReport.customReport.append("\n movies['"+movieNo+"']={name:'"+movieName+"',wikiurl:'"+wikiLink+
+        		"',expDirName:'"+expDirName+"'}");*/
         concurrentResult.put(movieNo, details);
     }
 
@@ -160,15 +160,15 @@ public class UIAutomation extends UIOperations {
             List<String> movieDetail = movieDeatils.get(key);
             movieName = movieDetail.get(0);
             wikiLink = movieDetail.get(1);
-            //assertMovie(movieNo, movieName, wikiLink);
+            assertMovie(movieNo, movieName, wikiLink);
         
-       Thread t = new Thread(new Runnable() {
+      /* Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 assertMovie(movieNo, movieName, wikiLink);
             }
         });
-        t.start();
+        t.start();*/
         }
     }
 }

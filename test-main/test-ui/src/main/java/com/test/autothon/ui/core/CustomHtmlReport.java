@@ -5,6 +5,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 public class CustomHtmlReport {
 
@@ -15,37 +18,29 @@ public class CustomHtmlReport {
                 "<html>\n" +
                 "<head>\n" +
                 "    <script type=\"text/javascript\">\n" +
-                "\tvar myTable= \"<table><tr><td style='width: 100px; color: red;'>Movie ID</td>\";\n" +
-                "    myTable+= \"<td style='width: 100px; color: red; text-align: right;'>Movie Name</td>\";\n" +
-                "                    myTable+= \"<td style='width: 100px; color: red; text-align: right;'>Wikipedia URL</td>\";\n" +
-                "                \tmyTable+=\"<td style='width: 100px; color: red; text-align: right;'>Wikipedia Snapshot</td>\";\n" +
-                "                    myTable+=\"<td style='width: 100px; color: red; text-align: right;'>Wikipedia Director</td>\";\n" +
-                "                    myTable+=\"<td style='width: 100px; color: red; text-align: right;'>Imdb URL</td>\";\n" +
-                "                \tmyTable+=\"<td style='width: 100px; color: red; text-align: right;'>Imdb snapshot</td>\";\n" +
-                "                \tmyTable+=\"<td style='width: 100px; color: red; text-align: right;'>Imdb Director</td></tr>\";\n" +
-                "                    myTable+=\"<tr><td style='width: 100px;                   '>---------------</td>\";\n" +
-                "                    myTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                \tmyTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                \tmyTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                \tmyTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                \tmyTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                \tmyTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td>\";\n" +
-                "                    myTable+=\"<td     style='width: 100px; text-align: right;'>---------------</td></tr>\";\n" +
+                "\tvar myTable= \"<table><tr style='outline: thin solid'>" +
+                "<th style='width: 100px; color: blue ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Movie ID</th>\";\n" +
+                "    myTable+= \"<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Movie Name</th>\";\n" +
+                "                    myTable+= \"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Wikipedia URL</th>\";\n" +
+                "                    myTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Wikipedia Director</th>\";\n" +
+                "                    myTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Imdb URL</th>\";\n" +
+                "                \tmyTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Imdb Director</th>\";\n" +
+                "                \tmyTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Result</th></tr>\";\n" +
                 "\n" +
                 "    var movies={};";
         if (customReport == null)
             customReport = new StringBuilder(prefix);
-        //customReport.append(prefix);
+
     }
 
     public static void setHtmlSuffix() {
         String suffix = "\n for (var x in movies)\n" +
                 "    {\n" +
-                "        myTable+=\"<tr><td style='width: 100px;'> \" + x + \" :</td>\";\n" +
+                "        myTable+=\"<tr style='outline: thin solid'><td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'> \" + x + \" :</td>\";\n" +
                 "        var value = movies[x];\n" +
                 "        for (var y in value)\n" +
                 "        {\n" +
-                "            myTable+=\"<td style='width: 100px; text-align: right;'>\" + value[y] + \"</td>\";\n" +
+                "            myTable+=\"<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>\" + value[y] + \"</td>\";\n" +
                 "\n" +
                 "        }\n" +
                 "    }\n" +
@@ -73,6 +68,7 @@ public class CustomHtmlReport {
             file.mkdirs();
         }
         scrFilePath = scrFilePath + "/" + "CustomHtmlReport_" + AutomationUIUtils.getDateTimeStamp() + ".html";
+        System.out.println("File = " + scrFilePath);
         File file2 = new File(scrFilePath);
         FileWriter fileWriter = new FileWriter(file2);
         System.out.println(customReport.toString());
@@ -80,4 +76,15 @@ public class CustomHtmlReport {
         fileWriter.flush();
         fileWriter.close();
     }
+
+    public static void writeColumnValues(ConcurrentMap<String, List<String>> concurrentMap) {
+        for (Map.Entry<String, List<String>> entry : concurrentMap.entrySet()) {
+            String key = entry.getKey();
+            List<String> valueList = entry.getValue();
+            customReport.append("\n movies['" + key + "']={movieName:'" + valueList.get(0) + "',wikiurl:'" + valueList.get(1) +
+                    "',expDirName:'" + valueList.get(2) + "',imdblink:'" + valueList.get(3) + "',imdbDirect:'" + valueList.get(4) + "'," +
+                    "result:'" + valueList.get(5) + "'}");
+        }
+    }
+
 }
