@@ -10,6 +10,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author Rahul_Goyal
  */
@@ -17,10 +22,30 @@ public class CommonRestStep extends StepDefinition {
 
     private final static Logger logger = LogManager.getLogger(CommonRestStep.class);
     public CommonRestService commonRestService;
+    public Map<String, List<String>> data = new HashMap<>();
 
     public CommonRestStep() {
         this.commonRestService = new CommonRestService();
     }
+
+    public Map<String, List<String>> getAPIData() {
+        return data;
+    }
+
+    public void GoogleSearchAPI(String index, String searchText) {
+        setBaseURI("https://www.googleapis.com");
+        String APIKEY = ReadPropertiesFile.getPropertyValue("google.api.key");
+        String CX = ReadPropertiesFile.getPropertyValue("google.cx");
+        performGET("/customsearch/v1/siterestrict?key=" + APIKEY + "&cx=" + CX + "&q=" + searchText);
+        assertResponseCode("200");
+        String responseKey = "items[0].link";
+        String outPut = commonRestService.getResponseJsonKeyValue(responseKey);
+        List<String> movieData = new ArrayList<>();
+        movieData.add(searchText);
+        movieData.add(outPut);
+        data.put(index, movieData);
+    }
+
 
     @Given("^Set the base uri as \"(.*?)\"$")
     public void setBaseURI(String baseURI) {
