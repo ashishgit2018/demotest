@@ -21,6 +21,7 @@
         <browserName>Chrome</browserName>
         <browserVersion>latest</browserVersion>
         <OSPlatform>Windows 10</OSPlatform>
+        <runnerMode>GUI</runnerMode>
         <runHeadless>false</runHeadless>
         <runOnSauce>false</runOnSauce>
         <devicePlatformName>Android</devicePlatformName>
@@ -55,6 +56,7 @@
                                 <env>${env}</env>
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
+                                <runnerMode>${runnerMode}</runnerMode>
                                 <OSPlatform>${OSPlatform}</OSPlatform>
                                 <runHeadless>${runHeadless}</runHeadless>
                                 <runOnSauce>${runOnSauce}</runOnSauce>
