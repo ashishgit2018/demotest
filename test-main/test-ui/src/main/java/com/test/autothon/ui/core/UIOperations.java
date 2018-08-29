@@ -184,6 +184,12 @@ public class UIOperations extends StepDefinition {
         elem.click();
     }
 
+    public String getHref(String elemLocator) {
+        String url = getElement(elemLocator).get(0).getText();
+        System.out.println(url);
+        return url;
+    }
+
     public void click(WebElement elem) {
         waitForElementToBeClickable(elem);
         elem.click();

@@ -11,12 +11,12 @@ import java.util.Properties;
 /**
  * @author Rahul_Goyal
  */
-public final class ReadPropertiesFile {
+public class ReadPropertiesFile {
 
     private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
     private static Properties searchAllProps = new Properties();
 
-    private static Properties loadPropertiesfile(final String propFileName) {
+    public static Properties loadPropertiesfile(final String propFileName) {
         FileInputStream input = null;
         Properties prop = new Properties();
         try {

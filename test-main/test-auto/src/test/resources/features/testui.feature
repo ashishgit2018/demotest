@@ -1,6 +1,14 @@
 @ui
 Feature: Test UI
 
+  @SN10
+  Scenario Outline: Launch URL based on browser
+    Given Read Property File "movieName.properties"
+
+    Examples:
+      | TestCase | Browser | URL                  |
+      | TC1      | chrome  | https://linkedin.com |
+      
   @SN1
   Scenario Outline: Launch URL based on browser
     Given Execute "<TestCase>"
@@ -25,5 +33,6 @@ Feature: Test UI
 
     Examples:
       | TestCase | Browser | URL                     | Item     | ItemName            |
-      | TC1      | chrome  | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
-      | TC2      | firefox | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+      #| TC1      | chrome  | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+      #| TC2      | firefox | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+      | TC3      | mobile_chrome | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |

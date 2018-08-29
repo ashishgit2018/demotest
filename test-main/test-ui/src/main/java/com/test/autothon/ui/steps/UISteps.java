@@ -67,4 +67,16 @@ public class UISteps extends UIAutomation {
         selectValue(element, selectionMethod, value);
     }
 
+    @Given("^Read Property File \"(.*?)\"$")
+    public void ReadProperty(String propertyFile) throws Exception {
+        readMovieNames(propertyFile);
+    }
+
+    @Given("^I search for movie \"(.*?)\" \"(.*?)\"$")
+    public void searchMovies(String movieNo, String movieName) throws InterruptedException {
+        //searchMovie(movieNo, movieName);
+        searchAllMovies();
+    }
+    
+    
 }
