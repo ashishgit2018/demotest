@@ -35,7 +35,7 @@ public class UIHooks {
             file.mkdirs();
         }
         scrFilePath = scrFilePath + "/" + tagName + "_" + AutomationUIUtils.getTestCaseName() + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
-
+        AutomationUIUtils.setSrcFilePath(scrFilePath);
         file = new File(scrFilePath);
         FileOutputStream io = new FileOutputStream(file);
         io.write("<!DOCTYPE html><html><head></head><body width=\"600px\">".getBytes());

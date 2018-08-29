@@ -103,6 +103,29 @@ public class UIOperations extends StepDefinition {
         clearData(webElement);
     }
 
+    public String getTextFromElement(String elemLocator) {
+        WebElement webElement = getElement(elemLocator).get(0);
+        String text = getTextFromElement(webElement);
+        return text;
+    }
+
+    public String getTextFromElement(WebElement element) {
+        String text = element.getText();
+        return text;
+    }
+
+    public String getTextFromElementAttribute(String elemLocator, String attribute) {
+        WebElement webElement = getElement(elemLocator).get(0);
+        String text = getTextFromElementAttribute(webElement, attribute);
+        return text;
+    }
+
+    public String getTextFromElementAttribute(WebElement element, String attribute) {
+        String text = element.getAttribute(attribute);
+        ;
+        return text;
+    }
+
     public void clearData(WebElement webElement) {
         logger.info("Clearing text " + "for element :" + webElement);
         waitForVisible(webElement);
