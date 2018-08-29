@@ -1,18 +1,25 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.Constants;
 import com.test.autothon.common.ReadPropertiesFile;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class UIAutomation extends UIOperations {
+    private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
 
     WebDriver driver;
-    int movieNo = 0;
+    Properties propMovieName;
+    HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
+    String movieNo = "";
     String movieName = "";
     String wikiLink = "";
     ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
@@ -25,6 +32,73 @@ public class UIAutomation extends UIOperations {
 
     public void setTestCaseName(String testCaseName) {
         AutomationUIUtils.setTestCaseName(testCaseName);
+    }
+
+    public void readMovieNames(String propertyFile) {
+        String propFileName = Constants.configResourcePath + "/" + propertyFile;
+        propMovieName = ReadPropertiesFile.loadPropertiesfile(propFileName);
+        System.out.println(propMovieName);
+    }
+
+    public void searchAllMovies() throws InterruptedException, IOException {
+    	
+        String movieNum = "";
+        String movieName = "";
+        Set<Object> keySetName = propMovieName.keySet();
+        Iterator itr = keySetName.iterator();
+       /* if(ReadPropertiesFile.getPropertyValue("runnerMode").equalsIgnoreCase("http")) {
+        	 
+        }*/
+        while (itr.hasNext()) {
+            Object obj = itr.next();
+            movieNum = obj.toString();
+            movieName = (String) propMovieName.get(obj);
+            searchMovie(movieNum, movieName);
+        }
+        logger.info(movieDetails);
+        runWikiTest(movieDetails);
+        
+    }
+
+    public void searchAllMovies_1() {
+        String movieNum = "";
+        String movieName = "";
+        for (int intCnt = 0; intCnt <= 200; intCnt++) {
+            try {
+                movieNum = "movie" + intCnt;
+                movieName = propMovieName.getProperty("movie" + intCnt);
+                searchMovie(movieNum, movieName);
+            } catch (Exception e) {
+                System.out.println("EOF");
+                break;
+            }
+        }
+        logger.info(movieDetails);
+        runWikiTest(movieDetails);
+    }
+
+    public void searchMovie(String movieNo, String movieName) throws InterruptedException {
+        List<String> nameUrl = new ArrayList<String>();
+        String searchTextBox = "id_lst-ib";
+        String urlsPath = "xpath_(//*[@class='iUh30'])[1]";
+        String movieNameW = "";
+        String movieURL = "";
+        movieNameW = movieName + " movie wikipedia";
+        enterText(searchTextBox, movieNameW);
+        driver.findElement(By.id("lst-ib")).sendKeys(Keys.ENTER);
+        //String clickMovie = "partiallinktext_" + movieName + " - Wikipedia";
+        try {
+            //movieURL = getHref(clickMovie);
+            movieURL = getHref(urlsPath);
+        } catch (Exception e) {
+
+        } finally {
+            Thread.sleep(5000);
+            nameUrl.add(movieName);
+            nameUrl.add(movieURL);
+            movieDetails.put(movieNo, nameUrl);
+            clearData(searchTextBox);
+        }
     }
 
     public void searchItem(String item) throws Exception {
@@ -41,7 +115,7 @@ public class UIAutomation extends UIOperations {
         switchToWindow("FIND_WINDOW_BY_TITLE_SUBSTRING", ItemName);
     }
 
-    public void assertMovie(int movieNo, String movieName, String wikiLink) {
+    public void assertMovie(String movieNo, String movieName, String wikiLink) {
         String data = getWikiDirectorAndImdbLink(wikiLink);
         List<String> details = new ArrayList<>();
         String expDirName = data.split(" - ")[0].trim();
@@ -49,7 +123,7 @@ public class UIAutomation extends UIOperations {
         String actDirName = getDirNameFromIMDB(imdblink);
         actDirName = actDirName.trim();
         String result = "fail";
-        if (actDirName.equalsIgnoreCase(actDirName)) {
+        if (actDirName.equalsIgnoreCase(expDirName)) {
             result = "pass";
         }
         details.add(movieName);
@@ -59,6 +133,9 @@ public class UIAutomation extends UIOperations {
         details.add(actDirName);
         details.add(result);
         details.add(AutomationUIUtils.getSrcFilePath());
+        CustomHtmlReport.customReport.append("\n movies['"+movieNo+"']={name:'"+movieName+"',wikiurl:'"+wikiLink+
+        		"',expDirName:'"+expDirName+"'}");
+        concurrentResult.put(movieNo, details);
     }
 
     public String getDirNameFromIMDB(String imdbLink) {
@@ -78,18 +155,21 @@ public class UIAutomation extends UIOperations {
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
         for (String key : movieDeatils.keySet()) {
-            movieNo = Integer.parseInt(key);
+            movieNo = key;
 
             List<String> movieDetail = movieDeatils.get(key);
-            movieName = movieDetail.get(1);
-            wikiLink = movieDetail.get(2);
-        }
-        Thread t = new Thread(new Runnable() {
+            movieName = movieDetail.get(0);
+            wikiLink = movieDetail.get(1);
+            //assertMovie(movieNo, movieName, wikiLink);
+        
+       Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 assertMovie(movieNo, movieName, wikiLink);
             }
         });
+        t.start();
+        }
     }
 }
 
