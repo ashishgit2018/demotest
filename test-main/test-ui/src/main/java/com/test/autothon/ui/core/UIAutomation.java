@@ -6,17 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import com.test.autothon.common.ReadPropertiesFile;
 import org.openqa.selenium.WebDriver;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Properties;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -47,10 +39,26 @@ public class UIAutomation extends UIOperations {
         System.out.println(propMovieName);
     }
 
-    public void searchAllMovies() {
+    public void searchAllMovies() throws InterruptedException {
         String movieNum = "";
         String movieName = "";
-        for (int intCnt = 0; intCnt <= 5; intCnt++) {
+        Set<Object> keySetName = propMovieName.keySet();
+        Iterator itr = keySetName.iterator();
+
+        while (itr.hasNext()) {
+            Object obj = itr.next();
+            movieNum = obj.toString();
+            movieName = (String) propMovieName.get(obj);
+            searchMovie(movieNum, movieName);
+        }
+        logger.info(movieDetails);
+        runWikiTest(movieDetails);
+    }
+
+    public void searchAllMovies_1() {
+        String movieNum = "";
+        String movieName = "";
+        for (int intCnt = 0; intCnt <= 200; intCnt++) {
             try {
                 movieNum = "movie" + intCnt;
                 movieName = propMovieName.getProperty("movie" + intCnt);
@@ -60,7 +68,8 @@ public class UIAutomation extends UIOperations {
                 break;
             }
         }
-        System.out.println(movieDetails);
+        logger.info(movieDetails);
+        runWikiTest(movieDetails);
     }
 
     public void searchMovie(String movieNo, String movieName) throws InterruptedException {
@@ -72,7 +81,7 @@ public class UIAutomation extends UIOperations {
         movieNameW = movieName + " movie wikipedia";
         enterText(searchTextBox, movieNameW);
         driver.findElement(By.id("lst-ib")).sendKeys(Keys.ENTER);
-        String clickMovie = "partiallinktext_" + movieName + " - Wikipedia";
+        //String clickMovie = "partiallinktext_" + movieName + " - Wikipedia";
         try {
             //movieURL = getHref(clickMovie);
             movieURL = getHref(urlsPath);
