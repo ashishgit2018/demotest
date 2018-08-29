@@ -4,7 +4,6 @@ import com.test.autothon.common.Constants;
 import com.test.autothon.common.ReadPropertiesFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
@@ -14,9 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class UIAutomation extends UIOperations {
-    private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
+    private final static Logger logger = LogManager.getLogger(UIAutomation.class);
 
-    WebDriver driver;
+    public static WebDriver driver;
     Properties propMovieName;
     HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
     String movieNo = "";
@@ -60,40 +59,21 @@ public class UIAutomation extends UIOperations {
         
     }
 
-    public void searchAllMovies_1() {
-        String movieNum = "";
-        String movieName = "";
-        for (int intCnt = 0; intCnt <= 200; intCnt++) {
-            try {
-                movieNum = "movie" + intCnt;
-                movieName = propMovieName.getProperty("movie" + intCnt);
-                searchMovie(movieNum, movieName);
-            } catch (Exception e) {
-                System.out.println("EOF");
-                break;
-            }
-        }
-        logger.info(movieDetails);
-        runWikiTest(movieDetails);
-    }
-
     public void searchMovie(String movieNo, String movieName) throws InterruptedException {
         List<String> nameUrl = new ArrayList<String>();
-        String searchTextBox = "id_lst-ib";
-        String urlsPath = "xpath_(//*[@class='iUh30'])[1]";
+        String searchTextBox = ReadPropertiesFile.getPropertyValue("google.search.textbox");
+        String urlsPath = ReadPropertiesFile.getPropertyValue("google.wiki.path");
         String movieNameW = "";
         String movieURL = "";
         movieNameW = movieName + " movie wikipedia";
         enterText(searchTextBox, movieNameW);
-        driver.findElement(By.id("lst-ib")).sendKeys(Keys.ENTER);
-        //String clickMovie = "partiallinktext_" + movieName + " - Wikipedia";
+        getElement(searchTextBox).get(0).sendKeys(Keys.ENTER);
         try {
-            //movieURL = getHref(clickMovie);
-            movieURL = getHref(urlsPath);
+            movieURL = getTextFromElement(urlsPath);
         } catch (Exception e) {
 
         } finally {
-            Thread.sleep(5000);
+            //Thread.sleep(5000);
             nameUrl.add(movieName);
             nameUrl.add(movieURL);
             movieDetails.put(movieNo, nameUrl);
@@ -146,7 +126,10 @@ public class UIAutomation extends UIOperations {
     }
 
     public String getWikiDirectorAndImdbLink(String wikiLink) {
+        logger.info("I am here");
         launchURL(wikiLink);
+        waitForSecond(5);
+        logger.info("I come here");
         takeScreenShot(driver);
         String expDirName = getTextFromElement(ReadPropertiesFile.getPropertyValue("wiki.director.name"));
         String imdbLink = getTextFromElementAttribute(ReadPropertiesFile.getPropertyValue("wiki.imdb.url"), "href");
@@ -156,19 +139,27 @@ public class UIAutomation extends UIOperations {
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
         for (String key : movieDeatils.keySet()) {
             movieNo = key;
-
+            logger.info("movie no :" + movieNo);
             List<String> movieDetail = movieDeatils.get(key);
             movieName = movieDetail.get(0);
             wikiLink = movieDetail.get(1);
+            logger.info("movie Name :" + movieName);
+            logger.info("movie WikiLink :" + wikiLink);
+            AutoWebDriver.tearBrowser();
+
             //assertMovie(movieNo, movieName, wikiLink);
-        
-       Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                assertMovie(movieNo, movieName, wikiLink);
-            }
-        });
-        t.start();
+            Thread thread = new Thread(new Runnable() {
+                public void run() {
+                    logger.info("Thread Running ");
+                    try {
+                        getWebDriver("chrome");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    assertMovie(movieNo, movieName, wikiLink);
+                }
+            });
+            thread.start();
         }
     }
 }

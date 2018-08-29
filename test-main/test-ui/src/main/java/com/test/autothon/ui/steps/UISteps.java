@@ -1,11 +1,10 @@
 package com.test.autothon.ui.steps;
 
-import java.io.IOException;
-
-import com.test.autothon.ui.core.CustomHtmlReport;
 import com.test.autothon.ui.core.UIAutomation;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
+
+import java.io.IOException;
 
 public class UISteps extends UIAutomation {
 
@@ -78,9 +77,13 @@ public class UISteps extends UIAutomation {
 
     @Given("^I search for movie \"(.*?)\" \"(.*?)\"$")
     public void searchMovies(String movieNo, String movieName) throws InterruptedException, IOException {
-        //searchMovie(movieNo, movieName);
+        searchMovie(movieNo, movieName);
+    }
+
+    @Given("^I search for movies$")
+    public void searchMovies() throws InterruptedException, IOException {
         searchAllMovies();
-        
+
     }
     
     

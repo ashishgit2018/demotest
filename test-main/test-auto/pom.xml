@@ -17,7 +17,7 @@
     <!-- https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/ -->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <env>qa</env>
+        <env>dev</env>
         <browserName>Chrome</browserName>
         <browserVersion>latest</browserVersion>
         <OSPlatform>Windows 10</OSPlatform>

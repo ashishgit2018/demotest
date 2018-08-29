@@ -24,7 +24,12 @@ public class UIOperations extends StepDefinition {
     }
 
     public void launchURL(String url) {
+        logger.info("launching url : " + url);
         driver.get(url);
+    }
+
+    public void navigateToUrl(String url) {
+        driver.navigate().to(url);
     }
 
     public String getCurrentUrl() {
@@ -205,12 +210,6 @@ public class UIOperations extends StepDefinition {
         WebElement elem = getElement(elemLocator).get(0);
         waitForElementToBeClickable(elem);
         elem.click();
-    }
-
-    public String getHref(String elemLocator) {
-        String url = getElement(elemLocator).get(0).getText();
-        System.out.println(url);
-        return url;
     }
 
     public void click(WebElement elem) {
