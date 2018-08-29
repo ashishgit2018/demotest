@@ -2,6 +2,8 @@ package com.test.autothon.ui.core;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
+import cucumber.api.java.Before;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,5 +49,13 @@ public class UIHooks {
         io.write("</body></html>".getBytes());
         io.close();
         AutomationUIUtils.setBase64ImageToNull();
+        CustomHtmlReport.setHtmlSuffix();
+        CustomHtmlReport.writetoFile();
+    }
+    
+    @Before
+    public void before() {
+    	CustomHtmlReport.setHtmlPrefix();
+    	
     }
 }

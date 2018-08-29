@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -18,7 +19,7 @@ public class UIAutomation extends UIOperations {
     WebDriver driver;
     Properties propMovieName;
     HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
-    int movieNo = 0;
+    String movieNo = "";
     String movieName = "";
     String wikiLink = "";
     ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
@@ -34,17 +35,20 @@ public class UIAutomation extends UIOperations {
     }
 
     public void readMovieNames(String propertyFile) {
-        String propFileName = Constants.configResourcePath + "/movieName.properties";
+        String propFileName = Constants.configResourcePath + "/" + propertyFile;
         propMovieName = ReadPropertiesFile.loadPropertiesfile(propFileName);
         System.out.println(propMovieName);
     }
 
-    public void searchAllMovies() throws InterruptedException {
+    public void searchAllMovies() throws InterruptedException, IOException {
+    	
         String movieNum = "";
         String movieName = "";
         Set<Object> keySetName = propMovieName.keySet();
         Iterator itr = keySetName.iterator();
-
+       /* if(ReadPropertiesFile.getPropertyValue("runnerMode").equalsIgnoreCase("http")) {
+        	 
+        }*/
         while (itr.hasNext()) {
             Object obj = itr.next();
             movieNum = obj.toString();
@@ -53,6 +57,7 @@ public class UIAutomation extends UIOperations {
         }
         logger.info(movieDetails);
         runWikiTest(movieDetails);
+        
     }
 
     public void searchAllMovies_1() {
@@ -110,7 +115,7 @@ public class UIAutomation extends UIOperations {
         switchToWindow("FIND_WINDOW_BY_TITLE_SUBSTRING", ItemName);
     }
 
-    public void assertMovie(int movieNo, String movieName, String wikiLink) {
+    public void assertMovie(String movieNo, String movieName, String wikiLink) {
         String data = getWikiDirectorAndImdbLink(wikiLink);
         List<String> details = new ArrayList<>();
         String expDirName = data.split(" - ")[0].trim();
@@ -118,7 +123,7 @@ public class UIAutomation extends UIOperations {
         String actDirName = getDirNameFromIMDB(imdblink);
         actDirName = actDirName.trim();
         String result = "fail";
-        if (actDirName.equalsIgnoreCase(actDirName)) {
+        if (actDirName.equalsIgnoreCase(expDirName)) {
             result = "pass";
         }
         details.add(movieName);
@@ -128,6 +133,9 @@ public class UIAutomation extends UIOperations {
         details.add(actDirName);
         details.add(result);
         details.add(AutomationUIUtils.getSrcFilePath());
+        CustomHtmlReport.customReport.append("\n movies['"+movieNo+"']={name:'"+movieName+"',wikiurl:'"+wikiLink+
+        		"',expDirName:'"+expDirName+"'}");
+        concurrentResult.put(movieNo, details);
     }
 
     public String getDirNameFromIMDB(String imdbLink) {
@@ -147,18 +155,21 @@ public class UIAutomation extends UIOperations {
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
         for (String key : movieDeatils.keySet()) {
-            movieNo = Integer.parseInt(key);
+            movieNo = key;
 
             List<String> movieDetail = movieDeatils.get(key);
-            movieName = movieDetail.get(1);
-            wikiLink = movieDetail.get(2);
-        }
-        Thread t = new Thread(new Runnable() {
+            movieName = movieDetail.get(0);
+            wikiLink = movieDetail.get(1);
+            //assertMovie(movieNo, movieName, wikiLink);
+        
+       Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 assertMovie(movieNo, movieName, wikiLink);
             }
         });
+        t.start();
+        }
     }
 }
 

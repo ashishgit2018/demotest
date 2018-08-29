@@ -8,9 +8,9 @@ import java.util.Date;
 
 public class CustomHtmlReport {
 
-    public StringBuilder customReport;
+    public static StringBuilder customReport;
 
-    public void setHtmlPrefix() {
+    public static void setHtmlPrefix() {
         String prefix = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<head>\n" +
@@ -35,10 +35,10 @@ public class CustomHtmlReport {
                 "    var movies={};";
         if (customReport == null)
             customReport = new StringBuilder(prefix);
-        customReport.append(prefix);
+        //customReport.append(prefix);
     }
 
-    public void setHtmlSuffix() {
+    public static void setHtmlSuffix() {
         String suffix = "\n for (var x in movies)\n" +
                 "    {\n" +
                 "        myTable+=\"<tr><td style='width: 100px;'> \" + x + \" :</td>\";\n" +
@@ -56,7 +56,7 @@ public class CustomHtmlReport {
                 "</head>\n" +
                 "<body>\n" +
                 "    <script>\n" +
-                "     createTableHashmap();\n" +
+                //"     createTableHashmap();\n" +
                 "    </script>\n" +
                 "</body>\n" +
                 "</html>";
@@ -64,7 +64,7 @@ public class CustomHtmlReport {
 
     }
 
-    public void writetoFile() throws IOException {
+    public static void writetoFile() throws IOException {
         String folderFormat = new SimpleDateFormat("ddMMMyy").format(new Date());
         String scrFilePath = System.getProperty("user.dir") + "/output/" + folderFormat;
 
@@ -75,6 +75,7 @@ public class CustomHtmlReport {
         scrFilePath = scrFilePath + "/" + "CustomHtmlReport_" + AutomationUIUtils.getDateTimeStamp() + ".html";
         File file2 = new File(scrFilePath);
         FileWriter fileWriter = new FileWriter(file2);
+        System.out.println(customReport.toString());
         fileWriter.write(customReport.toString());
         fileWriter.flush();
         fileWriter.close();
