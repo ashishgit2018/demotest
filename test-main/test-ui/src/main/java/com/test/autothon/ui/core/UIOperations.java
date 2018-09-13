@@ -17,27 +17,21 @@ public class UIOperations extends StepDefinition {
 
     private final static Logger logger = LogManager.getLogger(UIOperations.class);
 
-    WebDriver driver;
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
-    }
-
     public void launchURL(String url) {
         logger.info("launching url : " + url);
-        driver.get(url);
+        DriverFactory.getInstance().getDriver().get(url);
     }
 
     public void navigateToUrl(String url) {
-        driver.navigate().to(url);
+        DriverFactory.getInstance().getDriver().navigate().to(url);
     }
 
     public String getCurrentUrl() {
-        return driver.getCurrentUrl();
+        return DriverFactory.getInstance().getDriver().getCurrentUrl();
     }
 
     public String getPageTitle() {
-        return driver.getTitle().trim();
+        return DriverFactory.getInstance().getDriver().getTitle().trim();
     }
 
     public void checkPageTitle(String expectedPageTitle) {
@@ -47,7 +41,7 @@ public class UIOperations extends StepDefinition {
     }
 
     public String getPageSource() {
-        return driver.getPageSource();
+        return DriverFactory.getInstance().getDriver().getPageSource();
     }
 
     public void checkPageSourceContainsText(String expectedText) {
@@ -100,7 +94,7 @@ public class UIOperations extends StepDefinition {
         logger.info("Entering text :" + setValue + " for element :" + elem);
         waitForVisible(elem);
         elem.sendKeys(setValue);
-        takeScreenShot(driver);
+        takeScreenShot();
     }
 
     public void clearData(String elemLocator) {
@@ -127,7 +121,6 @@ public class UIOperations extends StepDefinition {
 
     public String getTextFromElementAttribute(WebElement element, String attribute) {
         String text = element.getAttribute(attribute);
-        ;
         return text;
     }
 
@@ -139,12 +132,12 @@ public class UIOperations extends StepDefinition {
 
     public void setViewToFrameId(String frameId) {
         logger.info("Setting frame view to " + frameId);
-        driver.switchTo().frame(frameId);
+        DriverFactory.getInstance().getDriver().switchTo().frame(frameId);
     }
 
     public void setViewToFrameId(int frameId) {
         logger.info("Setting frame view to " + frameId);
-        driver.switchTo().frame(frameId);
+        DriverFactory.getInstance().getDriver().switchTo().frame(frameId);
     }
 
     public void setViewToFrameByElementLocator(String elementLocator) {
@@ -154,12 +147,12 @@ public class UIOperations extends StepDefinition {
 
     public void setViewToFrameByElementLocator(WebElement webElement) {
         logger.info("Setting frame view to " + webElement);
-        driver.switchTo().frame(webElement);
+        DriverFactory.getInstance().getDriver().switchTo().frame(webElement);
     }
 
     public void setViewToDefaultFrame() {
         logger.info("Setting to default frame");
-        driver.switchTo().defaultContent();
+        DriverFactory.getInstance().getDriver().switchTo().defaultContent();
     }
 
     public void selectValue(String elemLocator, String selecionMethod, String setValue) {
@@ -180,7 +173,7 @@ public class UIOperations extends StepDefinition {
         } else {
             System.out.println("Please put valid select method");
         }
-        takeScreenShot(driver);
+        takeScreenShot();
     }
 
     public void CheckBox(String elemLocator, boolean op) throws Exception {
@@ -193,7 +186,7 @@ public class UIOperations extends StepDefinition {
         if (!elem.isSelected() == op) {
             elem.click();
         }
-        takeScreenShot(driver);
+        takeScreenShot();
     }
 
     public void selectRadioButton(String elemLocator, String buttonName) throws Exception {
@@ -203,7 +196,7 @@ public class UIOperations extends StepDefinition {
                 click(elem);
             }
         }
-        takeScreenShot(driver);
+        takeScreenShot();
     }
 
     public void click(String elemLocator) {
@@ -224,7 +217,7 @@ public class UIOperations extends StepDefinition {
 
     public void waitForVisible(WebElement element) {
         logger.info("Waiting for element " + element + " to be visible");
-        WebDriverWait webDriverWait = new WebDriverWait(driver, 20, 5);
+        WebDriverWait webDriverWait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 20, 5);
         webDriverWait.until(ExpectedConditions.visibilityOf(element));
     }
 
@@ -235,7 +228,7 @@ public class UIOperations extends StepDefinition {
 
     public void waitForElementToBeClickable(WebElement elem) {
         logger.info("Waiting for element " + elem + " to be clickable");
-        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebDriverWait wait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 20);
         wait.until(ExpectedConditions.elementToBeClickable(elem));
     }
 
@@ -245,28 +238,28 @@ public class UIOperations extends StepDefinition {
         logger.info("Locator Type: " + element[0] + " \tLocator:" + element[1]);
         switch (element[0].toLowerCase().trim()) {
             case "xpath":
-                elem = driver.findElements(By.xpath(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.xpath(element[1]));
                 break;
             case "id":
-                elem = driver.findElements(By.id(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.id(element[1]));
                 break;
             case "css":
-                elem = driver.findElements(By.cssSelector(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.cssSelector(element[1]));
                 break;
             case "name":
-                elem = driver.findElements(By.name(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.name(element[1]));
                 break;
             case "class":
-                elem = driver.findElements(By.className(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.className(element[1]));
                 break;
             case "linktext":
-                elem = driver.findElements(By.linkText(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.linkText(element[1]));
                 break;
             case "tagname":
-                elem = driver.findElements(By.tagName(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.tagName(element[1]));
                 break;
             case "partiallinktext":
-                elem = driver.findElements(By.partialLinkText(element[1]));
+                elem = DriverFactory.getInstance().getDriver().findElements(By.partialLinkText(element[1]));
                 break;
             default:
                 logger.error("Please enter valid locator method; This should be like LOCATORNAME_EXPRESSION; for eg. xpath_//name['login']");
@@ -274,15 +267,15 @@ public class UIOperations extends StepDefinition {
         return elem;
     }
 
-    public void takeScreenShot(WebDriver driver) {
-        TakesScreenshot scrShot = ((TakesScreenshot) driver);
+    public synchronized void takeScreenShot() {
+        TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
         String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
         AutomationUIUtils.setBase64Image(SrcFile);
     }
 
     public void acceptAlertModalDialog() {
         try {
-            Alert alert = driver.switchTo().alert();
+            Alert alert = DriverFactory.getInstance().getDriver().switchTo().alert();
             logger.info("Accepting alert");
             alert.accept();
             logger.info("Accepted alert");
@@ -293,7 +286,7 @@ public class UIOperations extends StepDefinition {
 
     public void dimissAlertModalDialog() {
         try {
-            Alert alert = driver.switchTo().alert();
+            Alert alert = DriverFactory.getInstance().getDriver().switchTo().alert();
             logger.info("Dismissing alert");
             alert.dismiss();
             logger.info("Dismissed alert");
@@ -304,7 +297,7 @@ public class UIOperations extends StepDefinition {
 
     public String getTextAlertModalDialog() {
         try {
-            Alert alert = driver.switchTo().alert();
+            Alert alert = DriverFactory.getInstance().getDriver().switchTo().alert();
             logger.info("Getting text in alert box");
             return alert.getText();
         } catch (NoAlertPresentException ex) {
@@ -321,15 +314,15 @@ public class UIOperations extends StepDefinition {
         newWindowHandle = findWindow(findWindowByCriteria, value);
         Assert.assertNotNull("Unable to find a window with property "
                 + findWindowByCriteria + " = " + value, newWindowHandle);
-        driver.switchTo().window(newWindowHandle);
-        takeScreenShot(driver);
+        DriverFactory.getInstance().getDriver().switchTo().window(newWindowHandle);
+        takeScreenShot();
     }
 
     public void closeWindow(String findWindowByCriteria, String value) {
         String startingWindowHandle;
         String newWindowHandle;
 
-        startingWindowHandle = driver.getWindowHandle();
+        startingWindowHandle = DriverFactory.getInstance().getDriver().getWindowHandle();
         newWindowHandle = findWindow(findWindowByCriteria, value);
 
         Assert.assertNotNull("Unable to find a window with property "
@@ -343,18 +336,18 @@ public class UIOperations extends StepDefinition {
                         + newWindowHandle, startingWindowHandle,
                 newWindowHandle);
 
-        driver.switchTo().window(newWindowHandle);
-        driver.close();
-        driver.switchTo().window(startingWindowHandle);
+        DriverFactory.getInstance().getDriver().switchTo().window(newWindowHandle);
+        DriverFactory.getInstance().getDriver().close();
+        DriverFactory.getInstance().getDriver().switchTo().window(startingWindowHandle);
     }
 
     protected String findWindow(String findWindowByCriteria, String value) {
-        Set<String> handles = driver.getWindowHandles();
+        Set<String> handles = DriverFactory.getInstance().getDriver().getWindowHandles();
         // In order to evaluate the properties on the open windows, Selenium
         // requires that you switch to each window
         // you're evaluating - keep track of the original window
         // so we can switch back to it.
-        String startingWindowHandle = driver.getWindowHandle();
+        String startingWindowHandle = DriverFactory.getInstance().getDriver().getWindowHandle();
         String matchingWindowHandle = null;
         boolean found = false;
 
@@ -362,7 +355,7 @@ public class UIOperations extends StepDefinition {
                 + findWindowByCriteria + " = " + value + " ...");
 
         for (String handle : handles) {
-            driver.switchTo().window(handle);
+            DriverFactory.getInstance().getDriver().switchTo().window(handle);
 
             if (findWindowByCriteria.equals("FIND_WINDOW_BY_TITLE")
                     && getPageTitle().equals(value)) {
@@ -387,7 +380,7 @@ public class UIOperations extends StepDefinition {
         }
 
         if (found) {
-            matchingWindowHandle = driver.getWindowHandle();
+            matchingWindowHandle = DriverFactory.getInstance().getDriver().getWindowHandle();
             logger.info("Found window with property " + findWindowByCriteria
                     + " = " + value + ".  Window handle ID = "
                     + matchingWindowHandle);
@@ -397,7 +390,7 @@ public class UIOperations extends StepDefinition {
         }
 
         // Switch back to the original window.
-        driver.switchTo().window(startingWindowHandle);
+        DriverFactory.getInstance().getDriver().switchTo().window(startingWindowHandle);
 
         return matchingWindowHandle;
     }
@@ -424,7 +417,7 @@ public class UIOperations extends StepDefinition {
 
     public void moveToElemet(WebElement webElement) {
         logger.info("Moving to element :" + webElement);
-        Actions action = new Actions(driver);
+        Actions action = new Actions(DriverFactory.getInstance().getDriver());
         action.moveToElement(webElement);
     }
 
@@ -434,7 +427,7 @@ public class UIOperations extends StepDefinition {
     }
 
     public void doubleClick(WebElement webElement) {
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(DriverFactory.getInstance().getDriver());
         logger.info("Double click on element :" + webElement);
         actions.doubleClick(webElement).perform();
     }
@@ -446,7 +439,7 @@ public class UIOperations extends StepDefinition {
     }
 
     public void dragAndDrop(WebElement webElementSource, WebElement webElementTarget) {
-        Actions actions = new Actions(driver);
+        Actions actions = new Actions(DriverFactory.getInstance().getDriver());
         logger.info("Drag element from :" + webElementSource + " to :" + webElementTarget);
         actions.dragAndDrop(webElementSource, webElementTarget).perform();
     }
@@ -455,7 +448,7 @@ public class UIOperations extends StepDefinition {
         try {
             if (webElement.isDisplayed() && webElement.isEnabled()) {
                 logger.info("Element is enabled and is present, clicking using Java script click");
-                ((JavascriptExecutor) driver).executeScript("arguments[0].click();", webElement);
+                ((JavascriptExecutor) DriverFactory.getInstance().getDriver()).executeScript("arguments[0].click();", webElement);
             } else {
                 logger.error("Unable to click using Java script click");
             }

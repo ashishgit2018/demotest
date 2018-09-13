@@ -28,25 +28,13 @@ import java.util.concurrent.TimeUnit;
 public class AutoWebDriver {
 
     private final static Logger logger = LogManager.getLogger(AutoWebDriver.class);
-    private static WebDriver driver;
-
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            public void run() {
-                tearBrowser();
-            }
-        });
-    }
+    private WebDriver driver;
 
     public AutoWebDriver() {
-        createWebDriver(null);
+        createWebDriver();
     }
 
-    AutoWebDriver(String browser) {
-        createWebDriver(browser);
-    }
-
-    public static void tearBrowser() {
+    public void tearBrowser() {
         if (driver != null) {
             logger.info("closing existing running instance of webdriver...");
             driver.quit();
@@ -54,13 +42,10 @@ public class AutoWebDriver {
         }
     }
 
-    private void createWebDriver(String browser) {
+    private void createWebDriver() {
         //just closing any existing driver instance, if any
         tearBrowser();
-
-        if (browser == null || browser == "")
-            browser = ReadEnvironmentVariables.getBrowserName();
-
+        String browser = ReadEnvironmentVariables.getBrowserName();
         logger.info("Initializing WebDriver...");
         browser = browser.trim().toLowerCase();
 
@@ -96,7 +81,6 @@ public class AutoWebDriver {
                     }
             }
         }
-
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 tearBrowser();

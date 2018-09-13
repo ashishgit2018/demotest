@@ -8,10 +8,6 @@ import java.io.IOException;
 
 public class UISteps extends UIAutomation {
 
-    public UISteps() {
-
-    }
-
     @Given("^Execute \"(.*?)\"$")
     public void executeTC(String testCaseName) throws Exception {
         testCaseName = getOverlay(testCaseName);
@@ -21,7 +17,7 @@ public class UISteps extends UIAutomation {
     @Given("^I use \"(.*?)\"$")
     public void getDriver(String browser) throws Exception {
         browser = getOverlay(browser);
-        getWebDriver(browser);
+        setBrowser(browser);
     }
 
     @And("^I launch \"([^\"]*)\"$")

@@ -5,7 +5,6 @@ import com.test.autothon.common.ReadPropertiesFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 
 import java.io.IOException;
 import java.util.*;
@@ -13,20 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class UIAutomation extends UIOperations {
-    private final static Logger logger = LogManager.getLogger(ReadPropertiesFile.class);
-
-    WebDriver driver;
-    Properties propMovieName;
-    HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
-    String movieNo = "";
-    String movieName = "";
-    String wikiLink = "";
+    private final static Logger logger = LogManager.getLogger(UIAutomation.class);
     public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
+    Properties propMovieName;
+    private static HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
 
-    public void getWebDriver(String broswer) throws Exception {
-        AutoWebDriver autoDriver = new AutoWebDriver(broswer);
-        driver = autoDriver.getDriver();
-        setDriver(driver);
+    public void setBrowser(String broswer) throws Exception {
+        System.setProperty("browserName", broswer);
     }
 
     public void setTestCaseName(String testCaseName) {
@@ -40,7 +32,7 @@ public class UIAutomation extends UIOperations {
     }
 
     public void searchAllMovies() throws InterruptedException, IOException {
-    	
+
         String movieNum = "";
         String movieName = "";
         Set<Object> keySetName = propMovieName.keySet();
@@ -56,35 +48,20 @@ public class UIAutomation extends UIOperations {
         }
         logger.info(movieDetails);
         runWikiTest(movieDetails);
-        
-    }
 
-    public void searchAllMovies_1() {
-        String movieNum = "";
-        String movieName = "";
-        for (int intCnt = 0; intCnt <= 200; intCnt++) {
-            try {
-                movieNum = "movie" + intCnt;
-                movieName = propMovieName.getProperty("movie" + intCnt);
-                searchMovie(movieNum, movieName);
-            } catch (Exception e) {
-                System.out.println("EOF");
-                break;
-            }
-        }
-        logger.info(movieDetails);
-        runWikiTest(movieDetails);
     }
 
     public void searchMovie(String movieNo, String movieName) throws InterruptedException {
         List<String> nameUrl = new ArrayList<String>();
-        String searchTextBox = "id_lst-ib";
-        String urlsPath = "xpath_(//*[@class='iUh30'])[1]";
+        String searchTextBox = ReadPropertiesFile.getPropertyValue("google.search.textbox");
+        String urlsPath = ReadPropertiesFile.getPropertyValue("google.wiki.path");
         String movieNameW = "";
         String movieURL = "";
         movieNameW = movieName + " movie wikipedia";
         enterText(searchTextBox, movieNameW);
         getElement(searchTextBox).get(0).sendKeys(Keys.ENTER);
+        waitForSecond(2);
+        takeScreenShot();
         try {
             movieURL = getTextFromElement(urlsPath);
         } catch (Exception e) {
@@ -134,36 +111,48 @@ public class UIAutomation extends UIOperations {
 
     public String getDirNameFromIMDB(String imdbLink) {
         launchURL(imdbLink);
-        takeScreenShot(driver);
+        takeScreenShot();
         String actDirName = getTextFromElement(ReadPropertiesFile.getPropertyValue("imdb.director.name"));
         return actDirName;
     }
 
     public String getWikiDirectorAndImdbLink(String wikiLink) {
         launchURL(wikiLink);
-        takeScreenShot(driver);
+        takeScreenShot();
         String expDirName = getTextFromElement(ReadPropertiesFile.getPropertyValue("wiki.director.name"));
         String imdbLink = getTextFromElementAttribute(ReadPropertiesFile.getPropertyValue("wiki.imdb.url"), "href");
         return expDirName + " - " + imdbLink;
     }
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
+        int iThread = 0;
+        Thread[] threads = new Thread[movieDeatils.size()];
         for (String key : movieDeatils.keySet()) {
-            movieNo = key;
-
+            String movieNo = key;
             List<String> movieDetail = movieDeatils.get(key);
-            movieName = movieDetail.get(0);
-            wikiLink = movieDetail.get(1);
-            assertMovie(movieNo, movieName, wikiLink);
-
-      /* Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                assertMovie(movieNo, movieName, wikiLink);
-            }
-        });
-        t.start();*/
+            String movieName = movieDetail.get(0);
+            String wikiLink = movieDetail.get(1);
+            logger.info("Movie no: " + movieNo + " Movie Name: " + movieName +
+                    "Wiki Link: " + wikiLink);
+            threads[iThread] = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    assertMovie(movieNo, movieName, wikiLink);
+                }
+            });
+            threads[iThread].start();
+            iThread++;
         }
+
+        // wait for the threads running in the background to finish
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        DriverFactory.getInstance().removeDriver();
     }
 }
 

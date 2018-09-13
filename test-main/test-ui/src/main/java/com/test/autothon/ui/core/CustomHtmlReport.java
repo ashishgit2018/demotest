@@ -68,10 +68,8 @@ public class CustomHtmlReport {
             file.mkdirs();
         }
         scrFilePath = scrFilePath + "/" + "CustomHtmlReport_" + AutomationUIUtils.getDateTimeStamp() + ".html";
-        System.out.println("File = " + scrFilePath);
         File file2 = new File(scrFilePath);
         FileWriter fileWriter = new FileWriter(file2);
-        System.out.println(customReport.toString());
         fileWriter.write(customReport.toString());
         fileWriter.flush();
         fileWriter.close();
