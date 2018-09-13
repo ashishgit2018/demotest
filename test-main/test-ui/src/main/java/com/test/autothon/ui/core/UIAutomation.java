@@ -8,8 +8,7 @@ import org.openqa.selenium.Keys;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.*;
 
 public class UIAutomation extends UIOperations {
     private final static Logger logger = LogManager.getLogger(UIAutomation.class);
@@ -125,8 +124,8 @@ public class UIAutomation extends UIOperations {
     }
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
-        int iThread = 0;
-        Thread[] threads = new Thread[movieDeatils.size()];
+        //List<Thread> threads = new ArrayList<Thread>();
+        ExecutorService threadPool = Executors.newFixedThreadPool(3);
         for (String key : movieDeatils.keySet()) {
             String movieNo = key;
             List<String> movieDetail = movieDeatils.get(key);
@@ -134,25 +133,31 @@ public class UIAutomation extends UIOperations {
             String wikiLink = movieDetail.get(1);
             logger.info("Movie no: " + movieNo + " Movie Name: " + movieName +
                     "Wiki Link: " + wikiLink);
-            threads[iThread] = new Thread(new Runnable() {
+            //assertMovie(movieNo, movieName, wikiLink);
+            threadPool.submit(new Runnable() {
                 @Override
                 public void run() {
                     assertMovie(movieNo, movieName, wikiLink);
                 }
             });
-            threads[iThread].start();
-            iThread++;
+            DriverFactory.getInstance().removeDriver();
+            /*threads.add(thread);
+            thread.start();*/
         }
-
+        threadPool.shutdown();
+        try {
+            threadPool.awaitTermination(Long.MAX_VALUE, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // wait for the threads running in the background to finish
-        for (Thread thread : threads) {
+        /*for (Thread thread : threads) {
             try {
                 thread.join();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-        DriverFactory.getInstance().removeDriver();
+        }*/
     }
 }
 
