@@ -11,10 +11,12 @@ import java.util.*;
 import java.util.concurrent.*;
 
 public class UIAutomation extends UIOperations {
+
     private final static Logger logger = LogManager.getLogger(UIAutomation.class);
+
     public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
-    Properties propMovieName;
     private static HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
+    Properties propMovieName;
 
     public void setBrowser(String broswer) throws Exception {
         System.setProperty("browserName", broswer);
@@ -124,25 +126,26 @@ public class UIAutomation extends UIOperations {
     }
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
-        //List<Thread> threads = new ArrayList<Thread>();
+
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
+
         for (String key : movieDeatils.keySet()) {
+
             String movieNo = key;
             List<String> movieDetail = movieDeatils.get(key);
             String movieName = movieDetail.get(0);
             String wikiLink = movieDetail.get(1);
             logger.info("Movie no: " + movieNo + " Movie Name: " + movieName +
                     "Wiki Link: " + wikiLink);
-            //assertMovie(movieNo, movieName, wikiLink);
+
             threadPool.submit(new Runnable() {
                 @Override
                 public void run() {
                     assertMovie(movieNo, movieName, wikiLink);
+                    DriverFactory.getInstance().removeDriver();
                 }
             });
-            DriverFactory.getInstance().removeDriver();
-            /*threads.add(thread);
-            thread.start();*/
+
         }
         threadPool.shutdown();
         try {
@@ -150,14 +153,6 @@ public class UIAutomation extends UIOperations {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // wait for the threads running in the background to finish
-        /*for (Thread thread : threads) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }*/
     }
 }
 

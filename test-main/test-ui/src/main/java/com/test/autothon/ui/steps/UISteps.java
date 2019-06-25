@@ -24,7 +24,7 @@ public class UISteps extends UIAutomation {
     public void launchUrl(String url) throws Exception {
         url = getOverlay(url);
         launchURL(url);
-     
+
     }
 
     @And("^I select \"([^\"]*)\"$")
@@ -81,8 +81,6 @@ public class UISteps extends UIAutomation {
         searchAllMovies();
 
     }
-    
-    
-    
-    
+
+
 }

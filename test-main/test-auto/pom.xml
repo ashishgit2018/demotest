@@ -30,7 +30,7 @@
         <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
         <!-- for multiple tags like @SN1 @SN2 it will show an error, ignore it-->
-        <cucumberTags>@ui</cucumberTags>
+        <cucumberTags>@SN11</cucumberTags>
         <forkCount>5</forkCount>
     </properties>
 
