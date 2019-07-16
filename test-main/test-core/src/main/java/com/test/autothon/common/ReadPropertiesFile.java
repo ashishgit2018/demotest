@@ -41,6 +41,7 @@ public class ReadPropertiesFile {
 
     public static void loadAllPropertiesValue() {
         List<String> results = new ArrayList<String>();
+        logger.debug("Reading properties file from location: " + Constants.configResourcePath + "/");
         File[] files = new File(Constants.configResourcePath + "/").listFiles();
 
         for (File file : files != null ? files : new File[0]) {
@@ -48,6 +49,8 @@ public class ReadPropertiesFile {
                 results.add(file.getPath());
             }
         }
+
+        logger.debug("No of Properties file loaded is: " + results.size());
 
         int count = 0;
         while (count < results.size()) {
