@@ -1,30 +1,28 @@
-package com.test.autothon.ui.core;
+package com.test.autothon.auto.core;
 
 import com.test.autothon.common.Constants;
 import com.test.autothon.common.ReadPropertiesFile;
+import com.test.autothon.ui.core.AutomationUIUtils;
+import com.test.autothon.ui.core.DriverFactory;
+import com.test.autothon.ui.core.UIHooks;
+import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Keys;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-public class UIAutomation extends UIOperations {
+public class UIExtension extends UIOperations {
 
-    private final static Logger logger = LogManager.getLogger(UIAutomation.class);
+    private final static Logger logger = LogManager.getLogger(UIExtension.class);
 
-    public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
     private static HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
     Properties propMovieName;
 
-    public void setBrowser(String broswer) throws Exception {
-        System.setProperty("browserName", broswer);
-    }
-
-    public void setTestCaseName(String testCaseName) {
-        AutomationUIUtils.setTestCaseName(testCaseName);
-    }
 
     public void readMovieNames(String propertyFile) {
         String propFileName = Constants.configResourcePath + "/" + propertyFile;
@@ -107,7 +105,7 @@ public class UIAutomation extends UIOperations {
         details.add(actDirName);
         details.add(result);
         details.add(AutomationUIUtils.getSrcFilePath());
-        concurrentResult.put(movieNo, details);
+        UIHooks.concurrentResult.put(movieNo, details);
     }
 
     public String getDirNameFromIMDB(String imdbLink) {

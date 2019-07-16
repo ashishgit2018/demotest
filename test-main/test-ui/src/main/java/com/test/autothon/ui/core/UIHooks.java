@@ -11,10 +11,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 public class UIHooks {
 
     private final static Logger logger = LogManager.getLogger(UIHooks.class);
+    public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
+
 
     @After
     public void getScenarioName(Scenario scenario) throws IOException {
@@ -48,7 +53,7 @@ public class UIHooks {
         io.close();
         AutomationUIUtils.setBase64ImageToNull();
         CustomHtmlReport.setHtmlPrefix();
-        CustomHtmlReport.writeColumnValues(UIAutomation.concurrentResult);
+        CustomHtmlReport.writeColumnValues(concurrentResult);
         CustomHtmlReport.setHtmlSuffix();
         CustomHtmlReport.writetoFile();
     }

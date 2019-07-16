@@ -1,12 +1,13 @@
 package com.test.autothon.ui.steps;
 
-import com.test.autothon.ui.core.UIAutomation;
+import com.test.autothon.common.ReadEnvironmentVariables;
+import com.test.autothon.ui.core.UIOperations;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
-import java.io.IOException;
+import static com.test.autothon.ui.core.AutomationUIUtils.setTestCaseName;
 
-public class UISteps extends UIAutomation {
+public class UISteps extends UIOperations {
 
     @Given("^Execute \"(.*?)\"$")
     public void executeTC(String testCaseName) throws Exception {
@@ -17,7 +18,7 @@ public class UISteps extends UIAutomation {
     @Given("^I use \"(.*?)\"$")
     public void getDriver(String browser) throws Exception {
         browser = getOverlay(browser);
-        setBrowser(browser);
+        ReadEnvironmentVariables.setBrowserName(browser);
     }
 
     @And("^I launch \"([^\"]*)\"$")
@@ -25,18 +26,6 @@ public class UISteps extends UIAutomation {
         url = getOverlay(url);
         launchURL(url);
 
-    }
-
-    @And("^I select \"([^\"]*)\"$")
-    public void BuyItem(String itemName) throws Exception {
-        itemName = getOverlay(itemName);
-        selectItem(itemName);
-    }
-
-    @And("^I search \"([^\"]*)\"$")
-    public void SearchItem(String item) throws Exception {
-        item = getOverlay(item);
-        searchItem(item);
     }
 
     @And("^I Click on element \"(.*?)\"$")
@@ -65,22 +54,4 @@ public class UISteps extends UIAutomation {
         selectionMethod = getOverlay(selectionMethod);
         selectValue(element, selectionMethod, value);
     }
-
-    @Given("^Read Property File \"(.*?)\"$")
-    public void ReadProperty(String propertyFile) throws Exception {
-        readMovieNames(propertyFile);
-    }
-
-    @Given("^I search for movie \"(.*?)\" \"(.*?)\"$")
-    public void searchMovies(String movieNo, String movieName) throws InterruptedException, IOException {
-        searchMovie(movieNo, movieName);
-    }
-
-    @Given("^I search for movies$")
-    public void searchMovies() throws InterruptedException, IOException {
-        searchAllMovies();
-
-    }
-
-
 }

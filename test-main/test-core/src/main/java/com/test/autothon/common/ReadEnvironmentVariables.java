@@ -47,5 +47,8 @@ public final class ReadEnvironmentVariables {
         return System.getProperty("deviceName", "Android Emulator");
     }
 
+    public static void setBrowserName(String browserName) {
+        System.setProperty("browserName", browserName);
+    }
 
 }
