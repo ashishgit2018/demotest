@@ -10,6 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
@@ -233,7 +236,7 @@ public class UIOperations extends StepDefinition {
     }
 
     public List<WebElement> getElement(String elemLocator) {
-        String element[] = elemLocator.split("_", 2);
+        String[] element = elemLocator.split("_", 2);
         List<WebElement> elem = null;
         logger.info("Locator Type: " + element[0] + " \tLocator:" + element[1]);
         switch (element[0].toLowerCase().trim()) {
@@ -455,6 +458,34 @@ public class UIOperations extends StepDefinition {
         } catch (Exception e) {
             logger.error("Unable to click using Java script click");
         }
+    }
+
+    public boolean isLinkBroken(String url) {
+        int responseCode = 200;
+        HttpURLConnection connection = null;
+        boolean isBroken = false;
+        logger.info("Checking if the link [" + url + "] is broken or not");
+
+        if (url == null || url.isEmpty()) {
+            logger.info("Link url is balnk");
+            return true;
+        }
+        try {
+            connection = (HttpURLConnection) (new URL(url).openConnection());
+            connection.setRequestMethod("HEAD");
+            connection.connect();
+            responseCode = connection.getResponseCode();
+            logger.info("Response code is: " + responseCode);
+            if (responseCode >= 400)
+                isBroken = true;
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null)
+                connection.disconnect();
+        }
+        logger.info("Link broken: " + isBroken);
+        return isBroken;
     }
 
 

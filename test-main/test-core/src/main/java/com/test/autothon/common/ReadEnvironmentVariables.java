@@ -23,6 +23,10 @@ public final class ReadEnvironmentVariables {
         return System.getProperty("browserName", "Chrome");
     }
 
+    public static void setBrowserName(String browserName) {
+        System.setProperty("browserName", browserName);
+    }
+
     public static String getBrowserVersion() {
         return System.getProperty("browserVersion", "latest");
     }
@@ -45,10 +49,6 @@ public final class ReadEnvironmentVariables {
 
     public static String getDeviceName() {
         return System.getProperty("deviceName", "Android Emulator");
-    }
-
-    public static void setBrowserName(String browserName) {
-        System.setProperty("browserName", browserName);
     }
 
 }
