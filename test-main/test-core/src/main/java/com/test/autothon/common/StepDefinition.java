@@ -29,7 +29,7 @@ public class StepDefinition {
         StringBuilder overlayElement = null;
         if (inputString.contains(" ")) {
             value = new StringBuilder();
-            String arrElements[] = inputString.split("\\s");
+            String[] arrElements = inputString.split("\\s");
             for (int i = 0; i < arrElements.length; i++) {
                 overlayElement = new StringBuilder();
                 if ((arrElements[i].contains("<") && arrElements[i].length() > 2) && !arrElements[i].contains(">")) {
@@ -124,6 +124,5 @@ public class StepDefinition {
 
         return line;
     }
-
 
 }
