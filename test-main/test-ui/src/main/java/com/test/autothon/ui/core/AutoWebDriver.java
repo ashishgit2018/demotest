@@ -37,6 +37,7 @@ public class AutoWebDriver {
     public void tearBrowser() {
         if (driver != null) {
             logger.info("closing existing running instance of webdriver...");
+            driver.close();
             driver.quit();
             driver = null;
         }
@@ -54,9 +55,6 @@ public class AutoWebDriver {
             SauceLabsManager sauceLabsManager = new SauceLabsManager(browser);
             sauceLabsManager.setUpSauceLabsDriver();
             driver = sauceLabsManager.getSauceLabDriver();
-        /*} else if (ReadEnvironmentVariables.getRunOnHeadlessBrowser().equalsIgnoreCase("true")) {
-            logger.info("Tests will be executed on Headless browser");
-            ghostPhantomJSDriver();*/
         } else {
             logger.info("Tests will be executed on Local browser --- Browser :" + browser);
             switch (browser) {
@@ -110,7 +108,7 @@ public class AutoWebDriver {
         file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe", ".exe");
         System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
         if (null == driver) {
-            logger.info("Intializing IE browser");
+            logger.info("Initializing IE browser");
             driver = new InternetExplorerDriver(capabilities);
         }
     }
@@ -121,16 +119,17 @@ public class AutoWebDriver {
             File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
             System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
 
-            if (ReadEnvironmentVariables.getRunOnHeadlessBrowser().equalsIgnoreCase("true")) {
-                logger.info("Intializing Headless chrome browser");
+            logger.info("Initializing Headless chrome browser");
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("headless");
-                chromeOptions.addArguments("window-size=1400,600");
+            chromeOptions.setHeadless(ReadEnvironmentVariables.isHeadlessBrowser());
+            chromeOptions.addArguments("start-maximized"); // open Browser in maximized mode
+            chromeOptions.addArguments("disable-infobars"); // disabling infobars
+            chromeOptions.addArguments("--disable-extensions"); // disabling extensions
+            chromeOptions.addArguments("--disable-gpu"); // applicable to windows os only
+            chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+            chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
                 driver = new ChromeDriver(chromeOptions);
-            } else {
-                logger.info("Intializing chrome browser");
-                driver = new ChromeDriver();
-            }
+
         }
     }
 
@@ -140,8 +139,8 @@ public class AutoWebDriver {
             File file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe", ".exe");
             System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
 
-            if (ReadEnvironmentVariables.getRunOnHeadlessBrowser().equalsIgnoreCase("true")) {
-                logger.info("Intializing Headless Firefox browser");
+            if (ReadEnvironmentVariables.isHeadlessBrowser()) {
+                logger.info("Initializing Headless Firefox browser");
                 FirefoxBinary firefoxBinary = new FirefoxBinary();
                 firefoxBinary.addCommandLineOptions("--headless");
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
@@ -153,19 +152,6 @@ public class AutoWebDriver {
             }
         }
     }
-
-    /*private void ghostPhantomJSDriver(){
-        if (null == driver){
-            logger.info("Initializing the Ghost PhantomJS driver");
-            File file = FileUtils.getResourceAsFile(this, "drivers/phantomjs.exe", ".exe");
-            DesiredCapabilities caps = new DesiredCapabilities();
-            caps.setJavascriptEnabled(true);
-            caps.setCapability("takesScreenshot", true);
-            caps.setCapability(PhantomJSDriverService.PHANTOMJS_CLI_ARGS, new String[] {"--web-security=no", "--ignore-ssl-errors=yes"});
-            caps.setCapability(PhantomJSDriverService.PHANTOMJS_EXECUTABLE_PATH_PROPERTY, file.getAbsolutePath());
-            driver = new PhantomJSDriver(caps);
-        }
-    }*/
 
     private void htmlUnitDriver(String browser) {
         if (null == driver) {
@@ -198,7 +184,7 @@ public class AutoWebDriver {
             logger.info("Mobile driver url is not correct\n" + e);
         }
         if (null == driver) {
-            logger.info("Intializing Chrome Browser for Mobile");
+            logger.info("Initializing Chrome Browser for Mobile");
             driver = new AndroidDriver(url, cap);
         }
     }

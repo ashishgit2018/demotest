@@ -12,10 +12,13 @@ import org.apache.logging.log4j.Logger;
 public class Hooks {
 
     private final static Logger logger = LogManager.getLogger(Hooks.class);
+    public static String scenarioName;
 
     @Before
     public void beforeExecution(Scenario scenario) {
-        logger.info("Start Executing Scenario : [ " + scenario.getName() + " ]");
+        scenarioName = scenario.getName();
+        scenarioName = scenarioName.replaceAll("\\s", "_");
+        logger.info("Start Executing Scenario : [ " + scenarioName + " ]");
         logger.info("Deleting temp properties file");
         FileUtils.deleteFile(Constants.tempFileLocation);
     }

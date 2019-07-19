@@ -25,10 +25,4 @@ public class DriverFactory {
     {
         return driver.get();
     }
-
-    public void removeDriver() // Quits the driver and closes the browser
-    {
-        driver.get().quit();
-        driver.remove();
-    }
 }

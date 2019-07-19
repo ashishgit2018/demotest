@@ -5,15 +5,7 @@ import com.test.autothon.ui.core.UIOperations;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
-import static com.test.autothon.ui.core.AutomationUIUtils.setTestCaseName;
-
 public class UISteps extends UIOperations {
-
-    @Given("^Execute \"(.*?)\"$")
-    public void executeTC(String testCaseName) throws Exception {
-        testCaseName = getOverlay(testCaseName);
-        setTestCaseName(testCaseName);
-    }
 
     @Given("^I use \"(.*?)\"$")
     public void getDriver(String browser) throws Exception {

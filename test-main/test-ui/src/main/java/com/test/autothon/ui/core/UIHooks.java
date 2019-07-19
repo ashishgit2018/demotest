@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.Hooks;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +10,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -23,13 +23,8 @@ public class UIHooks {
 
     @After
     public void getScenarioName(Scenario scenario) throws IOException {
-        String tagName = "";
-        Collection<String> tags = scenario.getSourceTagNames();
-        for (String tag : tags) {
-            if (tag.contains("SN")) {
-                tagName = tag;
-            }
-        }
+        String scName = Hooks.scenarioName;
+
         if (AutomationUIUtils.getBase64Images().size() == 0)
             return;
 
@@ -39,7 +34,7 @@ public class UIHooks {
         if (!file.exists()) {
             file.mkdirs();
         }
-        scrFilePath = scrFilePath + "/" + tagName + "_" + AutomationUIUtils.getTestCaseName() + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
+        scrFilePath = scrFilePath + "/" + scName + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
         AutomationUIUtils.setSrcFilePath(scrFilePath);
         file = new File(scrFilePath);
         FileOutputStream io = new FileOutputStream(file);

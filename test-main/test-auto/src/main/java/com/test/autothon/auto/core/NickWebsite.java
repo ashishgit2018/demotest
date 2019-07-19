@@ -1,7 +1,6 @@
 package com.test.autothon.auto.core;
 
 import com.test.autothon.common.ReadPropertiesFile;
-import com.test.autothon.ui.core.DriverFactory;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -78,7 +77,6 @@ public class NickWebsite extends UIOperations {
                 @Override
                 public void run() {
                     assertNickTitleAndUrl(url, ttText);
-                    DriverFactory.getInstance().removeDriver();
                 }
             });
 

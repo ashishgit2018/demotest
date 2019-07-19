@@ -3,7 +3,6 @@ package com.test.autothon.auto.core;
 import com.test.autothon.common.Constants;
 import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.ui.core.AutomationUIUtils;
-import com.test.autothon.ui.core.DriverFactory;
 import com.test.autothon.ui.core.UIHooks;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
@@ -16,9 +15,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-public class UIExtension extends UIOperations {
+public class Autothon2018 extends UIOperations {
 
-    private final static Logger logger = LogManager.getLogger(UIExtension.class);
+    private final static Logger logger = LogManager.getLogger(Autothon2018.class);
 
     private static HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
     Properties propMovieName;
@@ -140,7 +139,6 @@ public class UIExtension extends UIOperations {
                 @Override
                 public void run() {
                     assertMovie(movieNo, movieName, wikiLink);
-                    DriverFactory.getInstance().removeDriver();
                 }
             });
 

@@ -15,8 +15,12 @@ public final class ReadEnvironmentVariables {
         return System.getProperty("runOnSauce", "false");
     }
 
-    public static String getRunOnHeadlessBrowser() {
-        return System.getProperty("runHeadless", "false");
+    public static boolean isHeadlessBrowser() {
+        boolean isBoolHeadless = false;
+        String isHeadless = System.getProperty("runHeadless", "false");
+        if (isHeadless.equalsIgnoreCase("true"))
+            isBoolHeadless = true;
+        return isBoolHeadless;
     }
 
     public static String getBrowserName() {

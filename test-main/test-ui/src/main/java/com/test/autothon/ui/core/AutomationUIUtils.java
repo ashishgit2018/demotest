@@ -17,22 +17,6 @@ public class AutomationUIUtils {
     static String testCaseName;
     static List<String> base64Images = new ArrayList<String>();
 
-    public static String getTestCaseName() {
-        return testCaseName;
-    }
-
-    public static void setTestCaseName(String tcName) {
-        testCaseName = tcName;
-    }
-
-    public static String getTagName() {
-        return tagName;
-    }
-
-    public static void setTagName(String tag) {
-        tagName = tag;
-    }
-
     public static String getSrcFilePath() {
         return scrFilePath;
     }
@@ -54,7 +38,7 @@ public class AutomationUIUtils {
     }
 
     public static String getDateTimeStamp() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyymmddhhmmss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMMddhhmmss");
         return format.format(new Date());
     }
 }
