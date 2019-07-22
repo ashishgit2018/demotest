@@ -120,7 +120,7 @@ public class AutoWebDriver {
             System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
 
             logger.info("Initializing Headless chrome browser");
-                ChromeOptions chromeOptions = new ChromeOptions();
+            ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setHeadless(ReadEnvironmentVariables.isHeadlessBrowser());
             chromeOptions.addArguments("start-maximized"); // open Browser in maximized mode
             chromeOptions.addArguments("disable-infobars"); // disabling infobars
@@ -128,7 +128,7 @@ public class AutoWebDriver {
             chromeOptions.addArguments("--disable-gpu"); // applicable to windows os only
             chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
             chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
-                driver = new ChromeDriver(chromeOptions);
+            driver = new ChromeDriver(chromeOptions);
 
         }
     }

@@ -17,6 +17,10 @@ public class StepDefinition {
 
     private final static Logger logger = LogManager.getLogger(StepDefinition.class);
 
+    public static String getDateTimeStamp(String dateFormat) {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        return format.format(new Date());
+    }
 
     public String getOverlay(String inputString) {
         if (inputString.isEmpty()) return "";
@@ -125,11 +129,6 @@ public class StepDefinition {
         }
 
         return line;
-    }
-
-    public static String getDateTimeStamp(String dateFormat) {
-        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
-        return format.format(new Date());
     }
 
 }
