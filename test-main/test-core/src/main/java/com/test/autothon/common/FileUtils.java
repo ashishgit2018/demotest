@@ -56,6 +56,14 @@ public class FileUtils {
             file.delete();
     }
 
+    public static void createFolder(String folder) {
+        logger.info("Creating Folder : " + folder);
+        File file = new File(folder);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
+
     public static void deleteFolder(String folder) {
         logger.info("Deleting Folder : " + folder);
         File file = new File(folder);

@@ -1,6 +1,8 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.Hooks;
+import com.test.autothon.common.StepDefinition;
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import org.apache.logging.log4j.LogManager;
@@ -11,18 +13,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class UIHooks {
 
     private final static Logger logger = LogManager.getLogger(UIHooks.class);
-    public static ConcurrentMap<String, List<String>> concurrentResult = new ConcurrentHashMap();
-
 
     @After
-    public void getScenarioName(Scenario scenario) throws IOException {
+    public void writeImagesToHTMLFile(Scenario scenario) throws IOException {
         String scName = Hooks.scenarioName;
 
         if (AutomationUIUtils.getBase64Images().size() == 0)
@@ -30,13 +27,14 @@ public class UIHooks {
 
         String folderFormat = new SimpleDateFormat("ddMMMyy").format(new Date());
         String scrFilePath = System.getProperty("user.dir") + "/output/" + folderFormat;
+
+        FileUtils.createFolder(scrFilePath);
+
+        scrFilePath = scrFilePath + "/" + scName + "_" + StepDefinition.getDateTimeStamp("yyyyMMMddhhmmss") + ".html";
+
+        AutomationUIUtils.setImgSrcFilePath(scrFilePath);
+
         File file = new File(scrFilePath);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        scrFilePath = scrFilePath + "/" + scName + "_" + AutomationUIUtils.getDateTimeStamp() + ".html";
-        AutomationUIUtils.setSrcFilePath(scrFilePath);
-        file = new File(scrFilePath);
         FileOutputStream io = new FileOutputStream(file);
         io.write("<!DOCTYPE html><html><head></head><body width=\"600px\">".getBytes());
         for (String base64Image : AutomationUIUtils.getBase64Images()) {
@@ -47,9 +45,6 @@ public class UIHooks {
         io.write("</body></html>".getBytes());
         io.close();
         AutomationUIUtils.setBase64ImageToNull();
-        CustomHtmlReport.setHtmlPrefix();
-        CustomHtmlReport.writeColumnValues(concurrentResult);
-        CustomHtmlReport.setHtmlSuffix();
-        CustomHtmlReport.writetoFile();
     }
+
 }

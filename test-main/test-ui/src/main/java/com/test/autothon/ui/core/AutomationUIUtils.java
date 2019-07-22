@@ -3,9 +3,7 @@ package com.test.autothon.ui.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class AutomationUIUtils {
@@ -17,11 +15,11 @@ public class AutomationUIUtils {
     static String testCaseName;
     static List<String> base64Images = new ArrayList<String>();
 
-    public static String getSrcFilePath() {
+    public static String getImgSrcFilePath() {
         return scrFilePath;
     }
 
-    public static void setSrcFilePath(String filePath) {
+    public static void setImgSrcFilePath(String filePath) {
         scrFilePath = filePath;
     }
 
@@ -37,8 +35,4 @@ public class AutomationUIUtils {
         base64Images.clear();
     }
 
-    public static String getDateTimeStamp() {
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMMddhhmmss");
-        return format.format(new Date());
-    }
 }

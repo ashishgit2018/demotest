@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Rahul_Goyal
@@ -123,6 +125,11 @@ public class StepDefinition {
         }
 
         return line;
+    }
+
+    public static String getDateTimeStamp(String dateFormat) {
+        SimpleDateFormat format = new SimpleDateFormat(dateFormat);
+        return format.format(new Date());
     }
 
 }

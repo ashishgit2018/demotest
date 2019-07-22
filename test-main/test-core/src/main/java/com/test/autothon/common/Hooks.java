@@ -26,6 +26,11 @@ public class Hooks {
     @After
     public void afterExecution() {
         logger.info("Scenario Executions Ends");
+        CustomHtmlReport.setHtmlReportPrefix();
+        CustomHtmlReport.writeColumnValues();
+        CustomHtmlReport.setHtmlReportSuffix();
+        CustomHtmlReport.writetoHtmlReportFile();
+
     }
 
 }

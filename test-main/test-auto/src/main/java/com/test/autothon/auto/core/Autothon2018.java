@@ -1,9 +1,8 @@
 package com.test.autothon.auto.core;
 
 import com.test.autothon.common.Constants;
+import com.test.autothon.common.CustomHtmlReport;
 import com.test.autothon.common.ReadPropertiesFile;
-import com.test.autothon.ui.core.AutomationUIUtils;
-import com.test.autothon.ui.core.UIHooks;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -88,23 +87,18 @@ public class Autothon2018 extends UIOperations {
 
     public void assertMovie(String movieNo, String movieName, String wikiLink) {
         String data = getWikiDirectorAndImdbLink(wikiLink);
-        List<String> details = new ArrayList<>();
         String expDirName = data.split(" - ")[0].trim();
         String imdblink = data.split(" - ")[1].trim();
         String actDirName = getDirNameFromIMDB(imdblink);
         actDirName = actDirName.trim();
-        String result = "fail";
-        if (actDirName.equalsIgnoreCase(expDirName)) {
-            result = "pass";
-        }
-        details.add(movieName);
-        details.add(wikiLink);
-        details.add(expDirName);
-        details.add(imdblink);
-        details.add(actDirName);
-        details.add(result);
-        details.add(AutomationUIUtils.getSrcFilePath());
-        UIHooks.concurrentResult.put(movieNo, details);
+        String result = "pass";
+
+        if (!actDirName.equalsIgnoreCase(expDirName))
+            result = "fail";
+
+        String stepInfo = "Validate the director name in IMDB and Wiki Link \n" + movieNo + "\n Movie Name: " + movieName +
+                "\n Wiki Link: " + wikiLink + "\n IMDBLink: " + imdblink;
+        CustomHtmlReport.addReportStep(stepInfo, expDirName, actDirName, result);
     }
 
     public String getDirNameFromIMDB(String imdbLink) {
