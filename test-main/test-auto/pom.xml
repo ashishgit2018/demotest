@@ -217,6 +217,81 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>CrossBrowserTestRunner</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.22.0</version>
+                        <configuration>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <includes>
+                                <include>testNG.xml</include>
+                            </includes>
+                            <systemProperties>
+                                <property>
+                                    <name>cucumber.options</name>
+                                    <value>--tags ${cucumberTags}</value>
+                                </property>
+                                <env>${env}</env>
+                                <browserName>${browserName}</browserName>
+                                <browserVersion>${browserVersion}</browserVersion>
+                                <runnerMode>${runnerMode}</runnerMode>
+                                <OSPlatform>${OSPlatform}</OSPlatform>
+                                <runHeadless>${runHeadless}</runHeadless>
+                                <runOnSauce>${runOnSauce}</runOnSauce>
+                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
+                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
+                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
+                                <deviceName>${deviceName}</deviceName>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>net.masterthought</groupId>
+                        <artifactId>maven-cucumber-reporting</artifactId>
+                        <version>3.9.0</version>
+                        <executions>
+                            <execution>
+                                <id>execution</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                                <configuration>
+                                    <projectName>${project.name}</projectName>
+                                    <outputDirectory>target/cucumber-reports</outputDirectory>
+                                    <cucumberOutput>target/cucumber-reports/</cucumberOutput>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>com.coderplus.maven.plugins</groupId>
+                        <artifactId>copy-rename-maven-plugin</artifactId>
+                        <version>1.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-file</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <sourceFile>target/cucumber-reports/cucumber-html-reports/overview-features.html
+                                    </sourceFile>
+                                    <destinationFile>target/cucumber-reports/cucumber-html-reports/index.html
+                                    </destinationFile>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
     <dependencies>
         <dependency>
@@ -233,6 +308,17 @@
             <groupId>com.test.autothon</groupId>
             <artifactId>test-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.14.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>1.2.4</version>
         </dependency>
     </dependencies>
 </project>

@@ -1,9 +1,15 @@
 package com.test.autothon.common;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * @author Rahul_Goyal
  */
-public final class ReadEnvironmentVariables {
+public class ReadEnvironmentVariables {
+
+    private final static Logger logger = LogManager.getLogger(ReadEnvironmentVariables.class);
+    private ThreadLocal myThreadLocal = new ThreadLocal();
 
     public static String getEnvironment() {
         return System.getProperty("env", "dev");
@@ -24,11 +30,14 @@ public final class ReadEnvironmentVariables {
     }
 
     public static String getBrowserName() {
-        return System.getProperty("browserName", "Chrome");
+        //return System.getProperty("browserName", "Chrome");
+        return (String) new ReadEnvironmentVariables().myThreadLocal.get();
     }
 
     public static void setBrowserName(String browserName) {
-        System.setProperty("browserName", browserName);
+        logger.info("Setting environment variable browserName as: " + browserName);
+        //System.setProperty("browserName", browserName);
+        new ReadEnvironmentVariables().myThreadLocal.set(browserName);
     }
 
     public static String getBrowserVersion() {

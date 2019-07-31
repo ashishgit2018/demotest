@@ -47,6 +47,7 @@ public class AutoWebDriver {
         //just closing any existing driver instance, if any
         tearBrowser();
         String browser = ReadEnvironmentVariables.getBrowserName();
+        logger.info("Browser value that came here after setup is :" + browser);
         logger.info("Initializing WebDriver...");
         browser = browser.trim().toLowerCase();
 
@@ -119,7 +120,9 @@ public class AutoWebDriver {
             File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
             System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
 
-            logger.info("Initializing Headless chrome browser");
+            if (ReadEnvironmentVariables.isHeadlessBrowser())
+                logger.info("Initializing Headless chrome browser");
+
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setHeadless(ReadEnvironmentVariables.isHeadlessBrowser());
             chromeOptions.addArguments("start-maximized"); // open Browser in maximized mode
@@ -138,6 +141,8 @@ public class AutoWebDriver {
 
             File file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe", ".exe");
             System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+            System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
+
 
             if (ReadEnvironmentVariables.isHeadlessBrowser()) {
                 logger.info("Initializing Headless Firefox browser");

@@ -22,6 +22,7 @@ public class CustomHtmlReport {
                 "    <h4> Scenario: " + Hooks.scenarioName + "</h4>\n" +
                 "    <h4> Computer Name: " + System.getenv("COMPUTERNAME") + "</h4>\n" +
                 "    <h4> Date & Time: " + StepDefinition.getDateTimeStamp("dd-MMM-yyyy HH:mm:ss.SSS") + "</h4>\n" +
+                "    <h4> Browser: " + ReadEnvironmentVariables.getBrowserName() + "</h4>\n" +
                 "</body>\n" +
                 "<head>\n" +
                 "    <script type=\"text/javascript\">\n" +
