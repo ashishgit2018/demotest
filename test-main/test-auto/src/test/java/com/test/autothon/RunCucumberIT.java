@@ -5,6 +5,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(format = {"pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"}, tags = {"@Nick"}, features = "src/test/resources")
+@CucumberOptions(format = {"pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"}, tags = {"@t1"}, features = "src/test/resources")
 public class RunCucumberIT {
 }
