@@ -47,7 +47,6 @@ public class AutoWebDriver {
         //just closing any existing driver instance, if any
         tearBrowser();
         String browser = ReadEnvironmentVariables.getBrowserName();
-        logger.info("Browser value that came here after setup is :" + browser);
         logger.info("Initializing WebDriver...");
         browser = browser.trim().toLowerCase();
 
