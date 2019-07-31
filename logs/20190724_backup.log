@@ -1,0 +1,71 @@
+[INFO ] 2019-07-24 14:28:35.410 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:28:35.426 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:28:35.428 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:28:36.166 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:28:36.182 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:28:36.182 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:28:36.198 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:28:36.198 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:28:36.213 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:28:36.213 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:29:43.631 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:29:43.635 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:29:43.637 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:29:44.171 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:29:44.171 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:29:44.187 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:29:44.187 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:29:44.187 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:29:44.218 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:29:44.218 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:41:06.463 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:41:06.467 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:41:06.468 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:41:47.880 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:41:47.882 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:41:47.910 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:41:47.911 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:41:47.911 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:42:03.542 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:42:03.543 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:42:31.147 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:42:31.158 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:42:31.162 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:42:47.539 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:42:47.540 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:42:47.641 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:42:47.641 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:42:47.641 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:42:58.655 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:42:58.656 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:43:29.727 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:43:29.731 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:43:29.733 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:43:45.126 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:43:45.127 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:43:45.135 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:43:45.135 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:43:45.136 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:44:07.579 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:44:07.582 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:46:04.731 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:46:04.735 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:46:04.737 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:46:22.245 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:46:22.247 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:46:22.301 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:46:22.301 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:46:22.302 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:46:39.293 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:46:39.296 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:47:28.077 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:47:28.077 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:47:28.077 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:47:45.174 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-24 14:47:45.176 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/24Jul19
+[INFO ] 2019-07-24 14:50:06.698 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:50:06.702 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:50:06.703 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-24 14:51:47.071 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-24 14:51:47.086 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-24 14:51:47.086 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties

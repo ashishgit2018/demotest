@@ -28,7 +28,7 @@ public class Demo2019 extends UIOperations {
         movieNames = ReadPropertiesFile.loadPropertiesfile(movieName.replaceAll("%20", " "));
     }
 
-    public void createMovieList(int movieCount) {
+    public List<String> createMovieList(int movieCount) {
         int index = 1;
         movies = new ArrayList<>();
         while (index <= movieCount) {
@@ -36,6 +36,7 @@ public class Demo2019 extends UIOperations {
             index++;
         }
         logger.info(movies);
+        return movies;
     }
 
     public Demo2019() {

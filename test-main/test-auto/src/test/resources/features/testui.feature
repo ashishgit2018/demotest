@@ -36,3 +36,34 @@ Feature: Test UI
       #| TC1      | chrome  | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
       #| TC2      | firefox | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
       | TC3      | mobile_chrome | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+
+
+
+
+
+#  Scenario Outline: Launch URL based on browser and search the movies
+##    Given Execute "<TestCase>"
+##    And I use "<Browser>"
+#    And I launch url
+#    When I search the movie
+##    When I search "<Item>"
+##    And I select "<ItemName>"
+#
+#    Examples:
+#      | TestCase | Browser       | URL                     | Item     | ItemName            |
+#      | TC1      | chrome  | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+#      #| TC2      | firefox | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+##      | TC3      | mobile_chrome | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |
+
+
+  Scenario Outline: Launch URL based on browser and search the movies
+#    Given Execute "<TestCase>"
+    And I use "<Browser>"
+    And I launch url
+    And I search the movie
+#    When I search "<Item>"
+#    And I select "<ItemName>"
+
+    Examples:
+      | TestCase | Browser       | URL                     | Item     | ItemName            |
+      | TC1      | chrome  | <PROPVALUE(amazon.url)> | iPhone 7 | <PROPVALUE(iphone)> |

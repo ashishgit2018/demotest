@@ -1,0 +1,34 @@
+[INFO ] 2019-07-31 13:56:50.837 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-31 13:56:50.931 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 13:56:50.988 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 13:58:37.688 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-31 13:58:37.690 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/31Jul19
+[INFO ] 2019-07-31 13:59:48.866 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-31 13:59:48.875 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 13:59:48.878 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:00:04.961 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-31 14:00:04.963 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/31Jul19
+[INFO ] 2019-07-31 14:02:20.864 [main] Hooks - Start Executing Scenario : [ Launch_URL_based_on_browser_and_search_the_movies ]
+[INFO ] 2019-07-31 14:02:20.868 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 14:02:20.870 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:02:47.416 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-31 14:02:47.417 [main] FileUtils - Creating Folder : C:\Java Works\demotest/output/31Jul19
+[INFO ] 2019-07-31 14:11:35.149 [main] Hooks - Start Executing Scenario : [ To search movies ]
+[INFO ] 2019-07-31 14:11:35.154 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 14:11:35.157 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:11:35.487 [main] Demo2019 - [The Godfather, CME, Badhaai Ho, Titanic]
+[INFO ] 2019-07-31 14:11:48.348 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-31 14:12:28.965 [main] Hooks - Start Executing Scenario : [ To search movies ]
+[INFO ] 2019-07-31 14:12:28.972 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 14:12:28.974 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:12:40.545 [main] Demo2019 - [The Godfather, CME, Badhaai Ho, Titanic]
+[INFO ] 2019-07-31 14:24:46.008 [main] Hooks - Start Executing Scenario : [ To search movies ]
+[INFO ] 2019-07-31 14:24:46.014 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 14:24:46.016 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:24:46.309 [main] Demo2019 - [The Godfather, CME, Badhaai Ho, Titanic]
+[INFO ] 2019-07-31 14:25:02.986 [main] Hooks - Scenario Executions Ends
+[INFO ] 2019-07-31 14:27:37.301 [main] Hooks - Start Executing Scenario : [ To search movies ]
+[INFO ] 2019-07-31 14:27:37.305 [main] Hooks - Deleting temp properties file
+[INFO ] 2019-07-31 14:27:37.306 [main] FileUtils - Deleting file : /C:/Java%20Works/demotest/test-main/test-auto/target/test-classes/dev/config/temp.properties
+[INFO ] 2019-07-31 14:27:37.577 [main] Demo2019 - [The Godfather, CME, Badhaai Ho, Titanic]
+[INFO ] 2019-07-31 14:28:24.103 [main] Hooks - Scenario Executions Ends

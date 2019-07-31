@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h4> Scenario: Launch_URL_based_on_browser_and_search_the_movies</h4>
+    <h4> Computer Name: JAGS</h4>
+    <h4> Date & Time: 24-Jul-2019 14:42:47.540</h4>
+</body>
+<head>
+    <script type="text/javascript">
+	var myTable= "<table><tr style='outline: thin solid'><th style='width: 100px; color: blue ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step No</th>";
+    myTable+= "<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step Detail</th>";
+    myTable+= "<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Expected Value</th>";
+    myTable+= "<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Actual Value</th>";
+    myTable+="<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Result</th>";
+    var htmlResult={};
+ for (var x in htmlResult)
+    {
+        myTable+="<tr style='outline: thin solid'>"
+        var value = htmlResult[x];
+        for (var y in value)
+        {
+            var val = value[y].replace(/r_e_p/g,'<br />');
+            if (val === "FAIL")
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid; background-color: red'>" + val + "</td>";
+            else if (val === "PASS")
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid; background-color: green'>" + val + "</td>";
+            else 
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>" + val + "</td>";
+
+        }
+       myTable+="</tr>"
+    }
+    myTable+="</table>";
+    document.write( myTable);
+	</script>
+    <title>Launch_URL_based_on_browser_and_search_the_movies</title><meta charset="utf-8"/>
+</head>
+</html>
+ for (var x in htmlResult)
+    {
+        myTable+="<tr style='outline: thin solid'>"
+        var value = htmlResult[x];
+        for (var y in value)
+        {
+            var val = value[y].replace(/r_e_p/g,'<br />');
+            if (val === "FAIL")
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid; background-color: red'>" + val + "</td>";
+            else if (val === "PASS")
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid; background-color: green'>" + val + "</td>";
+            else 
+            myTable+="<td style='width: 100px; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>" + val + "</td>";
+
+        }
+       myTable+="</tr>"
+    }
+    myTable+="</table>";
+    document.write( myTable);
+	</script>
+    <title>Launch_URL_based_on_browser_and_search_the_movies</title><meta charset="utf-8"/>
+</head>
+</html>
