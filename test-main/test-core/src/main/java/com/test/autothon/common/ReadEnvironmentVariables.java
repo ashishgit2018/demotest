@@ -32,7 +32,10 @@ public class ReadEnvironmentVariables {
 
     public static String getBrowserName() {
         //return System.getProperty("browserName", "Chrome");
-        return (String) ReadEnvironmentVariables.instance.myThreadLocal.get();
+        String browserName = (String) ReadEnvironmentVariables.instance.myThreadLocal.get();
+        if (browserName == "" || browserName == null)
+            browserName = System.getProperty("browserName", "Chrome");
+        return browserName;
     }
 
     public static void setBrowserName(String browserName) {

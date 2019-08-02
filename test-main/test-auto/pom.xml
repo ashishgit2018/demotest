@@ -227,9 +227,9 @@
                         <version>2.22.0</version>
                         <configuration>
                             <testFailureIgnore>true</testFailureIgnore>
-                            <includes>
-                                <include>testNG.xml</include>
-                            </includes>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>src/test/resources/testNG.xml</suiteXmlFile>
+                            </suiteXmlFiles>
                             <systemProperties>
                                 <property>
                                     <name>cucumber.options</name>

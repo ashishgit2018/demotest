@@ -26,7 +26,7 @@ public class CustomHtmlReport {
                 "</body>\n" +
                 "<head>\n" +
                 "    <script type=\"text/javascript\">\n" +
-                "\tvar myTable= \"<table><tr style='outline: thin solid'>" +
+                "var myTable= \"<table><tr style='outline: thin solid'>" +
                 "<th style='width: 100px; color: blue ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step No</th>\";\n" +
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step Detail</th>\";\n" +
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Expected Value</th>\";\n" +
