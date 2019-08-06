@@ -1,5 +1,6 @@
 package com.test.autothon.auto.core;
 
+import com.test.autothon.common.CustomHtmlReport;
 import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
@@ -41,12 +42,15 @@ public class NickWebsite extends UIOperations {
 
     public void checkLinksAreNotBroken() {
         ExecutorService threadPool = Executors.newFixedThreadPool(5);
-
         for (String url : linkAndToolTip.keySet()) {
             threadPool.submit(new Runnable() {
                 @Override
                 public void run() {
-                    isLinkBroken(url);
+
+                    if (isLinkBroken(url))
+                        CustomHtmlReport.addReportStep("Validate url is not broken\nUrl: " + url, "Url should not be broken", "Url broken", "fail");
+                    else
+                        CustomHtmlReport.addReportStep("Validate url is not broken\nUrl: " + url, "Url should not be broken", "Url not broken", "pass");
                 }
             });
 
@@ -60,11 +64,13 @@ public class NickWebsite extends UIOperations {
     }
 
     public void checkToolTipValueIsNotBalnk() {
-
+        String result;
         for (String url : linkAndToolTip.keySet()) {
+            result = "pass";
             String ttText = linkAndToolTip.get(url);
             if (ttText.isEmpty() || ttText == "")
-                logger.error("Tool tip is blank for url " + url);
+                result = "fail";
+            CustomHtmlReport.addReportStep("Validate tooltip is not blank for\n" + url, "tooltip should not be blank", ttText, result);
         }
     }
 
@@ -96,9 +102,9 @@ public class NickWebsite extends UIOperations {
         logger.info("Title: " + title + "\nToolTip: " + ttText);
 
         if (title.toLowerCase().contains(ttText.toLowerCase()))
-            logger.info("Title and Tool tip text matches");
+            CustomHtmlReport.addReportStep("Validate title and tooltip matches", "Title: " + title, "Tooltip: " + ttText, "pass");
         else
-            logger.error("Mismatch in title and tooltip");
+            CustomHtmlReport.addReportStep("Validate title and tooltip matches", "Title: " + title, "Tooltip: " + ttText, "fail");
 
     }
 }

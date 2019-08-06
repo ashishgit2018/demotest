@@ -1,5 +1,7 @@
 package com.test.autothon.common;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -96,11 +98,15 @@ public class CustomHtmlReport {
         }
     }
 
+    private static String escapedANSIText(String text) {
+        return StringEscapeUtils.escapeJavaScript(text);
+    }
+
     public synchronized static void addReportStep(String stepInfo, String expVal, String actVal, String result) {
         List<String> liResult = new ArrayList<>();
-        liResult.add(stepInfo);
-        liResult.add(expVal);
-        liResult.add(actVal);
+        liResult.add(escapedANSIText(stepInfo));
+        liResult.add(escapedANSIText(expVal));
+        liResult.add(escapedANSIText(actVal));
         liResult.add(result);
         int stepINo = concurrentResult.get().size() + 1;
         concurrentResult.get().put(stepINo, liResult);

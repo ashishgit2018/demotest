@@ -23,6 +23,7 @@ public class Hooks {
         logger.info("Start Executing Scenario : [ " + scenarioName + " ]");
         logger.info("Deleting temp properties file");
         FileUtils.deleteFile(Constants.tempFileLocation);
+        ScreenshotUtils.initialize();
         CustomHtmlReport.initialize();
     }
 

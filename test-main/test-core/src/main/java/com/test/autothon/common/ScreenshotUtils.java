@@ -26,6 +26,11 @@ public class ScreenshotUtils {
         }
     };
 
+    public static void initialize() {
+        scrFilePath.set(null);
+        base64Images.set(new ArrayList<>());
+    }
+
     public static String getImgSrcFilePath() {
         return scrFilePath.get();
     }
@@ -65,9 +70,9 @@ public class ScreenshotUtils {
         FileOutputStream io = new FileOutputStream(file);
         io.write("<!DOCTYPE html><html><head></head><body>".getBytes());
         for (String base64Image : getBase64Images()) {
-            io.write("<img src=\"data:image/png;base64,".getBytes());
+            io.write("<img border=\"1\" src=\"data:image/png;base64,".getBytes());
             io.write(base64Image.getBytes());
-            io.write("\" style=\"width:1000px;height:600px;\"> </br>".getBytes());
+            io.write("\" style=\"width:1000px;height:600px;\"> </br></br>".getBytes());
         }
         io.write("</body></html>".getBytes());
         io.close();
