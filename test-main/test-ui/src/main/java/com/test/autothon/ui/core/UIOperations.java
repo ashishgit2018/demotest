@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.ScreenshotUtils;
 import com.test.autothon.common.StepDefinition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -174,7 +175,7 @@ public class UIOperations extends StepDefinition {
         } else if (selecionMethod.equalsIgnoreCase("ByVisibleText")) {
             select.selectByVisibleText(setValue);
         } else {
-            System.out.println("Please put valid select method");
+            logger.error("Please put valid select method");
         }
         takeScreenShot();
     }
@@ -270,10 +271,10 @@ public class UIOperations extends StepDefinition {
         return elem;
     }
 
-    public synchronized void takeScreenShot() {
+    public void takeScreenShot() {
         TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
         String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
-        AutomationUIUtils.setBase64Image(SrcFile);
+        ScreenshotUtils.setBase64Image(SrcFile);
     }
 
     public void acceptAlertModalDialog() {

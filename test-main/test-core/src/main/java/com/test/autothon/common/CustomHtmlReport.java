@@ -4,40 +4,44 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class CustomHtmlReport {
 
-    private static StringBuilder customReport;
-    private static ConcurrentMap<Integer, List<String>> concurrentResult = new ConcurrentHashMap();
-    private static int stepNo = 1;
+    private static InheritableThreadLocal<StringBuilder> customReport = new InheritableThreadLocal<>();
+    private static InheritableThreadLocal<Map<Integer, List<String>>> concurrentResult = new InheritableThreadLocal<>();
 
-    public static void setHtmlReportPrefix() {
+    public static void initialize() {
+        customReport.set(new StringBuilder());
+        concurrentResult.set(new HashMap<>());
+    }
+
+    private static void setHtmlReportPrefix() {
         String prefix = "<!DOCTYPE html>\n" +
                 "<html>\n" +
                 "<body>\n" +
                 "    <h4> Scenario: " + Hooks.scenarioName + "</h4>\n" +
                 "    <h4> Computer Name: " + System.getenv("COMPUTERNAME") + "</h4>\n" +
                 "    <h4> Date & Time: " + StepDefinition.getDateTimeStamp("dd-MMM-yyyy HH:mm:ss.SSS") + "</h4>\n" +
+                "    <h4 style=\"display:inline;\"> Browser: " + ReadEnvironmentVariables.getBrowserName() + "<h5 style=\"display:inline;\">&emsp; &emsp;<i><u>[ Ignore if not a UI test ] </u></i></h5></h4>\n" +
+                "    <a style=\"display:inline;\" target=\"_blank\" href=\"./../../.." + ScreenshotUtils.getImgSrcFilePath() + "\"> <h4>screenshot link</h4> </a>\n" +
                 "</body>\n" +
                 "<head>\n" +
                 "    <script type=\"text/javascript\">\n" +
-                "\tvar myTable= \"<table><tr style='outline: thin solid'>" +
+                "var myTable= \"<table><tr style='outline: thin solid'>" +
                 "<th style='width: 100px; color: blue ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step No</th>\";\n" +
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Step Detail</th>\";\n" +
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center ; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Expected Value</th>\";\n" +
                 "    myTable+= \"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Actual Value</th>\";\n" +
                 "    myTable+=\"<th style='width: 100px; color: blue; text-align: center; border-top: thin solid; border-bottom: thin solid; border-left: thin solid; border-right: thin solid;'>Result</th>\";\n" +
                 "    var htmlResult={};";
-        if (customReport == null)
-            customReport = new StringBuilder(prefix);
+        customReport.get().append(prefix);
 
     }
 
-    public static void setHtmlReportSuffix() {
+    private static void setHtmlReportSuffix() {
         String suffix = "\n for (var x in htmlResult)\n" +
                 "    {\n" +
                 "        myTable+=\"<tr style='outline: thin solid'>\"\n" +
@@ -58,26 +62,28 @@ public class CustomHtmlReport {
                 "    myTable+=\"</table>\";\n" +
                 "    document.write( myTable);\n" +
                 "\t</script>\n" +
-                "    <title>" + Hooks.scenarioName + "</title><meta charset=\"utf-8\"/>\n" +
+                "    <title>Test Execution HTML Report</title><meta charset=\"utf-8\"/>\n" +
                 "</head>\n" +
                 "</html>";
-        customReport.append(suffix);
+        customReport.get().append(suffix);
     }
 
-    public static void writetoHtmlReportFile() {
+    public static void writeToHtmlReportFile() {
         String scrName = Hooks.scenarioName;
         String folderFormat = StepDefinition.getDateTimeStamp("ddMMMyy");
-        String scrFilePath = System.getProperty("user.dir") + "/output/" + folderFormat;
-
+        String scrFilePath = System.getProperty("user.dir") + "/output/htmlreports/" + folderFormat;
         FileUtils.createFolder(scrFilePath);
+        scrFilePath = scrFilePath + "/" + scrName + "_" + ReadEnvironmentVariables.getBrowserName() + "_" + StepDefinition.getDateTimeStamp("HH-mm-ss-SSS") + ".html";
 
-        scrFilePath = scrFilePath + "/" + "HTML_Report_" + scrName + "_" + StepDefinition.getDateTimeStamp("yyyyMMMddhhmmss") + ".html";
+        setHtmlReportPrefix();
+        writeColumnValues();
+        setHtmlReportSuffix();
 
-        File file2 = new File(scrFilePath);
+        File file = new File(scrFilePath);
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(file2);
-            fileWriter.write(customReport.toString());
+            fileWriter = new FileWriter(file);
+            fileWriter.write(customReport.get().toString());
             fileWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,21 +96,25 @@ public class CustomHtmlReport {
         }
     }
 
-    public static void addReportStep(String stepInfo, String expVal, String actVal, String result) {
+    public synchronized static void addReportStep(String stepInfo, String expVal, String actVal, String result) {
         List<String> liResult = new ArrayList<>();
         liResult.add(stepInfo);
         liResult.add(expVal);
         liResult.add(actVal);
         liResult.add(result);
-        concurrentResult.put(stepNo, liResult);
-        stepNo++;
+        int stepINo = concurrentResult.get().size() + 1;
+        concurrentResult.get().put(stepINo, liResult);
     }
 
-    public static void writeColumnValues() {
-        for (Map.Entry<Integer, List<String>> entry : concurrentResult.entrySet()) {
+    private static Map<Integer, List<String>> getResultData() {
+        return concurrentResult.get();
+    }
+
+    private static void writeColumnValues() {
+        for (Map.Entry<Integer, List<String>> entry : getResultData().entrySet()) {
             int key = entry.getKey();
             List<String> valueList = entry.getValue();
-            customReport.append("\n htmlResult['" + key + "']={stepNo:'" + key + "',stepInfo:'" + valueList.get(0).replaceAll("\n", "r_e_p") + "',expValue:'" + valueList.get(1) +
+            customReport.get().append("\n htmlResult['" + key + "']={stepNo:'" + key + "',stepInfo:'" + valueList.get(0).replaceAll("\n", "r_e_p") + "',expValue:'" + valueList.get(1) +
                     "',actValue:'" + valueList.get(2) + "',result:'" + valueList.get(3).toUpperCase() + "'}");
         }
     }

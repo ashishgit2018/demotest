@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuite" thread-count="3" parallel="tests">
+    <test name="ChromeTest">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+    <test name="FirefoxTest">
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+    <test name="IETest">
+        <parameter name="browser" value="ie"/>
+        <classes>
+            <class name="com.test.autothon.RunCucumberITCrossBrowser">
+            </class>
+        </classes>
+    </test>
+</suite>

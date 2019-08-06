@@ -37,8 +37,12 @@ public class AutoWebDriver {
     public void tearBrowser() {
         if (driver != null) {
             logger.info("closing existing running instance of webdriver...");
-            driver.close();
-            driver.quit();
+            try {
+                driver.close();
+                driver.quit();
+            } catch (Exception e) {
+                logger.warn(e);
+            }
             driver = null;
         }
     }
@@ -99,17 +103,12 @@ public class AutoWebDriver {
     }
 
     private void ieDriver() {
-        DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
-        capabilities.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS, true);
-        capabilities.setCapability(InternetExplorerDriver.IE_ENSURE_CLEAN_SESSION, true);
-        capabilities.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING, true);
-
         File file;
         file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe", ".exe");
         System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
         if (null == driver) {
             logger.info("Initializing IE browser");
-            driver = new InternetExplorerDriver(capabilities);
+            driver = new InternetExplorerDriver();
         }
     }
 
@@ -119,7 +118,9 @@ public class AutoWebDriver {
             File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
             System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
 
-            logger.info("Initializing Headless chrome browser");
+            if (ReadEnvironmentVariables.isHeadlessBrowser())
+                logger.info("Initializing Headless chrome browser");
+
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setHeadless(ReadEnvironmentVariables.isHeadlessBrowser());
             chromeOptions.addArguments("start-maximized"); // open Browser in maximized mode
@@ -138,6 +139,8 @@ public class AutoWebDriver {
 
             File file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe", ".exe");
             System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+            System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
+
 
             if (ReadEnvironmentVariables.isHeadlessBrowser()) {
                 logger.info("Initializing Headless Firefox browser");

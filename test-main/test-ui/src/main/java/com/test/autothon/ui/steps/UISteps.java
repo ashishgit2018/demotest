@@ -7,7 +7,7 @@ import cucumber.api.java.en.Given;
 
 public class UISteps extends UIOperations {
 
-    @Given("^I use \"(.*?)\"$")
+    @Given("^I use \"(.*?)\" browser$")
     public void getDriver(String browser) throws Exception {
         browser = getOverlay(browser);
         ReadEnvironmentVariables.setBrowserName(browser);

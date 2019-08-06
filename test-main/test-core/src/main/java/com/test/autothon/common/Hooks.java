@@ -6,6 +6,8 @@ import cucumber.api.java.Before;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
+
 /**
  * @author Rahul_Goyal
  */
@@ -21,16 +23,18 @@ public class Hooks {
         logger.info("Start Executing Scenario : [ " + scenarioName + " ]");
         logger.info("Deleting temp properties file");
         FileUtils.deleteFile(Constants.tempFileLocation);
+        CustomHtmlReport.initialize();
     }
 
     @After
     public void afterExecution() {
         logger.info("Scenario Executions Ends");
-        CustomHtmlReport.setHtmlReportPrefix();
-        CustomHtmlReport.writeColumnValues();
-        CustomHtmlReport.setHtmlReportSuffix();
-        CustomHtmlReport.writetoHtmlReportFile();
-
+        try {
+            ScreenshotUtils.writeImagesToHTMLFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        CustomHtmlReport.writeToHtmlReportFile();
     }
 
 }

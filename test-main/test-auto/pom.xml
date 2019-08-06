@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
-        <browserName>Chrome</browserName>
+        <browserName>chrome</browserName>
         <browserVersion>latest</browserVersion>
         <OSPlatform>Windows 10</OSPlatform>
         <runnerMode>GUI</runnerMode>
@@ -30,7 +30,7 @@
         <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
         <!-- for multiple tags like @SN1 @SN2 it will show an error, ignore it-->
-        <cucumberTags>@SN11</cucumberTags>
+        <cucumberTags>@test</cucumberTags>
         <forkCount>5</forkCount>
     </properties>
 
@@ -217,6 +217,42 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>CrossBrowserTestRunner</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.22.0</version>
+                        <configuration>
+                            <testFailureIgnore>true</testFailureIgnore>
+                            <suiteXmlFiles>
+                                <suiteXmlFile>src/test/resources/testNG.xml</suiteXmlFile>
+                            </suiteXmlFiles>
+                            <systemProperties>
+                                <property>
+                                    <name>cucumber.options</name>
+                                    <value>--tags ${cucumberTags}</value>
+                                </property>
+                                <env>${env}</env>
+                                <browserName>${browserName}</browserName>
+                                <browserVersion>${browserVersion}</browserVersion>
+                                <runnerMode>${runnerMode}</runnerMode>
+                                <OSPlatform>${OSPlatform}</OSPlatform>
+                                <runHeadless>${runHeadless}</runHeadless>
+                                <runOnSauce>${runOnSauce}</runOnSauce>
+                                <devicePlatformName>${devicePlatformName}</devicePlatformName>
+                                <devidePlatformVersion>${devidePlatformVersion}</devidePlatformVersion>
+                                <deviceAppiumVersion>${deviceAppiumVersion}</deviceAppiumVersion>
+                                <deviceName>${deviceName}</deviceName>
+                            </systemProperties>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
     <dependencies>
         <dependency>
@@ -233,6 +269,17 @@
             <groupId>com.test.autothon</groupId>
             <artifactId>test-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.14.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>info.cukes</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>1.2.4</version>
         </dependency>
     </dependencies>
 </project>
