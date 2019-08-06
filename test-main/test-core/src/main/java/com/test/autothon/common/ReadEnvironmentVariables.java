@@ -5,8 +5,8 @@ package com.test.autothon.common;
  */
 public class ReadEnvironmentVariables {
 
+    private static final InheritableThreadLocal<String> myBrowser = new InheritableThreadLocal();
     private static ReadEnvironmentVariables instance = new ReadEnvironmentVariables();
-    private ThreadLocal myThreadLocal = new ThreadLocal();
 
     private static ReadEnvironmentVariables getInstance() {
         return instance;
@@ -32,7 +32,7 @@ public class ReadEnvironmentVariables {
 
     public static String getBrowserName() {
         //return System.getProperty("browserName", "Chrome");
-        String browserName = (String) ReadEnvironmentVariables.instance.myThreadLocal.get();
+        String browserName = myBrowser.get();
         if (browserName == "" || browserName == null)
             browserName = System.getProperty("browserName", "Chrome");
         return browserName;
@@ -40,7 +40,7 @@ public class ReadEnvironmentVariables {
 
     public static void setBrowserName(String browserName) {
         //System.setProperty("browserName", browserName);
-        ReadEnvironmentVariables.instance.myThreadLocal.set(browserName);
+        myBrowser.set(browserName);
     }
 
     public static String getBrowserVersion() {

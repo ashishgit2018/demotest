@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <env>dev</env>
-        <browserName>Chrome</browserName>
+        <browserName>chrome</browserName>
         <browserVersion>latest</browserVersion>
         <OSPlatform>Windows 10</OSPlatform>
         <runnerMode>GUI</runnerMode>
@@ -30,7 +30,7 @@
         <deviceName>Android GoogleAPI Emulator</deviceName>
         <cucumberRunner>RunCucumberIT</cucumberRunner>
         <!-- for multiple tags like @SN1 @SN2 it will show an error, ignore it-->
-        <cucumberTags>@SN11</cucumberTags>
+        <cucumberTags>@test</cucumberTags>
         <forkCount>5</forkCount>
     </properties>
 
@@ -248,45 +248,6 @@
                                 <deviceName>${deviceName}</deviceName>
                             </systemProperties>
                         </configuration>
-                    </plugin>
-                    <plugin>
-                        <groupId>net.masterthought</groupId>
-                        <artifactId>maven-cucumber-reporting</artifactId>
-                        <version>3.9.0</version>
-                        <executions>
-                            <execution>
-                                <id>execution</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>generate</goal>
-                                </goals>
-                                <configuration>
-                                    <projectName>${project.name}</projectName>
-                                    <outputDirectory>target/cucumber-reports</outputDirectory>
-                                    <cucumberOutput>target/cucumber-reports/</cucumberOutput>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>com.coderplus.maven.plugins</groupId>
-                        <artifactId>copy-rename-maven-plugin</artifactId>
-                        <version>1.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>copy-file</id>
-                                <phase>install</phase>
-                                <goals>
-                                    <goal>copy</goal>
-                                </goals>
-                                <configuration>
-                                    <sourceFile>target/cucumber-reports/cucumber-html-reports/overview-features.html
-                                    </sourceFile>
-                                    <destinationFile>target/cucumber-reports/cucumber-html-reports/index.html
-                                    </destinationFile>
-                                </configuration>
-                            </execution>
-                        </executions>
                     </plugin>
                 </plugins>
             </build>

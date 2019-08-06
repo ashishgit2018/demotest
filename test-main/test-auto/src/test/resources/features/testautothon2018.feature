@@ -4,10 +4,19 @@ Feature: Test UI
   Background:
     Given Read Property File "movieName.properties"
 
-  @SN11
-  Scenario Outline: Launch URL based on browser
+  @test
+  Scenario Outline: Run tests on multiple browser sequentially
+    Given I use "<browser>" browser
     And I launch "<URL>"
     And I search for movies
     Examples:
-      | URL                     |
-      | <PROPVALUE(google.url)> |
+      | browser | URL                     |
+      | chrome  | <PROPVALUE(google.url)> |
+      | firefox | <PROPVALUE(google.url)> |
+      | ie      | <PROPVALUE(google.url)> |
+
+  @crossbrowser
+  Scenario: Run tests on multiple browser in parallel
+    Given I use "<browser>" browser
+    And I launch "<URL>"
+    And I search for movies

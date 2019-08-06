@@ -25,7 +25,6 @@ public class Autothon2018 extends UIOperations {
     public void readMovieNames(String propertyFile) {
         String propFileName = Constants.configResourcePath + "/" + propertyFile;
         propMovieName = ReadPropertiesFile.loadPropertiesfile(propFileName);
-        System.out.println(propMovieName);
     }
 
     public void searchAllMovies() throws InterruptedException, IOException {
@@ -34,9 +33,7 @@ public class Autothon2018 extends UIOperations {
         String movieName = "";
         Set<Object> keySetName = propMovieName.keySet();
         Iterator itr = keySetName.iterator();
-       /* if(ReadPropertiesFile.getPropertyValue("runnerMode").equalsIgnoreCase("http")) {
-        	 
-        }*/
+
         while (itr.hasNext()) {
             Object obj = itr.next();
             movieNum = obj.toString();
