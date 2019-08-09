@@ -23,6 +23,7 @@ public class UIOperations extends StepDefinition {
 
     public void launchURL(String url) {
         logger.info("launching url : " + url);
+        DriverFactory.getInstance().setDriver();
         DriverFactory.getInstance().getDriver().get(url);
     }
 

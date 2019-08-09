@@ -5,14 +5,8 @@ import org.openqa.selenium.WebDriver;
 public class DriverFactory {
 
     private static DriverFactory instance = new DriverFactory();
-    ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>() // thread local driver object for webdriver
-    {
-        @Override
-        protected WebDriver initialValue() {
-            AutoWebDriver autoWebDriver = new AutoWebDriver();
-            return autoWebDriver.getDriver();
-        }
-    };
+    private ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+    private ThreadLocal<AutoWebDriver> iDriver = new ThreadLocal<>();
 
     private DriverFactory() {
     }
@@ -21,8 +15,17 @@ public class DriverFactory {
         return instance;
     }
 
+    public void setDriver() {
+        iDriver.set(new AutoWebDriver());
+        driver.set(iDriver.get().getDriver());
+    }
+
     public WebDriver getDriver() // call this method to get the driver object and launch the browser
     {
         return driver.get();
+    }
+
+    public void tearBrowser() {
+        iDriver.get().tearBrowser();
     }
 }

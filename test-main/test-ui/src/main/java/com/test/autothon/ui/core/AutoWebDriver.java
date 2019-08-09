@@ -48,8 +48,6 @@ public class AutoWebDriver {
     }
 
     private void createWebDriver() {
-        //just closing any existing driver instance, if any
-        tearBrowser();
         String browser = ReadEnvironmentVariables.getBrowserName();
         logger.info("Initializing WebDriver...");
         browser = browser.trim().toLowerCase();

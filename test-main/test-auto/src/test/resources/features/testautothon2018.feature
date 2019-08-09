@@ -17,6 +17,5 @@ Feature: Test UI
 
   @crossbrowser
   Scenario: Run tests on multiple browser in parallel
-    Given I use "<browser>" browser
-    And I launch "<URL>"
+    And I launch "<PROPVALUE(google.url)>"
     And I search for movies

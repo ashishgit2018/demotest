@@ -3,6 +3,7 @@ package com.test.autothon.auto.core;
 import com.test.autothon.common.Constants;
 import com.test.autothon.common.CustomHtmlReport;
 import com.test.autothon.common.ReadPropertiesFile;
+import com.test.autothon.ui.core.DriverFactory;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,10 +97,11 @@ public class Autothon2018 extends UIOperations {
         String stepInfo = "Validate the director name in IMDB and Wiki Link \n" + movieNo + "\n Movie Name: " + movieName +
                 "\n Wiki Link: " + wikiLink + "\n IMDBLink: " + imdblink;
         CustomHtmlReport.addReportStep(stepInfo, expDirName, actDirName, result);
+        DriverFactory.getInstance().tearBrowser();
     }
 
     public String getDirNameFromIMDB(String imdbLink) {
-        launchURL(imdbLink);
+        navigateToUrl(imdbLink);
         takeScreenShot();
         String actDirName = getTextFromElement(ReadPropertiesFile.getPropertyValue("imdb.director.name"));
         return actDirName;
