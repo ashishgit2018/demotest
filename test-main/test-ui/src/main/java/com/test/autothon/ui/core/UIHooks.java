@@ -30,8 +30,8 @@ public class UIHooks {
                 tagName = tag;
             }
         }
-        if (AutomationUIUtils.getBase64Images().size() == 0)
-            return;
+//        if (AutomationUIUtils.getBase64Images().size() == 0)
+//            return;
 
         String folderFormat = new SimpleDateFormat("ddMMMyy").format(new Date());
         String scrFilePath = System.getProperty("user.dir") + "/output/" + folderFormat;

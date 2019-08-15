@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.ReadPropertiesFile;
 import com.test.autothon.common.StepDefinition;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,10 +20,12 @@ import java.util.Set;
 public class UIOperations extends StepDefinition {
 
     private final static Logger logger = LogManager.getLogger(UIOperations.class);
+    private boolean mobileRun;
 
     public void launchURL(String url) {
         logger.info("launching url : " + url);
         DriverFactory.getInstance().getDriver().get(url);
+        mobileRun = System.getProperty("mobile.run").equalsIgnoreCase("Yes");
     }
 
     public void navigateToUrl(String url) {
@@ -219,9 +222,12 @@ public class UIOperations extends StepDefinition {
     }
 
     public void waitForVisible(WebElement element) {
-        logger.info("Waiting for element " + element + " to be visible");
-        WebDriverWait webDriverWait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 20, 5);
-        webDriverWait.until(ExpectedConditions.visibilityOf(element));
+        mobileRun = System.getProperty("mobile.run").equalsIgnoreCase("Yes");
+        if (!mobileRun) {
+            logger.info("Waiting for element " + element + " to be visible");
+            WebDriverWait webDriverWait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 20, 5);
+            webDriverWait.until(ExpectedConditions.visibilityOf(element));
+        }
     }
 
     public void waitForElementToBeClickable(String elemLocator) {
@@ -271,9 +277,12 @@ public class UIOperations extends StepDefinition {
     }
 
     public synchronized void takeScreenShot() {
-        TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
-        String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
-        AutomationUIUtils.setBase64Image(SrcFile);
+        mobileRun = System.getProperty("mobile.run").equalsIgnoreCase("Yes");
+        if (!mobileRun) {
+            TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
+            String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
+            AutomationUIUtils.setBase64Image(SrcFile);
+        }
     }
 
     public void acceptAlertModalDialog() {
@@ -458,6 +467,11 @@ public class UIOperations extends StepDefinition {
         } catch (Exception e) {
             logger.error("Unable to click using Java script click");
         }
+    }
+
+    public String javaScriptGetAttribute(WebElement webElement, String attribute) {
+        JavascriptExecutor js = (JavascriptExecutor) DriverFactory.getInstance().getDriver();
+        return (String) js.executeScript("return arguments[0]." + attribute + ";", webElement);
     }
 
     public boolean isLinkBroken(String url) {

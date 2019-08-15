@@ -11,5 +11,6 @@ Feature: Test UI
     And I launch "<URL>"
     And I search for movies
     Examples:
-      | TestCase | Browser | URL                     |
-      | TC1      | chrome  | <PROPVALUE(google.url)> |
+      | TestCase | Browser       | URL                     |
+      | TC1      | mobile_chrome | https://www.google.com/ |
+      | TC2      | chrome        | https://www.google.com/ |

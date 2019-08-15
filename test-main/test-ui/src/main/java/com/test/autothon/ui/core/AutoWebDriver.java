@@ -19,6 +19,7 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -191,6 +192,7 @@ public class AutoWebDriver {
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, ReadPropertiesFile.getPropertyValue("Appium_Platform_Name"));
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, ReadPropertiesFile.getPropertyValue("Appium_Device_Name"));
         cap.setCapability(MobileCapabilityType.VERSION, ReadPropertiesFile.getPropertyValue("Appium_Version"));
+        cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
         URL url = null;
         try {
             url = new URL(ReadPropertiesFile.getPropertyValue("Appium_Hub_Url"));
@@ -199,7 +201,7 @@ public class AutoWebDriver {
         }
         if (null == driver) {
             logger.info("Intializing Chrome Browser for Mobile");
-            driver = new AndroidDriver(url, cap);
+            driver = new RemoteWebDriver(url, cap);
         }
     }
 

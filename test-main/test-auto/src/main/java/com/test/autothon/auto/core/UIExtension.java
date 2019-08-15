@@ -8,13 +8,17 @@ import com.test.autothon.ui.core.UIHooks;
 import com.test.autothon.ui.core.UIOperations;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class UIExtension extends UIOperations {
 
@@ -22,7 +26,7 @@ public class UIExtension extends UIOperations {
 
     private static HashMap<String, List<String>> movieDetails = new HashMap<String, List<String>>();
     Properties propMovieName;
-
+    private boolean mobileRun;
 
     public void readMovieNames(String propertyFile) {
         String propFileName = Constants.configResourcePath + "/" + propertyFile;
@@ -31,14 +35,12 @@ public class UIExtension extends UIOperations {
     }
 
     public void searchAllMovies() throws InterruptedException, IOException {
-
+        mobileRun = System.getProperty("mobile.run").equalsIgnoreCase("Yes");
         String movieNum = "";
         String movieName = "";
         Set<Object> keySetName = propMovieName.keySet();
         Iterator itr = keySetName.iterator();
-       /* if(ReadPropertiesFile.getPropertyValue("runnerMode").equalsIgnoreCase("http")) {
-        	 
-        }*/
+
         while (itr.hasNext()) {
             Object obj = itr.next();
             movieNum = obj.toString();
@@ -62,9 +64,15 @@ public class UIExtension extends UIOperations {
         waitForSecond(2);
         takeScreenShot();
         try {
-            movieURL = getTextFromElement(urlsPath);
+            if (!mobileRun) {
+                movieURL = getTextFromElement(urlsPath);
+            } else {
+                WebElement webElementWikiUrl = getElement(ReadPropertiesFile.getPropertyValue("mobile.google.wiki.path")).get(0);
+                movieURL = javaScriptGetAttribute(webElementWikiUrl, "href");
+            }
         } catch (Exception e) {
-
+            e.printStackTrace();
+            logger.info(e.getMessage());
         } finally {
             nameUrl.add(movieName);
             nameUrl.add(movieURL);
@@ -119,9 +127,16 @@ public class UIExtension extends UIOperations {
         launchURL(wikiLink);
         takeScreenShot();
         String expDirName = getTextFromElement(ReadPropertiesFile.getPropertyValue("wiki.director.name"));
-        String imdbLink = getTextFromElementAttribute(ReadPropertiesFile.getPropertyValue("wiki.imdb.url"), "href");
+        String imdbLink = "";
+        if (mobileRun) {
+            WebElement webElementImdbURL = getElement(ReadPropertiesFile.getPropertyValue("mobile.wiki.imdb.link")).get(0);
+            imdbLink = javaScriptGetAttribute(webElementImdbURL, "href");
+        } else {
+            imdbLink = getTextFromElementAttribute(ReadPropertiesFile.getPropertyValue("wiki.imdb.url"), "href");
+        }
         return expDirName + " - " + imdbLink;
     }
+
 
     public void runWikiTest(Map<String, List<String>> movieDeatils) {
 
@@ -135,15 +150,17 @@ public class UIExtension extends UIOperations {
             String wikiLink = movieDetail.get(1);
             logger.info("Movie no: " + movieNo + " Movie Name: " + movieName +
                     "Wiki Link: " + wikiLink);
-
-            threadPool.submit(new Runnable() {
-                @Override
-                public void run() {
-                    assertMovie(movieNo, movieName, wikiLink);
-                    DriverFactory.getInstance().removeDriver();
-                }
-            });
-
+            if (mobileRun) {
+                assertMovie(movieNo, movieName, wikiLink);
+            } else {
+                threadPool.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        assertMovie(movieNo, movieName, wikiLink);
+                        DriverFactory.getInstance().removeDriver();
+                    }
+                });
+            }
         }
         threadPool.shutdown();
         try {

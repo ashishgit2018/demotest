@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.ReadPropertiesFile;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +17,7 @@ public class AutomationUIUtils {
     static String scrFilePath;
     static String testCaseName;
     static List<String> base64Images = new ArrayList<String>();
+
 
     public static String getTestCaseName() {
         return testCaseName;

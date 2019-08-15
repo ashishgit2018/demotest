@@ -25,6 +25,11 @@ public final class ReadEnvironmentVariables {
 
     public static void setBrowserName(String browserName) {
         System.setProperty("browserName", browserName);
+        if (browserName.equalsIgnoreCase("mobile_chrome")) {
+            System.setProperty("mobile.run", "Yes");
+        } else {
+            System.setProperty("mobile.run", "No");
+        }
     }
 
     public static String getBrowserVersion() {
