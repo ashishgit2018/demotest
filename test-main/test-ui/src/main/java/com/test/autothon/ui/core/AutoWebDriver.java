@@ -113,7 +113,7 @@ public class AutoWebDriver {
     private void chromeDriver() {
         if (null == driver) {
 
-            File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
+            File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver_old.exe", ".exe");
             System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
 
             if (ReadEnvironmentVariables.isHeadlessBrowser())
