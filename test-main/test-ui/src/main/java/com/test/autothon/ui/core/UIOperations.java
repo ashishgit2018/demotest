@@ -1,5 +1,6 @@
 package com.test.autothon.ui.core;
 
+import com.test.autothon.common.ReadEnvironmentVariables;
 import com.test.autothon.common.ScreenshotUtils;
 import com.test.autothon.common.StepDefinition;
 import org.apache.logging.log4j.LogManager;
@@ -39,24 +40,14 @@ public class UIOperations extends StepDefinition {
         return DriverFactory.getInstance().getDriver().getTitle().trim();
     }
 
-    public void checkPageTitle(String expectedPageTitle) {
-        String pageTitle = getPageTitle();
-        Assert.assertTrue("Page title mismatch Expected :" + expectedPageTitle + " \tActual :" + pageTitle, pageTitle.contains(expectedPageTitle));
-
-    }
-
     public String getPageSource() {
         return DriverFactory.getInstance().getDriver().getPageSource();
     }
 
-    public void checkPageSourceContainsText(String expectedText) {
+    public boolean isPageSourceContainsText(String expectedText) {
         String pageSource = getPageSource();
-        Assert.assertTrue("Page does not conatins Text :" + expectedText, pageSource.contains(expectedText));
-    }
-
-    public void checkPageSourceDoesNotContainsText(String expectedText) {
-        String pageSource = getPageSource();
-        Assert.assertFalse("Page conatins Text :" + expectedText, pageSource.contains(expectedText));
+        logger.info("Page Source :" + expectedText);
+        return pageSource.contains(expectedText);
     }
 
     public boolean elementContainsAttributeValue(String elemLocator, String attribute, String value) {
@@ -125,7 +116,12 @@ public class UIOperations extends StepDefinition {
     }
 
     public String getTextFromElementAttribute(WebElement element, String attribute) {
-        String text = element.getAttribute(attribute);
+        String text = "";
+        try {
+            text = element.getAttribute(attribute);
+        } catch (Exception e) {
+            text = javaScriptGetAttribute(element, attribute);
+        }
         return text;
     }
 
@@ -273,6 +269,8 @@ public class UIOperations extends StepDefinition {
     }
 
     public void takeScreenShot() {
+        if (ReadEnvironmentVariables.getBrowserName().toLowerCase().contains("mobile"))
+            return;
         TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
         String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
         ScreenshotUtils.setBase64Image(SrcFile);
@@ -460,6 +458,20 @@ public class UIOperations extends StepDefinition {
         } catch (Exception e) {
             logger.error("Unable to click using Java script click");
         }
+    }
+
+    public String javaScriptGetAttribute(WebElement webElement, String attribute) {
+        try {
+            if (webElement.isDisplayed() && webElement.isEnabled()) {
+                JavascriptExecutor js = (JavascriptExecutor) DriverFactory.getInstance().getDriver();
+                return (String) js.executeScript("return arguments[0]." + attribute + ";", webElement);
+            } else {
+                logger.error("Unable to get attribute using Java script");
+            }
+        } catch (Exception e) {
+            logger.error("Unable to get attribute using Java script");
+        }
+        return "";
     }
 
     public boolean isLinkBroken(String url) {
