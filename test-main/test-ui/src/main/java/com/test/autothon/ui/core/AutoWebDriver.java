@@ -173,13 +173,15 @@ public class AutoWebDriver {
 
     @SuppressWarnings("rawtypes")
     private void mobileChromeDriver() {
+        File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
         DesiredCapabilities cap = DesiredCapabilities.android();
         cap.setCapability(MobileCapabilityType.BROWSER_NAME, BrowserType.CHROME);
         cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, ReadPropertiesFile.getPropertyValue("Appium_Platform_Name"));
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, ReadPropertiesFile.getPropertyValue("Appium_Device_Name"));
         cap.setCapability(MobileCapabilityType.VERSION, ReadPropertiesFile.getPropertyValue("Appium_Version"));
-        //cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
+        cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
+        cap.setCapability("chromedriverExecutable", file.getAbsolutePath());
         URL url = null;
         try {
             url = new URL(ReadPropertiesFile.getPropertyValue("Appium_Hub_Url"));

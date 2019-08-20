@@ -69,10 +69,14 @@ public class ScreenshotUtils {
         File file = new File(scrFilePath);
         FileOutputStream io = new FileOutputStream(file);
         io.write("<!DOCTYPE html><html><head></head><body>".getBytes());
+        boolean isMobile = ReadEnvironmentVariables.getBrowserName().toLowerCase().contains("mobile");
+        String imgSize = "\" style=\"width:1000px;height:600px;\"";
+        if (isMobile)
+            imgSize = "\" style=\"width:350px;height:550px;\"";
         for (String base64Image : getBase64Images()) {
             io.write("<img border=\"1\" src=\"data:image/png;base64,".getBytes());
             io.write(base64Image.getBytes());
-            io.write("\" style=\"width:1000px;height:600px;\"> </br></br>".getBytes());
+            io.write((imgSize + "> </br></br>").getBytes());
         }
         io.write("</body></html>".getBytes());
         io.close();

@@ -1,6 +1,5 @@
 package com.test.autothon.ui.core;
 
-import com.test.autothon.common.ReadEnvironmentVariables;
 import com.test.autothon.common.ScreenshotUtils;
 import com.test.autothon.common.StepDefinition;
 import org.apache.logging.log4j.LogManager;
@@ -269,8 +268,6 @@ public class UIOperations extends StepDefinition {
     }
 
     public void takeScreenShot() {
-        if (ReadEnvironmentVariables.getBrowserName().toLowerCase().contains("mobile"))
-            return;
         TakesScreenshot scrShot = ((TakesScreenshot) DriverFactory.getInstance().getDriver());
         String SrcFile = scrShot.getScreenshotAs(OutputType.BASE64);
         ScreenshotUtils.setBase64Image(SrcFile);
