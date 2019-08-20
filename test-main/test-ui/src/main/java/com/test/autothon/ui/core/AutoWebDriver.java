@@ -4,9 +4,11 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.test.autothon.common.FileUtils;
 import com.test.autothon.common.ReadEnvironmentVariables;
 import com.test.autothon.common.ReadPropertiesFile;
+import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.UnsupportedCommandException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -18,7 +20,6 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -174,11 +175,11 @@ public class AutoWebDriver {
     private void mobileChromeDriver() {
         DesiredCapabilities cap = DesiredCapabilities.android();
         cap.setCapability(MobileCapabilityType.BROWSER_NAME, BrowserType.CHROME);
-        //cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
+        cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
         cap.setCapability(MobileCapabilityType.PLATFORM_NAME, ReadPropertiesFile.getPropertyValue("Appium_Platform_Name"));
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, ReadPropertiesFile.getPropertyValue("Appium_Device_Name"));
         cap.setCapability(MobileCapabilityType.VERSION, ReadPropertiesFile.getPropertyValue("Appium_Version"));
-        cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
+        //cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
         URL url = null;
         try {
             url = new URL(ReadPropertiesFile.getPropertyValue("Appium_Hub_Url"));
@@ -187,7 +188,7 @@ public class AutoWebDriver {
         }
         if (null == driver) {
             logger.info("Initializing Chrome Browser for Mobile");
-            driver = new RemoteWebDriver(url, cap);
+            driver = new AndroidDriver(url, cap);
         }
     }
 
