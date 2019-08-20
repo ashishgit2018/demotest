@@ -10,10 +10,15 @@ Feature: Test UI
     And I launch "<URL>"
     And I search for movies
     Examples:
-      | browser | URL                     |
+      | browser       | URL                     |
+      | chrome        | <PROPVALUE(google.url)> |
+      | firefox       | <PROPVALUE(google.url)> |
+      | ie            | <PROPVALUE(google.url)> |
       | mobile_chrome | <PROPVALUE(google.url)> |
+
 
   @crossbrowser
   Scenario: Run tests on multiple browser in parallel
-    And I launch "<PROPVALUE(google.url)>"
+    Given I use "<browser>" browser
+    And I launch "<URL>"
     And I search for movies
