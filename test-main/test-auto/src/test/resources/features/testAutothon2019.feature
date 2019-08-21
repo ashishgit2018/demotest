@@ -8,7 +8,7 @@ Feature: Youtube channel Automation
     Then Validate the Response code is "200"
     And Save Json Response as "youtubeVideoName"
     And I launch "https://www.youtube.com/"
-    And I search step-inforum
+    And I do youtube search for "step-inforum"
     And Write to json file at "test.json" and value "{"team": "CME Group 1",  "video": "<PROPVALUE(youtubeVideoName)>", "upcoming-videos": [<PROPVALUE(allVideoList)>]}"
     And Execute the multipart form-data post request where uri is "<PROPVALUE(youtubeRestURL)>upload" and file name is "test.json"
     When Perform GET request where uri is "result/<PROPVALUE(uploadResult)>"
