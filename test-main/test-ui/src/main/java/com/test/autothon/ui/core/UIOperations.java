@@ -210,15 +210,15 @@ public class UIOperations extends StepDefinition {
         elem.click();
     }
 
-    public void waitForVisible(String elemLocator) {
+    public WebElement waitForVisible(String elemLocator) {
         WebElement element = getElement(elemLocator).get(0);
-        waitForVisible(element);
+        return waitForVisible(element);
     }
 
-    public void waitForVisible(WebElement element) {
+    public WebElement waitForVisible(WebElement element) {
         logger.info("Waiting for element " + element + " to be visible");
-        WebDriverWait webDriverWait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 20, 5);
-        webDriverWait.until(ExpectedConditions.visibilityOf(element));
+        WebDriverWait webDriverWait = new WebDriverWait(DriverFactory.getInstance().getDriver(), 6, 2);
+        return webDriverWait.until(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitForElementToBeClickable(String elemLocator) {
@@ -396,7 +396,7 @@ public class UIOperations extends StepDefinition {
     }
 
     public void scrollIntoView() {
-        ((JavascriptExecutor) this).executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        ((JavascriptExecutor) DriverFactory.getInstance().getDriver()).executeScript("window.scrollBy(0,1000)");
     }
 
     public void scrollIntoViewbyElementId(String elementLocator) {

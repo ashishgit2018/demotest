@@ -1,6 +1,7 @@
 package com.test.autothon.auto.steps;
 
 import com.test.autothon.auto.core.Autothon2018;
+import com.test.autothon.auto.core.Autothon2019;
 import com.test.autothon.common.StepDefinition;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
@@ -10,6 +11,8 @@ import java.io.IOException;
 public class Autothon2018Step extends StepDefinition {
 
     Autothon2018 autothon2018 = new Autothon2018();
+
+    Autothon2019 autothon2019 = new Autothon2019();
 
     @And("^I select \"([^\"]*)\"$")
     public void BuyItem(String itemName) throws Exception {
@@ -37,5 +40,10 @@ public class Autothon2018Step extends StepDefinition {
     public void searchMovies() throws InterruptedException, IOException {
         autothon2018.searchAllMovies();
 
+    }
+
+    @Given("^I search step-inforum$")
+    public void youtubesearch() {
+        autothon2019.searchStepIn();
     }
 }

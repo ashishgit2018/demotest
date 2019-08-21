@@ -11,9 +11,9 @@ Feature: Test UI
     And I search for movies
     Examples:
       | browser       | URL                     |
-      | chrome        | <PROPVALUE(google.url)> |
-      | firefox       | <PROPVALUE(google.url)> |
-      | ie            | <PROPVALUE(google.url)> |
+#      | chrome        | <PROPVALUE(google.url)> |
+#      | firefox       | <PROPVALUE(google.url)> |
+#      | ie            | <PROPVALUE(google.url)> |
       | mobile_chrome | <PROPVALUE(google.url)> |
 
 

@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty", "junit:target/junit.xml", "json:target/cucumber-reports/cucumber.json"},
-        tags = {"@Nick"},
+        tags = {"@youtube"},
         features = "src/test/resources"
 )
 public class RunCucumberIT {
