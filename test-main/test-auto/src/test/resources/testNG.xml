@@ -8,15 +8,8 @@
             </class>
         </classes>
     </test>
-    <test name="FirefoxTest">
-        <parameter name="browser" value="firefox"/>
-        <classes>
-            <class name="com.test.autothon.RunCucumberITCrossBrowser">
-            </class>
-        </classes>
-    </test>
-    <test name="IETest">
-        <parameter name="browser" value="ie"/>
+    <test name="MobileChrome">
+        <parameter name="browser" value="mobile_chrome"/>
         <classes>
             <class name="com.test.autothon.RunCucumberITCrossBrowser">
             </class>
