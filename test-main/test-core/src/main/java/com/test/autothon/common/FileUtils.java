@@ -49,6 +49,26 @@ public class FileUtils {
         ReadPropertiesFile.writeToProperties(key, value, Constants.tempFileLocation);
     }
 
+    public static void writeToFile(String fileName, String content) {
+        logger.info("Writing to file: " + fileName);
+        logger.info("Writing value: " + content);
+        FileOutputStream out = null;
+        File file = new File(fileName);
+        try {
+            if (!file.exists())
+                file.createNewFile();
+            out = new FileOutputStream(fileName);
+            out.write(content.getBytes());
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
     public static void deleteFile(String fileName) {
         logger.info("Deleting file : " + fileName);
         File file = new File(fileName);

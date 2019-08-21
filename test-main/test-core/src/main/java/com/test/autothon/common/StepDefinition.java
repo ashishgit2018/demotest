@@ -101,13 +101,11 @@ public class StepDefinition {
     }
 
     public String executeCMDCommand(String cmd) {
-        ProcessBuilder builder = new ProcessBuilder("cmd.exe", "/c", cmd);
-        builder.redirectErrorStream(true);
         String result = null;
-        logger.info("Running JMeter command" + cmd);
+        logger.info("Running command " + cmd);
 
         try {
-            Process p = builder.start();
+            Process p = Runtime.getRuntime().exec(cmd);
             InputStream commandOutput = p.getInputStream();
             InputStream commandErr = p.getErrorStream();
             result = inputStreamToString(commandOutput) + inputStreamToString((commandErr));

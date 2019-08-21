@@ -155,7 +155,7 @@ public class HttpClientService {
             } else if (method.equals("DELETE")) {
                 builder = RequestBuilder.delete();
             }
-
+            url = url.trim();
             builder = builder.setUri(new URI(buildUrl(url, uriPathParams))).setEntity(new StringEntity(jsonString, Consts.UTF_8));
             logger.info("Request url: " + builder.getUri().toString());
             setRequestUri(builder.getUri().toString());

@@ -1,0 +1,7 @@
+{
+  "team": "CME Group 1",
+  "video": "<PROPVALUE(youtubeVideoName)>",
+  "upcoming-videos": [
+    <PROPVALUE(upcomingVideoList)>
+  ]
+}
