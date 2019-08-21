@@ -1,6 +1,6 @@
 Feature: Youtube channel Automation
 
-  @t1
+  @autothon2019
   Scenario: Get video name from API new1
     Given Set the base uri as "<PROPVALUE(youtubeRestURL)>"
     And Set the Request header with key "Accept-Language" and value "en-GB,en-US;q=0.9,en;q=0.8"
