@@ -53,7 +53,7 @@ public class TestAutothonMain2019 extends UIOperations {
             try {
                 waitForVisible("xpath_//a[@title='" + videoName + "']");
                 waitForSecond(1);
-                scrollIntoViewbyElementId("xpath_//a[@title='" + videoName + "']");
+                // scrollIntoViewbyElementId("xpath_//a[@title='" + videoName + "']");
                 takeScreenShot();
                 getElement("xpath_//a[@title='" + videoName + "']").get(0).click();
                 CustomHtmlReport.addReportStep("Click on the Video Link", "Video link should be identified", videoName, "PASS");
