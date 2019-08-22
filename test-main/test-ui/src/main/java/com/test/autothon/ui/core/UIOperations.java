@@ -25,6 +25,8 @@ public class UIOperations extends StepDefinition {
         logger.info("launching url : " + url);
         DriverFactory.getInstance().setDriver();
         DriverFactory.getInstance().getDriver().get(url);
+        System.out.println("URL = " + DriverFactory.getInstance().getDriver().getCurrentUrl());
+
     }
 
     public void navigateToUrl(String url) {
@@ -406,7 +408,7 @@ public class UIOperations extends StepDefinition {
 
     public void scrollIntoViewbyElementId(WebElement element) {
         logger.info("scroll element into view by Id : " + element);
-        ((JavascriptExecutor) this).executeScript(
+        ((JavascriptExecutor) DriverFactory.getInstance().getDriver()).executeScript(
                 "arguments[0].scrollIntoView(true);", element);
     }
 

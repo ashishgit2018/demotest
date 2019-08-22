@@ -33,6 +33,7 @@ public class TestAutothonMain2019 extends UIOperations {
             CustomHtmlReport.addReportStep("Validate the rest call response", "Reponse should not be blank", videoName, "PASS");
         } else {
             CustomHtmlReport.addReportStep("Validate the rest call response", "Reponse should not be blank", videoName, "FAIL");
+            throw new Exception("Video name in the response is empty");
         }
 
         WebElement search = getElement(objPropSearchInputField).get(0);
@@ -52,8 +53,10 @@ public class TestAutothonMain2019 extends UIOperations {
             try {
                 waitForVisible("xpath_//a[@title='" + videoName + "']");
                 waitForSecond(1);
+                scrollIntoViewbyElementId("xpath_//a[@title='" + videoName + "']");
                 takeScreenShot();
-                click("xpath_//a[@title='" + videoName + "']");
+                getElement("xpath_//a[@title='" + videoName + "']").get(0).click();
+                CustomHtmlReport.addReportStep("Click on the Video Link", "Video link should be identified", videoName, "PASS");
                 flag = false;
                 waitForSecond(1);
                 takeScreenShot();
@@ -61,8 +64,10 @@ public class TestAutothonMain2019 extends UIOperations {
                 System.out.println("Counter : " + counter + " - exception : " + e.getMessage());
                 scrollIntoView();
                 counter++;
-                if (counter > 15)
-                    throw new Exception("Unable to find the Video after 15 attempts,aborting the search");
+                if (counter > 10) {
+                    CustomHtmlReport.addReportStep("Click on the Video Link", "Video link should be identified", "Video Not Found", "FAIL");
+                    throw new Exception("Unable to find the Video after 10 attempts,aborting the search");
+                }
             }
         }
 
@@ -91,7 +96,19 @@ public class TestAutothonMain2019 extends UIOperations {
             getElement(objPropQualityMenuItem).get(0).click();
         }
         waitForSecond(2);
+        takeScreenShot();
         getElement(objProp360pMenuItem).get(0).click();
+        waitForSecond(2);
+        click(getElement(objPropSettingsButton).get(0));
+        waitForSecond(1);
+        takeScreenShot();
+        String strQuality = getElement(objPropQualityMenuItem).get(0).getText();
+        logger.info("Video Quality = {}", strQuality);
+        if (strQuality.contains("360p")) {
+            CustomHtmlReport.addReportStep("Validate video quality set to 360p", "360p quality should be set", strQuality, "PASS");
+        } else {
+            CustomHtmlReport.addReportStep("Validate video quality set to 360p", "360p quality should be set", strQuality, "FAIL");
+        }
         waitForSecond(2);
         logger.info("Scrolling down to get the upcoming videos");
         int i = 2;
