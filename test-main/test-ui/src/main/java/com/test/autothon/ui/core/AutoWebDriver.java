@@ -227,11 +227,13 @@ public class AutoWebDriver {
     }
 
     private void createRemoteDriverWithCapabilities(DesiredCapabilities capabilities) {
-        String OS = ReadEnvironmentVariables.getOSPlatform();
-        String browserVersion = ReadEnvironmentVariables.getBrowserVersion();
+        String OS = ReadEnvironmentVariables.getOSPlatform().trim();
+        String browserVersion = ReadEnvironmentVariables.getBrowserVersion().trim();
         String remoteHostURL = ReadEnvironmentVariables.getRemoteHostUrl();
-        capabilities.setCapability(CapabilityType.PLATFORM_NAME, OS);
-        capabilities.setCapability(CapabilityType.BROWSER_VERSION, browserVersion);
+        if (!OS.equals(""))
+            capabilities.setCapability(CapabilityType.PLATFORM_NAME, OS);
+        if (!browserVersion.equals(""))
+            capabilities.setCapability(CapabilityType.BROWSER_VERSION, browserVersion);
         logger.info("Running Tests on Remote Host : " + remoteHostURL + ", Browser Version : " + browserVersion + ", OS : " + OS);
         try {
             driver = new RemoteWebDriver(new URL(remoteHostURL), capabilities);

@@ -20,7 +20,7 @@
         <runTestsonRemoteHost>true</runTestsonRemoteHost>
         <remoteHostUrl>http://13.232.147.27:4444/wd/hub</remoteHostUrl>
         <browserName>chrome</browserName>
-        <browserVersion>latest</browserVersion>
+        <browserVersion></browserVersion>
         <!-- For SAUCE LABS please check capabilities at https://wiki.saucelabs.com/display/DOCS/Platform+Configurator#/ -->
         <!-- WINDOWS WIN10 LINUX ANDROID -->
         <OSPlatform>LINUX</OSPlatform>
