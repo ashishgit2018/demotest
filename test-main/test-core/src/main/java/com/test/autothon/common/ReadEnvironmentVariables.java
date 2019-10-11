@@ -44,11 +44,11 @@ public class ReadEnvironmentVariables {
     }
 
     public static String getBrowserVersion() {
-        return System.getProperty("browserVersion", "latest");
+        return System.getProperty("browserVersion", "");
     }
 
     public static String getOSPlatform() {
-        return System.getProperty("OSPlatform", "LINUX").trim();
+        return System.getProperty("OSPlatform", "").trim();
     }
 
     public static String getDevicePlatformName() {
