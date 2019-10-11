@@ -48,7 +48,7 @@ public class ReadEnvironmentVariables {
     }
 
     public static String getOSPlatform() {
-        return System.getProperty("OSPlatform", "Windows 10");
+        return System.getProperty("OSPlatform", "LINUX").trim();
     }
 
     public static String getDevicePlatformName() {
@@ -65,6 +65,18 @@ public class ReadEnvironmentVariables {
 
     public static String getDeviceName() {
         return System.getProperty("deviceName", "Android Emulator");
+    }
+
+    public static boolean isRunTestsOnRemoteHost() {
+        boolean isRunTestsOnRemote = false;
+        String isHeadless = System.getProperty("runTestsonRemoteHost", "false");
+        if (isHeadless.equalsIgnoreCase("true"))
+            isRunTestsOnRemote = true;
+        return isRunTestsOnRemote;
+    }
+
+    public static String getRemoteHostUrl() {
+        return System.getProperty("remoteHostUrl", "").trim();
     }
 
 }

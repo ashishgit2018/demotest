@@ -19,7 +19,9 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.BrowserType;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -102,8 +104,16 @@ public class AutoWebDriver {
     }
 
     private void ieDriver() {
-        File file;
-        file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe", ".exe");
+        if (null != driver)
+            return;
+
+        if (ReadEnvironmentVariables.isRunTestsOnRemoteHost()) {
+            DesiredCapabilities capabilities = DesiredCapabilities.internetExplorer();
+            createRemoteDriverWithCapabilities(capabilities);
+            return;
+        }
+
+        File file = FileUtils.getResourceAsFile(this, "drivers/IEDriverServer.exe", ".exe");
         System.setProperty("webdriver.ie.driver", file.getAbsolutePath());
         if (null == driver) {
             logger.info("Initializing IE browser");
@@ -112,13 +122,10 @@ public class AutoWebDriver {
     }
 
     private void chromeDriver() {
-        if (null == driver) {
+        if (null != driver)
+            return;
 
-            File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
-            System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
-
-            if (ReadEnvironmentVariables.isHeadlessBrowser())
-                logger.info("Initializing Headless chrome browser");
+        logger.info("Initializing Chrome browser - isHeadless :  " + ReadEnvironmentVariables.isHeadlessBrowser());
 
             ChromeOptions chromeOptions = new ChromeOptions();
             chromeOptions.setHeadless(ReadEnvironmentVariables.isHeadlessBrowser());
@@ -128,35 +135,51 @@ public class AutoWebDriver {
             chromeOptions.addArguments("--disable-gpu"); // applicable to windows os only
             chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
             chromeOptions.addArguments("--no-sandbox"); // Bypass OS security model
+
+        if (ReadEnvironmentVariables.isRunTestsOnRemoteHost()) {
+            DesiredCapabilities capabilities = new DesiredCapabilities(chromeOptions);
+            createRemoteDriverWithCapabilities(capabilities);
+            return;
+        }
+
+        File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
+        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
             driver = new ChromeDriver(chromeOptions);
 
-        }
     }
 
     private void fireFoxDriver() {
-        if (null == driver) {
+        if (null != driver)
+            return;
 
-            File file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe", ".exe");
-            System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
-            System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
+        logger.info("Initializing Firefox browser - isHeadless :  " + ReadEnvironmentVariables.isHeadlessBrowser());
 
+        FirefoxBinary firefoxBinary = new FirefoxBinary();
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
 
-            if (ReadEnvironmentVariables.isHeadlessBrowser()) {
-                logger.info("Initializing Headless Firefox browser");
-                FirefoxBinary firefoxBinary = new FirefoxBinary();
+        if (ReadEnvironmentVariables.isHeadlessBrowser()) {
                 firefoxBinary.addCommandLineOptions("--headless");
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setBinary(firefoxBinary);
-                driver = new FirefoxDriver(firefoxOptions);
-            } else {
-                logger.info("Intializing Firefox browser");
-                driver = new FirefoxDriver();
-            }
         }
+
+        if (ReadEnvironmentVariables.isRunTestsOnRemoteHost()) {
+            DesiredCapabilities capabilities = new DesiredCapabilities(firefoxOptions);
+            createRemoteDriverWithCapabilities(capabilities);
+            return;
+        }
+
+        File file = FileUtils.getResourceAsFile(this, "drivers/geckodriver.exe", ".exe");
+        System.setProperty("webdriver.gecko.driver", file.getAbsolutePath());
+        System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "/dev/null");
+        driver = new FirefoxDriver(firefoxOptions);
+        return;
+
     }
 
     private void htmlUnitDriver(String browser) {
-        if (null == driver) {
+        if (null != driver)
+            return;
+
             logger.info("Initializing HTMLUnitDriver " + browser + " browser");
             if (browser.equalsIgnoreCase("chrome"))
                 driver = new HtmlUnitDriver(BrowserVersion.CHROME);
@@ -168,12 +191,13 @@ public class AutoWebDriver {
                 logger.info("Headless browser not supported for Mobile browsers...falling back to GUI based driver");
                 mobileChromeDriver();
             }
-        }
     }
 
     @SuppressWarnings("rawtypes")
     private void mobileChromeDriver() {
-        File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
+        if (null != driver)
+            return;
+
         DesiredCapabilities cap = DesiredCapabilities.android();
         cap.setCapability(MobileCapabilityType.BROWSER_NAME, BrowserType.CHROME);
         cap.setCapability(MobileCapabilityType.PLATFORM, Platform.ANDROID);
@@ -181,17 +205,40 @@ public class AutoWebDriver {
         cap.setCapability(MobileCapabilityType.DEVICE_NAME, ReadPropertiesFile.getPropertyValue("Appium_Device_Name"));
         cap.setCapability(MobileCapabilityType.VERSION, ReadPropertiesFile.getPropertyValue("Appium_Version"));
         cap.setCapability(MobileCapabilityType.UDID, ReadPropertiesFile.getPropertyValue("Appium_Device"));
+
+        if (ReadEnvironmentVariables.isRunTestsOnRemoteHost()) {
+            String remoteHostURL = ReadEnvironmentVariables.getRemoteHostUrl();
+            try {
+                driver = new RemoteWebDriver(new URL(remoteHostURL), cap);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        File file = FileUtils.getResourceAsFile(this, "drivers/chromedriver.exe", ".exe");
         cap.setCapability("chromedriverExecutable", file.getAbsolutePath());
-        URL url = null;
         try {
-            url = new URL(ReadPropertiesFile.getPropertyValue("Appium_Hub_Url"));
+            driver = new AndroidDriver(new URL(ReadPropertiesFile.getPropertyValue("Appium_Hub_Url")), cap);
         } catch (MalformedURLException e) {
-            logger.info("Mobile driver url is not correct\n" + e);
+            e.printStackTrace();
         }
-        if (null == driver) {
-            logger.info("Initializing Chrome Browser for Mobile");
-            driver = new AndroidDriver(url, cap);
+
+    }
+
+    private void createRemoteDriverWithCapabilities(DesiredCapabilities capabilities) {
+        String OS = ReadEnvironmentVariables.getOSPlatform();
+        String browserVersion = ReadEnvironmentVariables.getBrowserVersion();
+        String remoteHostURL = ReadEnvironmentVariables.getRemoteHostUrl();
+        capabilities.setCapability(CapabilityType.PLATFORM_NAME, OS);
+        capabilities.setCapability(CapabilityType.BROWSER_VERSION, browserVersion);
+        logger.info("Running Tests on Remote Host : " + remoteHostURL + ", Browser Version : " + browserVersion + ", OS : " + OS);
+        try {
+            driver = new RemoteWebDriver(new URL(remoteHostURL), capabilities);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+
     }
 
     protected WebDriver getDriver() {
