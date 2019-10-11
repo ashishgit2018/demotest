@@ -58,6 +58,8 @@
                                     <value>--tags ${cucumberTags}</value>
                                 </property>
                                 <env>${env}</env>
+                                <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
+                                <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
                                 <runnerMode>${runnerMode}</runnerMode>
@@ -167,6 +169,8 @@
                             </includes>
                             <systemProperties>
                                 <env>${env}</env>
+                                <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
+                                <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
                                 <OSPlatform>${OSPlatform}</OSPlatform>
@@ -240,6 +244,8 @@
                                     <value>--tags ${cucumberTags}</value>
                                 </property>
                                 <env>${env}</env>
+                                <runTestsonRemoteHost>${runTestsonRemoteHost}</runTestsonRemoteHost>
+                                <remoteHostUrl>${remoteHostUrl}</remoteHostUrl>
                                 <browserName>${browserName}</browserName>
                                 <browserVersion>${browserVersion}</browserVersion>
                                 <runnerMode>${runnerMode}</runnerMode>

@@ -61,7 +61,7 @@ public class AutoWebDriver {
             sauceLabsManager.setUpSauceLabsDriver();
             driver = sauceLabsManager.getSauceLabDriver();
         } else {
-            logger.info("Tests will be executed on Local browser --- Browser :" + browser);
+            logger.info("Browser used for testing will be --- :" + browser);
             switch (browser) {
                 case "chrome":
                     chromeDriver();
