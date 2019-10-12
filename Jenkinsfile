@@ -11,12 +11,12 @@ pipeline {
     stages {
 		stage('SCM Checkout'){
 			steps{
-			git branch:'master', url: 'https://github.com/ashishgit2018/demotest.git'
+			git url: 'https://github.com/ashishgit2018/demotest.git'
 			}
 		}
-        stage('Compile Project') {
+        stage('Compile Project') { 
             steps {
-                sh 'mvn -B test-main -DskipTests clean install'
+                sh 'mvn -B test-main -DskipTests clean install' 
             }
         }
         stage('Run Tests') {
@@ -29,9 +29,9 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deliver') { 
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                sh './jenkins/scripts/deliver.sh' 
             }
         }
     }
