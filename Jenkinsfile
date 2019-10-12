@@ -16,12 +16,12 @@ pipeline {
 		}
         stage('Compile Project') { 
             steps {
-                sh 'mvn -B test-main -DskipTests clean install' 
+                sh 'mvn -B -f test-main -DskipTests clean install'
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'mvn install -PTestRunner test-main/test-auto'
+                sh 'mvn install -PTestRunner -f test-main/test-auto'
             }
             post {
                 always {
