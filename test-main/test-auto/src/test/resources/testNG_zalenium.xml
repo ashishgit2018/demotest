@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="TestSuite" thread-count="3" parallel="tests">
+    <test name="ChromeTest">
+        <classes>
+            <class name="com.test.autothon.TestZaleniumChrome">
+            </class>
+            <class name="com.test.autothon.TestZaleniumChromeNew">
+            </class>
+        </classes>
+    </test>
+    <test name="Firefox">
+        <classes>
+            <class name="com.test.autothon.TestZaleniumFirefox">
+            </class>
+        </classes>
+    </test>
+</suite>
